@@ -1,0 +1,207 @@
+import React, { useRef, useState } from 'react';
+import { useAuth } from '../../components/provideAuth';
+import { getFirestore, collection, addDoc } from 'firebase/firestore'
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import './upload.css'
+
+// TODO: Invert progress bar text color as bar fills, see post [https://stackoverflow.com/a/61353195]
+
+function Upload() {
+    const file = useRef();
+    const title = useRef();
+    const edition = useRef();
+    const month = useRef();
+    const year = useRef();
+    const issue = useRef();
+    const auth = useAuth();
+    const uploadButton = useRef();
+    const [uploaded, setUploaded] = useState([]);
+
+    const [showProgressBar, setShowProgressBar] = useState(false);
+    const [progress, setProgress] = useState(0);
+
+    return (
+        <div>
+            <button
+                type='button'
+                className='btn btn-danger signout'
+                onClick={async (event) => {
+                    await auth.signout();
+                }}
+            >
+                Sign out
+            </button>
+            <div className='upload-wrapper'>
+                <div className='upload-inner'>
+                    <div>
+                        <h3 className='mb-4'>Upload Newsletter (PDF)</h3>
+                        <div className='input-group mb-3'>
+                            <input type='file' className='form-control' id='file' ref={file} />
+                        </div>
+                        <hr />
+                        <div className='input-group mb-3'>
+                            <span className='input-group-text'>Title</span>
+                            <input type='text' className='form-control' aria-label='Title' ref={title} />
+                        </div>
+                        <div className='input-group mb-3'>
+                            <label className='input-group-text' htmlFor='edition'>Edition</label>
+                            <select className='form-select' id='edition' ref={edition} >
+                                <option value='Weekly'>Weekly</option>
+                                <option value='Monthly'>Monthly</option>
+                            </select>
+                        </div>
+                        <div className='input-group mb-3'>
+                            <label className='input-group-text' htmlFor='edition'>Month</label>
+                            <select className='form-select' id='edition' ref={month} >
+                                <option value='1'>January</option>
+                                <option value='2'>February</option>
+                                <option value='3'>March</option>
+                                <option value='4'>April</option>
+                                <option value='5'>May</option>
+                                <option value='6'>June</option>
+                                <option value='7'>July</option>
+                                <option value='8'>August</option>
+                                <option value='9'>September</option>
+                                <option value='10'>October</option>
+                                <option value='11'>November</option>
+                                <option value='12'>December</option>
+                            </select>
+                        </div>
+                        <div className='input-group mb-3'>
+                            <span className='input-group-text'>Year</span>
+                            <input type='number' className='form-control' defaultValue={new Date().getFullYear()} aria-label='year' ref={year} />
+                        </div>
+                        <div className='input-group mb-4'>
+                            <span className='input-group-text'>Issue</span>
+                            <input type='number' className='form-control' defaultValue='1' aria-label='issue' ref={issue} />
+                        </div>
+                        <button
+                            type='button'
+                            className='btn btn-success w-100'
+                            ref={uploadButton}
+                            onClick={async (event) => {
+                                // console.log(
+                                //     file,
+                                //     title,
+                                //     edition,
+                                //     month,
+                                //     year,
+                                //     issue
+                                // );
+
+                                // Disable while uploading, prevent second click
+                                uploadButton.current.disabled = true;
+
+                                try {
+                                    // console.log(file.current.files[0]);
+                                    const fileRef = file.current.files[0]
+                                    const storage = getStorage();
+                                    // Edition_YYYY-M_issue.ext
+                                    const fileName = `${edition.current.value}_${year.current.value}-${month.current.value}_${issue.current.value}.pdf`
+                                    const storageRef = ref(storage, fileName);
+
+                                    // Upload file to Storage
+                                    const uploadTask = uploadBytesResumable(storageRef, fileRef);
+
+                                    // Show progress bar
+                                    setShowProgressBar(true);
+
+                                    // Register three observers:
+                                    // 1. 'state_changed' observer, called any time the state changes
+                                    // 2. Error observer, called on failure
+                                    // 3. Completion observer, called on successful completion
+                                    uploadTask.on(
+                                        'state_changed', 
+                                        (snapshot) => {
+                                            // Observe state change events such as progress, pause, and resume
+                                            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                                            const progress = Math.ceil((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+
+                                            setProgress(progress);
+
+                                            console.log('Upload is ' + progress + '% done');
+
+                                            switch (snapshot.state) {
+                                                case 'paused':
+                                                    console.log('Upload is paused');
+                                                    break;
+                                                case 'running':
+                                                    console.log('Upload is running');
+                                                    break;
+                                            }
+                                        }, 
+                                        (error) => {
+                                            // Handle unsuccessful uploads
+                                        }, 
+                                        async () => {
+                                            // Handle successful uploads on complete
+
+                                            // Create Firestore document, holds file metadata
+                                            const db = getFirestore();
+                                            const docRef = await addDoc(collection(db, 'newsletters'), {
+                                                edition: edition.current.value,
+                                                title: title.current.value,
+                                                issue: parseInt(issue.current.value),
+                                                month: parseInt(month.current.value),
+                                                year: parseInt(year.current.value)
+                                            });
+
+                                            console.log('Document written with ID: ', docRef.id);
+
+                                            // Reset fields
+                                            file.current.value = '';
+                                            title.current.value = '';
+
+                                            // Hide progress bar
+                                            setShowProgressBar(false);
+
+                                            // Reenable button
+                                            uploadButton.current.disabled = false;
+
+                                            // et the download URL: https://firebasestorage.googleapis.com/...
+                                            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                                                console.log('File available at', downloadURL);
+                                            });
+                                        }
+                                    );
+                                } catch (event) {
+                                    console.error('Error adding document: ', event);
+                                }
+                            }}
+                        >
+                            Upload
+                        </button>
+                        {
+                            showProgressBar &&
+                            <div className='progress position-relative mt-4'>
+                                <div className='progress-bar bg-success' role='progressbar' style={{ width: `${progress}%` }} aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'></div>
+                                <small className='justify-content-center d-flex position-absolute w-100'>{progress}%</small>
+                            </div>
+                        }
+                        {
+                            uploaded.length &&
+                            <div className='mt-4'>
+                                <h4 className='mb-4'>Uploaded</h4>
+                                {
+                                    uploaded.forEach(file => {
+                                        const {
+                                            name
+                                        } = file;
+
+                                        return(
+                                            <div class='alert alert-success mb-2' role='alert'>
+                                                {name}
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default Upload;

@@ -13,7 +13,7 @@
 }
 
 .upload-inner {
-    width: 800px;
+    width: 820px;
     margin: 20px 80px;
     background: #f8f9fa;
     padding: 40px 55px 45px 55px;
@@ -34,7 +34,7 @@
 }
 
 .upload-container .table-container {
-    width: 800px;
+    width: 820px;
     margin: 20px 80px;
     background: #f8f9fa;
     padding: 40px 55px 45px 55px;
@@ -50,7 +50,7 @@
     padding: 4px 8px;
 }
 
-.upload-container table tr:hover:not(:last-child) {
+.upload-container table tbody tr:hover {
     background-color: gainsboro;
     cursor: pointer;
 }

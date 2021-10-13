@@ -6,6 +6,21 @@ import './upload.css'
 
 // TODO: Invert progress bar text color as bar fills, see post [https://stackoverflow.com/a/61353195]
 
+const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+];
+
 function Upload() {
     const file = useRef();
     const title = useRef();
@@ -266,7 +281,7 @@ function Upload() {
                                             <tr onClick={openNewsletter} key={`${edition}_${year}-${month}_${issue}.pdf`}>
                                                 <td>{title}</td>
                                                 <td>{issue}</td>
-                                                <td>{month}</td>
+                                                <td>{months[month - 1]}</td>
                                                 <td>{year}</td>
                                                 <td>{edition}</td>
                                             </tr>

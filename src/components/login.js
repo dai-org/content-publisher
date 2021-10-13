@@ -19,6 +19,7 @@ function Login() {
             }}
         /> :
         <div className='auth-wrapper'>
+            <h4 className='mb-4'>DAI App | Content Publisher</h4>
             <div className='auth-inner'>
                 <div>
                     <h3>Sign In</h3>

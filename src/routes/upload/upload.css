@@ -12,9 +12,8 @@
 }
 
 .upload-inner {
-    width: 450px;
-    margin: auto;
-    background: #ffffff;
+    margin: 20px 80px;
+    background: #f8f9fa;
     padding: 40px 55px 45px 55px;
     border-radius: 15px;
     transition: all .3s;
@@ -22,4 +21,32 @@
 
 .upload-inner .input-group-text {
     width: 77.33px;
+}
+
+.upload-inner a {
+    text-decoration: none !important;
+}
+
+.upload-container {
+    padding: 0px 20px;
+}
+
+.upload-container .table-container {
+    margin: 20px 80px;
+    background: #f8f9fa;
+    padding: 40px 55px 45px 55px;
+    border-radius: 15px;
+}
+
+.upload-container table {
+    text-align: left;
+}
+
+.upload-container table td,
+.upload-container table th {
+    padding: 4px 8px;
+}
+
+.upload-container table tr:not(:last-child) {
+    border-bottom: solid 1px lightgray;
 }

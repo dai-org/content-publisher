@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useAuth } from '../../components/provideAuth';
-import { getFirestore, collection, addDoc } from 'firebase/firestore'
+import { getFirestore, collection, addDoc, onSnapshot, query } from 'firebase/firestore'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import './upload.css'
 
@@ -16,12 +16,28 @@ function Upload() {
     const auth = useAuth();
     const uploadButton = useRef();
     const [uploaded, setUploaded] = useState([]);
-
+    const [newsletters, setNewsletters] = useState([]);
     const [showProgressBar, setShowProgressBar] = useState(false);
     const [progress, setProgress] = useState(0);
 
+
+    useEffect(() => {
+        const db = getFirestore();
+        // const q = query(collection(db, "newsletters"), where("state", "==", "CA"));
+        const q = query(collection(db, "newsletters"));
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            const items = [];
+            querySnapshot.forEach((doc) => {
+                items.push(doc);
+            });
+            setNewsletters(items);
+        });
+
+        return unsubscribe;
+    }, []);
+
     return (
-        <div>
+        <div className='upload-container'>
             <button
                 type='button'
                 className='btn btn-danger signout'
@@ -128,6 +144,9 @@ function Upload() {
                                                 case 'running':
                                                     console.log('Upload is running');
                                                     break;
+                                                default:
+                                                    console.log('Upload status is unknown.');
+                                                    break;
                                             }
                                         }, 
                                         (error) => {
@@ -161,6 +180,13 @@ function Upload() {
                                             // et the download URL: https://firebasestorage.googleapis.com/...
                                             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                                                 console.log('File available at', downloadURL);
+
+                                                // Add file to uploaded list
+                                                setUploaded([{
+                                                    name: fileName,
+                                                    url: downloadURL,
+                                                    file: fileRef
+                                                }].concat(uploaded))
                                             });
                                         }
                                     );
@@ -178,28 +204,72 @@ function Upload() {
                                 <small className='justify-content-center d-flex position-absolute w-100'>{progress}%</small>
                             </div>
                         }
-                        {
-                            uploaded.length &&
+                        {/* {
+                            uploaded.length !== 0 &&
                             <div className='mt-4'>
                                 <h4 className='mb-4'>Uploaded</h4>
                                 {
-                                    uploaded.forEach(file => {
+                                    uploaded.map(file => {
                                         const {
-                                            name
+                                            name,
+                                            url
                                         } = file;
 
                                         return(
                                             <div class='alert alert-success mb-2' role='alert'>
-                                                {name}
+                                                <a href={url} target="_blank" rel="noreferrer" className="alert-link">{name}</a>
                                             </div>
                                         )
                                     })
                                 }
                             </div>
-                        }
+                        } */}
                     </div>
                 </div>
             </div>
+            {
+                newsletters.length !== 0 &&
+                <div className='table-container'>
+                    <h4 className='mb-4 text-start'>Newsletters</h4>
+                    <table className='w-100'>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Issue</th>
+                                <th>Month</th>
+                                <th>Year</th>
+                                <th>Edition</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                newsletters.map(item => {
+                                    const {
+                                        edition,
+                                        title,
+                                        issue,
+                                        month,
+                                        year
+                                    } = item.data();
+
+                                    return(
+                                        <tr>
+                                            <td>{title}</td>
+                                            <td>{issue}</td>
+                                            <td>{month}</td>
+                                            <td>{year}</td>
+                                            <td>{edition}</td>
+                                        </tr>
+                                        // <div class='alert alert-secondary mb-2' role='alert'>
+                                        //     <a href={url} target="_blank" rel="noreferrer" className="alert-link">{name}</a>
+                                        // </div>
+                                    )
+                                })
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
         </div>
     );
 }

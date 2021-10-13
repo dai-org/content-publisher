@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import { useAuth } from "../components/provideAuth";
 
 function Login() {
@@ -11,6 +11,13 @@ function Login() {
     const history = useHistory();
 
     return (
+        auth.user ?
+        <Redirect
+            to={{
+                pathname: "/upload",
+                state: { from: '/' }
+            }}
+        /> :
         <div className='auth-wrapper'>
             <div className='auth-inner'>
                 <div>

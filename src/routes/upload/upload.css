@@ -7,11 +7,13 @@
 .upload-wrapper {
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-direction: column;
     text-align: left;
 }
 
 .upload-inner {
+    width: 800px;
     margin: 20px 80px;
     background: #f8f9fa;
     padding: 40px 55px 45px 55px;
@@ -32,6 +34,7 @@
 }
 
 .upload-container .table-container {
+    width: 800px;
     margin: 20px 80px;
     background: #f8f9fa;
     padding: 40px 55px 45px 55px;

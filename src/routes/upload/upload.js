@@ -20,7 +20,6 @@ function Upload() {
     const [showProgressBar, setShowProgressBar] = useState(false);
     const [progress, setProgress] = useState(0);
 
-
     useEffect(() => {
         const db = getFirestore();
         // const q = query(collection(db, "newsletters"), where("state", "==", "CA"));
@@ -251,17 +250,26 @@ function Upload() {
                                             year
                                         } = item.data();
 
+                                        function openNewsletter(event) {
+                                            const storage = getStorage();
+                                            getDownloadURL(ref(storage, `${edition.split(' ').join('-')}_${year}-${month}_${issue}.pdf`))
+                                            .then((url) => {
+                                                // console.log(url);
+                                                window.open(url);
+                                            })
+                                            .catch((error) => {
+                                                // Handle any errors
+                                            });
+                                        }
+
                                         return(
-                                            <tr>
+                                            <tr onClick={openNewsletter} key={`${edition}_${year}-${month}_${issue}.pdf`}>
                                                 <td>{title}</td>
                                                 <td>{issue}</td>
                                                 <td>{month}</td>
                                                 <td>{year}</td>
                                                 <td>{edition}</td>
                                             </tr>
-                                            // <div class='alert alert-secondary mb-2' role='alert'>
-                                            //     <a href={url} target="_blank" rel="noreferrer" className="alert-link">{name}</a>
-                                            // </div>
                                         )
                                     })
                                 }

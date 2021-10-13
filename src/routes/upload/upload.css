@@ -50,6 +50,11 @@
     padding: 4px 8px;
 }
 
+.upload-container table tr:hover:not(:last-child) {
+    background-color: gainsboro;
+    cursor: pointer;
+}
+
 .upload-container table tr:not(:last-child) {
     border-bottom: solid 1px lightgray;
 }

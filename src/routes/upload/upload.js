@@ -78,6 +78,7 @@ function Upload() {
                             <select className='form-select' id='edition' ref={edition} >
                                 <option value='Weekly'>Weekly</option>
                                 <option value='Monthly'>Monthly</option>
+                                <option value='Monthly'>Ad Hoc</option>
                             </select>
                         </div>
                         <div className='input-group mb-3'>

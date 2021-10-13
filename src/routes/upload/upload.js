@@ -226,50 +226,50 @@ function Upload() {
                         } */}
                     </div>
                 </div>
-            </div>
-            {
-                newsletters.length !== 0 &&
-                <div className='table-container'>
-                    <h4 className='mb-4 text-start'>Newsletters</h4>
-                    <table className='w-100'>
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Issue</th>
-                                <th>Month</th>
-                                <th>Year</th>
-                                <th>Edition</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                newsletters.map(item => {
-                                    const {
-                                        edition,
-                                        title,
-                                        issue,
-                                        month,
-                                        year
-                                    } = item.data();
+                {
+                    newsletters.length !== 0 &&
+                    <div className='table-container'>
+                        <h4 className='mb-4 text-start'>Newsletters</h4>
+                        <table className='w-100'>
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Issue</th>
+                                    <th>Month</th>
+                                    <th>Year</th>
+                                    <th>Edition</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    newsletters.map(item => {
+                                        const {
+                                            edition,
+                                            title,
+                                            issue,
+                                            month,
+                                            year
+                                        } = item.data();
 
-                                    return(
-                                        <tr>
-                                            <td>{title}</td>
-                                            <td>{issue}</td>
-                                            <td>{month}</td>
-                                            <td>{year}</td>
-                                            <td>{edition}</td>
-                                        </tr>
-                                        // <div class='alert alert-secondary mb-2' role='alert'>
-                                        //     <a href={url} target="_blank" rel="noreferrer" className="alert-link">{name}</a>
-                                        // </div>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
+                                        return(
+                                            <tr>
+                                                <td>{title}</td>
+                                                <td>{issue}</td>
+                                                <td>{month}</td>
+                                                <td>{year}</td>
+                                                <td>{edition}</td>
+                                            </tr>
+                                            // <div class='alert alert-secondary mb-2' role='alert'>
+                                            //     <a href={url} target="_blank" rel="noreferrer" className="alert-link">{name}</a>
+                                            // </div>
+                                        )
+                                    })
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
         </div>
     );
 }

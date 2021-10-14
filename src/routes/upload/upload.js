@@ -219,26 +219,6 @@ function Upload() {
                                 <small className='justify-content-center d-flex position-absolute w-100'>{progress}%</small>
                             </div>
                         }
-                        {/* {
-                            uploaded.length !== 0 &&
-                            <div className='mt-4'>
-                                <h4 className='mb-4'>Uploaded</h4>
-                                {
-                                    uploaded.map(file => {
-                                        const {
-                                            name,
-                                            url
-                                        } = file;
-
-                                        return(
-                                            <div class='alert alert-success mb-2' role='alert'>
-                                                <a href={url} target="_blank" rel="noreferrer" className="alert-link">{name}</a>
-                                            </div>
-                                        )
-                                    })
-                                }
-                            </div>
-                        } */}
                     </div>
                 </div>
                 {
@@ -279,7 +259,7 @@ function Upload() {
                                         }
 
                                         return(
-                                            <tr onClick={openNewsletter} key={`${edition}_${year}-${month}_${issue}.pdf`}>
+                                            <tr onClick={openNewsletter} key={item.id}>
                                                 <td>{title}</td>
                                                 <td>{issue}</td>
                                                 <td>{months[month - 1]}</td>

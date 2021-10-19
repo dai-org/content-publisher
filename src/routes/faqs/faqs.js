@@ -8,7 +8,15 @@ function Faqs() {
     const group = useRef();
     const question = useRef();
     const answer = useRef();
+    const searchField = useRef();
     const uploadButton = useRef();
+    const [cache, setCache] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [filterOTL, setFilterOTL] = useState(false);
+    const [filterB2R, setFilterB2R] = useState(false);
+    const [filterCA, setFilterCA] = useState(false);
+    const [filterP2P, setFilterP2P] = useState(false);
+    const [filterDAI101, setFilterDAI101] = useState(false);
     const [faqs, setFaqs] = useState([]);
 
     useEffect(() => {
@@ -20,10 +28,47 @@ function Faqs() {
                 items.push(doc);
             });
             setFaqs(items);
+            setCache(items);
         });
 
         return unsubscribe;
     }, []);
+
+    useEffect(() => {
+        if (searchQuery) {
+            console.log('Filter Query: ', searchQuery);
+
+            setFaqs(cache.filter(entry => {
+                return entry.data().question.toUpperCase().includes(searchQuery.toUpperCase()) ||
+                    entry.data().answer.toUpperCase().includes(searchQuery.toUpperCase()) ||
+                    entry.data().group.toUpperCase().includes(searchQuery.toUpperCase())
+            }));
+        } else {
+            setFaqs(cache);
+        }
+        
+    }, [searchQuery, cache]);
+
+    function onSearch(event) {
+        console.log(event.target.value);
+        setSearchQuery(event.target.value);
+    }
+
+    function filterByGroup(group) {
+        console.log('Filter by:', group);
+
+        setFaqs(cache.filter(entry => {
+            return entry.data().group === group
+        }));
+    }
+
+    function toggle(state) {
+        if (state === true) {
+            setFaqs(cache);    
+        }
+
+        return state ? false : true;
+    }
 
     return (
         <div className='faqs-container'>
@@ -35,8 +80,8 @@ function Faqs() {
                             <label className='input-group-text' htmlFor='group'>Group</label>
                             <select className='form-select' id='group' ref={group} >
                                 <option value='CA'>CA</option>
-                                <option value='DAI 101'>DAI 101</option>
                                 <option value='B2R'>B2R</option>
+                                <option value='DAI 101'>DAI 101</option>
                                 <option value='OTL'>OTL</option>
                                 <option value='P2P'>P2P</option>
                             </select>
@@ -74,6 +119,74 @@ function Faqs() {
                         </button>
                     </div>
                 </div>
+                <div className='d-flex justify-content-start filter-container'>
+                    <input type='search' placeholder='Search FAQs' title='search faqs' ref={searchField} onChange={onSearch}/>
+                    <button
+                        className='btn btn-secondary btn-sm'
+                        onClick={event => {
+                            filterByGroup('CA');
+                            setFilterB2R(false);
+                            setFilterOTL(false);
+                            setFilterP2P(false);
+                            setFilterDAI101(false);
+                            setFilterCA(toggle(filterCA));
+                        }}
+                    >
+                        CA
+                    </button>
+                    <button
+                        className='btn btn-secondary btn-sm'
+                        onClick={event => {
+                            filterByGroup('B2R');
+                            setFilterB2R(toggle(filterB2R));
+                            setFilterOTL(false);
+                            setFilterP2P(false);
+                            setFilterDAI101(false);
+                            setFilterCA(false);
+                        }}
+                    >
+                        B2R
+                    </button>
+                    <button
+                        className='btn btn-secondary btn-sm'
+                        onClick={event => {
+                            filterByGroup('DAI 101');
+                            setFilterB2R(false);
+                            setFilterOTL(false);
+                            setFilterP2P(false);
+                            setFilterDAI101(toggle(filterDAI101));
+                            setFilterCA(false);
+                        }}
+                    >
+                        DAI 101
+                    </button>
+                    <button
+                        className='btn btn-secondary btn-sm'
+                        onClick={event => {
+                            filterByGroup('OTL');
+                            setFilterB2R(false);
+                            setFilterOTL(toggle(filterOTL));
+                            setFilterP2P(false);
+                            setFilterDAI101(false);
+                            setFilterCA(false);
+                        }}
+                    >
+                        OTL
+                    </button>
+                    <button
+                        className='btn btn-secondary btn-sm'
+                        onClick={event => {
+                            filterByGroup('P2P');
+                            setFilterB2R(false);
+                            setFilterOTL(false);
+                            setFilterP2P(toggle(filterP2P));
+                            setFilterDAI101(false);
+                            setFilterCA(false);
+                        }}
+                    >
+                        P2P
+                    </button>
+                </div>
                 {
                     faqs.length !== 0 &&
                     <div className='table-container'>
@@ -99,6 +212,11 @@ function Faqs() {
                                             console.log(event);
                                         }
 
+                                         // <tr onClick={editFaq} key={item.id}>
+                                        //     <td dangerouslySetInnerHTML={{ __html: question.replaceAll(searchQuery, `<span class='highlight'>${searchQuery}</span>`)}} />
+                                        //     <td dangerouslySetInnerHTML={{ __html: answer.replaceAll(searchQuery, `<span class='highlight'>${searchQuery}</span>`)}} />
+                                        //     <td dangerouslySetInnerHTML={{ __html: group.replaceAll(searchQuery, `<span class='highlight'>${searchQuery}</span>`)}} />
+                                        // </tr>
                                         return(
                                             <tr onClick={editFaq} key={item.id}>
                                                 <td>{question}</td>

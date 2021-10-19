@@ -63,3 +63,61 @@
 .faqs-container table tr:not(:last-child) {
     border-bottom: solid 1px lightgray;
 }
+
+.filter-container {
+    width: 820px;
+}
+
+.filter-container button {
+    width: 65.58px;
+    background-color: #e9ecef;
+    border-color: #e9ecef;
+    color: black;
+}
+
+.filter-container button:active,
+.filter-container button:focus {
+    box-shadow: none;
+}
+
+.filter-container button:not(:last-child) {
+    margin-right: 5px;
+}
+
+.filter-container input,
+.filter-container input:focus,
+.filter-container input:active {
+    border: none;
+    outline: none;
+}
+
+.filter-container input {
+    margin-right: 10px;
+    padding: 2px 8px;
+    background-color: #f8f9fa;
+    border-radius: .2rem;
+}
+
+.filter-container input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    height: 1em;
+    width: 1em;
+    border-radius: 50em;
+    background: url(https://pro.fontawesome.com/releases/v5.10.0/svgs/solid/times-circle.svg) no-repeat 50% 50%;
+    background-size: contain;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.filter-container input:focus::-webkit-search-cancel-button {
+    opacity: .3;
+    pointer-events: all;
+}
+
+.filter-container input.dark::-webkit-search-cancel-button {
+    filter: invert(1);
+}
+
+.highlight {
+    background-color: yellow;
+}

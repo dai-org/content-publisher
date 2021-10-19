@@ -1,7 +1,11 @@
 import React from "react";
-import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
+import { useAuth } from './provideAuth';
+import { Navbar, Container, Nav } from 'react-bootstrap';
+import './navbar.css'
 
 function NavBar() {
+    const auth = useAuth();
+
     return (
         <Navbar collapseOnSelect expand="lg" style={{ boxShadow: 'none' }}>
             <Container>
@@ -9,19 +13,22 @@ function NavBar() {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="#data-dictionary">Data Dictionary</Nav.Link>
-                        <Nav.Link href="#faqs">FAQs</Nav.Link>
-                        <Nav.Link href="#newsletters">Newsletters</Nav.Link>
-                        <Nav.Link href="#reference-guides">Reference Guides</Nav.Link>
-                        <Nav.Link href="#training-guides">Training Guides</Nav.Link>
-                        {/* <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                        </NavDropdown> */}
+                        <Nav.Link href="/data-dictionary">Data Dictionary</Nav.Link>
+                        <Nav.Link href="/faqs">FAQs</Nav.Link>
+                        <Nav.Link href="/newsletters">Newsletters</Nav.Link>
+                        <Nav.Link href="/reference-guides">Reference Guides</Nav.Link>
+                        <Nav.Link href="/training-guides">Training Guides</Nav.Link>
                     </Nav>
+                    <button
+                        type='button'
+                        className='btn btn-danger'
+                        style={{ float: 'right' }}
+                        onClick={async (event) => {
+                            await auth.signout();
+                        }}
+                    >
+                        Sign out
+                    </button>
                 </Navbar.Collapse>
             </Container>
         </Navbar>

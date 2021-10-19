@@ -1,0 +1,65 @@
+.signout {
+    position: fixed;
+    top: 5px;
+    right: 5px;
+}
+
+.data-dictionary-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: left;
+}
+
+.data-dictionary-inner {
+    width: 820px;
+    margin: 20px 80px;
+    background: #f8f9fa;
+    padding: 40px 55px 45px 55px;
+    border-radius: 15px;
+    transition: all .3s;
+}
+
+.data-dictionary-inner .input-group-text {
+    width: 109.36px;
+}
+
+.data-dictionary-inner a {
+    text-decoration: none !important;
+}
+
+.data-dictionary-inner textarea.form-control {
+    border-top-right-radius: .25rem !important;
+    border-bottom-right-radius: .25rem !important;
+}
+
+.data-dictionary-container {
+    padding: 0px 20px;
+}
+
+.data-dictionary-container .table-container {
+    width: 820px;
+    margin: 20px 80px;
+    background: #f8f9fa;
+    padding: 40px 55px 45px 55px;
+    border-radius: 15px;
+}
+
+.data-dictionary-container table {
+    text-align: left;
+}
+
+.data-dictionary-container table td,
+.data-dictionary-container table th {
+    padding: 4px 8px;
+}
+
+.data-dictionary-container table tbody tr:hover {
+    background-color: gainsboro;
+    cursor: pointer;
+}
+
+.data-dictionary-container table tr:not(:last-child) {
+    border-bottom: solid 1px lightgray;
+}

@@ -69,18 +69,44 @@
 }
 
 .filter-container button {
-    width: 65.58px;
+    border-radius: 10px;
+    box-shadow: none;
+    width: 70px;
+    font-weight: 600;
+}
+
+.filter-container button.btn-secondary {
     background-color: #e9ecef;
     border-color: #e9ecef;
     color: black;
 }
 
-.filter-container button:active,
-.filter-container button:focus {
-    box-shadow: none;
+.filter-container .selected {
+    background-color: #abb0b4 !important;
+    border-color: #abb0b4 !important;
+    color: white !important;
 }
 
-.filter-container button:not(:last-child) {
+.filter-container button:active,
+.filter-container button:focus,
+.filter-container button:hover {
+    box-shadow: none !important;
+}
+
+.filter-container button.btn-primary:hover {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.filter-container button.btn-secondary:active,
+.filter-container button.btn-secondary:focus,
+.filter-container button.btn-secondary:hover {
+    background-color: #e9ecef;
+    border-color: #e9ecef;
+    color: black;
+}
+
+.filter-container button.btn-secondary:not(:last-child) {
     margin-right: 5px;
 }
 
@@ -92,10 +118,11 @@
 }
 
 .filter-container input {
+    flex: 2;
     margin-right: 10px;
     padding: 2px 8px;
-    background-color: #f8f9fa;
-    border-radius: .2rem;
+    background-color: #e9ecef;
+    border-radius: 10px;
 }
 
 .filter-container input::-webkit-search-cancel-button {

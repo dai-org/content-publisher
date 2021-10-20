@@ -8,7 +8,15 @@ function DataDictionary() {
     const group = useRef();
     const term = useRef();
     const description = useRef();
+    const searchField = useRef();
     const uploadButton = useRef();
+    const [cache, setCache] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [filterOTL, setFilterOTL] = useState(false);
+    const [filterB2R, setFilterB2R] = useState(false);
+    const [filterCA, setFilterCA] = useState(false);
+    const [filterP2P, setFilterP2P] = useState(false);
+    const [filterDAI101, setFilterDAI101] = useState(false);
     const [entries, setEntries] = useState([]);
 
     useEffect(() => {
@@ -23,10 +31,47 @@ function DataDictionary() {
             console.log(items);
 
             setEntries(items);
+            setCache(items);
         });
 
         return unsubscribe;
     }, []);
+
+    useEffect(() => {
+        if (searchQuery) {
+            console.log('Filter Query: ', searchQuery);
+
+            setEntries(cache.filter(entry => {
+                return entry.data().question.toUpperCase().includes(searchQuery.toUpperCase()) ||
+                    entry.data().answer.toUpperCase().includes(searchQuery.toUpperCase()) ||
+                    entry.data().group.toUpperCase().includes(searchQuery.toUpperCase())
+            }));
+        } else {
+            setEntries(cache);
+        }
+        
+    }, [searchQuery, cache]);
+
+    function onSearch(event) {
+        console.log(event.target.value);
+        setSearchQuery(event.target.value);
+    }
+
+    function filterByGroup(group) {
+        console.log('Filter by:', group);
+
+        setEntries(cache.filter(entry => {
+            return entry.data().group === group
+        }));
+    }
+
+    function toggle(state) {
+        if (state === true) {
+            setEntries(cache);    
+        }
+
+        return state ? false : true;
+    }
 
     return (
         <div className='data-dictionary-container'>
@@ -77,6 +122,87 @@ function DataDictionary() {
                             Add
                         </button>
                     </div>
+                </div>
+                <div className='d-flex justify-content-start filter-container'>
+                    <input type='search' placeholder='Search data dictionary' title='search faqs' ref={searchField} onChange={onSearch}/>
+                    <button
+                        className={`btn btn-secondary btn-sm ${filterCA ? 'selected' : ''}`}
+                        onClick={event => {
+                            filterByGroup('CA');
+                            setFilterB2R(false);
+                            setFilterOTL(false);
+                            setFilterP2P(false);
+                            setFilterDAI101(false);
+                            setFilterCA(toggle(filterCA));
+                        }}
+                    >
+                        CA
+                    </button>
+                    <button
+                        className={`btn btn-secondary btn-sm ${filterB2R ? 'selected' : ''}`}
+                        onClick={event => {
+                            filterByGroup('B2R');
+                            setFilterB2R(toggle(filterB2R));
+                            setFilterOTL(false);
+                            setFilterP2P(false);
+                            setFilterDAI101(false);
+                            setFilterCA(false);
+                        }}
+                    >
+                        B2R
+                    </button>
+                    <button
+                        className={`btn btn-secondary btn-sm ${filterDAI101 ? 'selected' : ''}`}
+                        onClick={event => {
+                            filterByGroup('DAI 101');
+                            setFilterB2R(false);
+                            setFilterOTL(false);
+                            setFilterP2P(false);
+                            setFilterDAI101(toggle(filterDAI101));
+                            setFilterCA(false);
+                        }}
+                    >
+                        DAI 101
+                    </button>
+                    <button
+                        className={`btn btn-secondary btn-sm ${filterOTL ? 'selected' : ''}`}
+                        onClick={event => {
+                            filterByGroup('OTL');
+                            setFilterB2R(false);
+                            setFilterOTL(toggle(filterOTL));
+                            setFilterP2P(false);
+                            setFilterDAI101(false);
+                            setFilterCA(false);
+                        }}
+                    >
+                        OTL
+                    </button>
+                    <button
+                        className={`btn btn-secondary btn-sm ${filterP2P ? 'selected' : ''}`}
+                        onClick={event => {
+                            filterByGroup('P2P');
+                            setFilterB2R(false);
+                            setFilterOTL(false);
+                            setFilterP2P(toggle(filterP2P));
+                            setFilterDAI101(false);
+                            setFilterCA(false);
+                        }}
+                    >
+                        P2P
+                    </button>
+                    <button
+                        className='btn btn-primary btn-sm mr-5'
+                        onClick={event => {
+                            setFilterB2R(false);
+                            setFilterOTL(false);
+                            setFilterP2P(false);
+                            setFilterDAI101(false);
+                            setFilterCA(false);
+                            setEntries(cache);
+                        }}
+                    >
+                        Clear
+                    </button>
                 </div>
                 {
                     entries.length !== 0 &&

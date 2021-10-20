@@ -79,6 +79,7 @@ function Faqs() {
                         <div className='input-group mb-3'>
                             <label className='input-group-text' htmlFor='group'>Group</label>
                             <select className='form-select' id='group' ref={group} >
+                                <option value='None'>No Group</option>
                                 <option value='CA'>CA</option>
                                 <option value='B2R'>B2R</option>
                                 <option value='DAI 101'>DAI 101</option>
@@ -110,7 +111,7 @@ function Faqs() {
                                 console.log('Document written with ID: ', docRef.id);
 
                                 // Reset fields
-                                group.current.value = 'CA'
+                                group.current.value = 'None'
                                 question.current.value = '';
                                 answer.current.value = '';
                             }}
@@ -122,7 +123,7 @@ function Faqs() {
                 <div className='d-flex justify-content-start filter-container'>
                     <input type='search' placeholder='Search FAQs' title='search faqs' ref={searchField} onChange={onSearch}/>
                     <button
-                        className='btn btn-secondary btn-sm'
+                        className={`btn btn-secondary btn-sm ${filterCA ? 'selected' : ''}`}
                         onClick={event => {
                             filterByGroup('CA');
                             setFilterB2R(false);
@@ -135,7 +136,7 @@ function Faqs() {
                         CA
                     </button>
                     <button
-                        className='btn btn-secondary btn-sm'
+                        className={`btn btn-secondary btn-sm ${filterB2R ? 'selected' : ''}`}
                         onClick={event => {
                             filterByGroup('B2R');
                             setFilterB2R(toggle(filterB2R));
@@ -148,7 +149,7 @@ function Faqs() {
                         B2R
                     </button>
                     <button
-                        className='btn btn-secondary btn-sm'
+                        className={`btn btn-secondary btn-sm ${filterDAI101 ? 'selected' : ''}`}
                         onClick={event => {
                             filterByGroup('DAI 101');
                             setFilterB2R(false);
@@ -161,7 +162,7 @@ function Faqs() {
                         DAI 101
                     </button>
                     <button
-                        className='btn btn-secondary btn-sm'
+                        className={`btn btn-secondary btn-sm ${filterOTL ? 'selected' : ''}`}
                         onClick={event => {
                             filterByGroup('OTL');
                             setFilterB2R(false);
@@ -174,7 +175,7 @@ function Faqs() {
                         OTL
                     </button>
                     <button
-                        className='btn btn-secondary btn-sm'
+                        className={`btn btn-secondary btn-sm ${filterP2P ? 'selected' : ''}`}
                         onClick={event => {
                             filterByGroup('P2P');
                             setFilterB2R(false);
@@ -185,6 +186,19 @@ function Faqs() {
                         }}
                     >
                         P2P
+                    </button>
+                    <button
+                        className='btn btn-primary btn-sm mr-5'
+                        onClick={event => {
+                            setFilterB2R(false);
+                            setFilterOTL(false);
+                            setFilterP2P(false);
+                            setFilterDAI101(false);
+                            setFilterCA(false);
+                            setFaqs(cache);
+                        }}
+                    >
+                        Clear
                     </button>
                 </div>
                 {

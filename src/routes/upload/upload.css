@@ -52,3 +52,8 @@
 .upload-container table tr:not(:last-child) {
     border-bottom: solid 1px lightgray;
 }
+
+.upload-container h5 {
+    display: flex;
+    justify-content: space-between;
+}

@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { getFirestore, collection, addDoc, onSnapshot, query } from 'firebase/firestore'
-import Highlighter from 'react-highlight-words';
+// import Highlighter from 'react-highlight-words';
 import './data-dictionary.css'
 
 // TODO: Invert progress bar text color as bar fills, see post [https://stackoverflow.com/a/61353195]

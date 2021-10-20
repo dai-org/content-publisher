@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { getFirestore, collection, addDoc, onSnapshot, query } from 'firebase/firestore'
+import Highlighter from 'react-highlight-words';
 import './data-dictionary.css'
 
 // TODO: Invert progress bar text color as bar fills, see post [https://stackoverflow.com/a/61353195]
@@ -41,11 +42,26 @@ function DataDictionary() {
         if (searchQuery) {
             console.log('Filter Query: ', searchQuery);
 
+            // setEntries(cache.filter(entry => {
+            //     return entry.data().term.toUpperCase().includes(searchQuery.toUpperCase()) ||
+            //         entry.data().description.toUpperCase().includes(searchQuery.toUpperCase()) ||
+            //         entry.data().group.toUpperCase().includes(searchQuery.toUpperCase())
+            // }));
+
             setEntries(cache.filter(entry => {
-                return entry.data().question.toUpperCase().includes(searchQuery.toUpperCase()) ||
-                    entry.data().answer.toUpperCase().includes(searchQuery.toUpperCase()) ||
-                    entry.data().group.toUpperCase().includes(searchQuery.toUpperCase())
+                const { term, description } = entry.data();
+
+                return term?.toUpperCase().includes(searchQuery.toUpperCase()) || description?.toUpperCase().includes(searchQuery.toUpperCase())
             }));
+
+            // cache.forEach(entry => {
+            //     const { term, description } = entry.data();
+
+            //     if (term && description) {
+            //         return entry.data().term.toUpperCase().includes(searchQuery.toUpperCase()) ||
+            //             entry.data().description.toUpperCase().includes(searchQuery.toUpperCase())
+            //     }
+            // });
         } else {
             setEntries(cache);
         }
@@ -124,7 +140,7 @@ function DataDictionary() {
                     </div>
                 </div>
                 <div className='d-flex justify-content-start filter-container'>
-                    <input type='search' placeholder='Search data dictionary' title='search faqs' ref={searchField} onChange={onSearch}/>
+                    <input type='search' placeholder='Search data dictionary' title='search data dictionary' ref={searchField} onChange={onSearch}/>
                     <button
                         className={`btn btn-secondary btn-sm ${filterCA ? 'selected' : ''}`}
                         onClick={event => {

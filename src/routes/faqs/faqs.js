@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { getFirestore, collection, addDoc, onSnapshot, query } from 'firebase/firestore'
+import Highlighter from 'react-highlight-words';
 import './faqs.css'
 
 // TODO: Invert progress bar text color as bar fills, see post [https://stackoverflow.com/a/61353195]
@@ -39,9 +40,9 @@ function Faqs() {
             console.log('Filter Query: ', searchQuery);
 
             setFaqs(cache.filter(entry => {
-                return entry.data().question.toUpperCase().includes(searchQuery.toUpperCase()) ||
-                    entry.data().answer.toUpperCase().includes(searchQuery.toUpperCase()) ||
-                    entry.data().group.toUpperCase().includes(searchQuery.toUpperCase())
+                return entry.data()?.question.toUpperCase().includes(searchQuery.toUpperCase()) ||
+                    entry.data()?.answer.toUpperCase().includes(searchQuery.toUpperCase()) ||
+                    entry.data()?.group.toUpperCase().includes(searchQuery.toUpperCase())
             }));
         } else {
             setFaqs(cache);
@@ -233,7 +234,15 @@ function Faqs() {
                                         // </tr>
                                         return(
                                             <tr onClick={editFaq} key={item.id}>
-                                                <td>{question}</td>
+                                                <td>
+                                                    <Highlighter
+                                                        highlightClassName="highlight"
+                                                        searchWords={[searchQuery]}
+                                                        autoEscape={true}
+                                                        textToHighlight={question}
+                                                    />
+                                                </td>
+                                                {/* <td>{question}</td> */}
                                                 <td>{answer}</td>
                                                 <td>{group}</td>
                                             </tr>

@@ -1,7 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { getFirestore, collection, addDoc, onSnapshot, query } from 'firebase/firestore'
-import Highlighter from 'react-highlight-words';
 import './faqs.css'
+import Cell from '../../components/cell';
+import FaqsTable from './faqs-table';
 
 // TODO: Invert progress bar text color as bar fills, see post [https://stackoverflow.com/a/61353195]
 
@@ -51,7 +52,6 @@ function Faqs() {
     }, [searchQuery, cache]);
 
     function onSearch(event) {
-        console.log(event.target.value);
         setSearchQuery(event.target.value);
     }
 
@@ -202,56 +202,53 @@ function Faqs() {
                         Clear
                     </button>
                 </div>
+                <FaqsTable faqs={faqs} searchQuery={searchQuery} />
                 {
-                    faqs.length !== 0 &&
-                    <div className='table-container'>
-                        <h4 className='mb-4 text-start'>FAQs ({faqs.length})</h4>
-                        <table className='w-100'>
-                            <thead>
-                                <tr>
-                                    <th>Question</th>
-                                    <th>Answer</th>
-                                    <th>Group</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    faqs.map(item => {
-                                        const {
-                                            question,
-                                            answer,
-                                            group
-                                        } = item.data();
+                    // faqs.length !== 0 &&
+                    // <div className='table-container'>
+                    //     <h4 className='mb-4 text-start'>FAQs ({faqs.length})</h4>
+                    //     <table className='w-100'>
+                    //         <thead>
+                    //             <tr>
+                    //                 <th>Question</th>
+                    //                 <th>Answer</th>
+                    //                 <th>Group</th>
+                    //             </tr>
+                    //         </thead>
+                    //         <tbody>
+                    //             {
+                    //                 faqs.map(item => {
+                    //                     const {
+                    //                         question,
+                    //                         answer,
+                    //                         group
+                    //                     } = item.data();
 
-                                        function editFaq(event) {
-                                            console.log(event);
-                                        }
+                    //                     function editFaq(event) {
+                    //                         console.log(event);
+                    //                     }
 
-                                         // <tr onClick={editFaq} key={item.id}>
-                                        //     <td dangerouslySetInnerHTML={{ __html: question.replaceAll(searchQuery, `<span class='highlight'>${searchQuery}</span>`)}} />
-                                        //     <td dangerouslySetInnerHTML={{ __html: answer.replaceAll(searchQuery, `<span class='highlight'>${searchQuery}</span>`)}} />
-                                        //     <td dangerouslySetInnerHTML={{ __html: group.replaceAll(searchQuery, `<span class='highlight'>${searchQuery}</span>`)}} />
-                                        // </tr>
-                                        return(
-                                            <tr onClick={editFaq} key={item.id}>
-                                                <td>
-                                                    <Highlighter
-                                                        highlightClassName="highlight"
-                                                        searchWords={[searchQuery]}
-                                                        autoEscape={true}
-                                                        textToHighlight={question}
-                                                    />
-                                                </td>
-                                                {/* <td>{question}</td> */}
-                                                <td>{answer}</td>
-                                                <td>{group}</td>
-                                            </tr>
-                                        )
-                                    })
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                    //                     return(
+                    //                         <tr onClick={editFaq} key={item.id}>
+                    //                             <td>
+                    //                                 {/* <Highlighter
+                    //                                     highlightClassName="highlight"
+                    //                                     searchWords={[searchQuery]}
+                    //                                     autoEscape={true}
+                    //                                     textToHighlight={question}
+                    //                                 /> */}
+                    //                                 <Cell words={[searchQuery]} text={question} />
+                    //                             </td>
+                    //                             {/* <td>{question}</td> */}
+                    //                             <td>{answer}</td>
+                    //                             <td>{group}</td>
+                    //                         </tr>
+                    //                     )
+                    //                 })
+                    //             }
+                    //         </tbody>
+                    //     </table>
+                    // </div>
                 }
             </div>
         </div>

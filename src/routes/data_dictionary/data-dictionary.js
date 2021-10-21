@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { getFirestore, collection, addDoc, onSnapshot, query } from 'firebase/firestore'
+import DataDictionaryTable from './data-dictionary-table';
 // import Highlighter from 'react-highlight-words';
 import './data-dictionary.css'
 
@@ -220,43 +221,44 @@ function DataDictionary() {
                         Clear
                     </button>
                 </div>
+                <DataDictionaryTable entries={entries} searchQuery={searchQuery} />
                 {
-                    entries.length !== 0 &&
-                    <div className='table-container'>
-                        <h4 className='mb-4 text-start'>Data Dictionary Entries ({entries.length})</h4>
-                        <table className='w-100'>
-                            <thead>
-                                <tr>
-                                    <th>Term</th>
-                                    <th>Description</th>
-                                    <th>Group</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    entries.map(item => {
-                                        const {
-                                            term,
-                                            description,
-                                            // group
-                                        } = item.data();
+                    // entries.length !== 0 &&
+                    // <div className='table-container'>
+                    //     <h4 className='mb-4 text-start'>Data Dictionary Entries ({entries.length})</h4>
+                    //     <table className='w-100'>
+                    //         <thead>
+                    //             <tr>
+                    //                 <th>Term</th>
+                    //                 <th>Description</th>
+                    //                 <th>Group</th>
+                    //             </tr>
+                    //         </thead>
+                    //         <tbody>
+                    //             {
+                    //                 entries.map(item => {
+                    //                     const {
+                    //                         term,
+                    //                         description,
+                    //                         // group
+                    //                     } = item.data();
 
-                                        function editFaq(event) {
-                                            console.log(event);
-                                        }
+                    //                     function editFaq(event) {
+                    //                         console.log(event);
+                    //                     }
 
-                                        return(
-                                            <tr onClick={editFaq} key={item.id}>
-                                                <td>{term}</td>
-                                                <td>{description}</td>
-                                                <td></td>
-                                            </tr>
-                                        )
-                                    })
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                    //                     return(
+                    //                         <tr onClick={editFaq} key={item.id}>
+                    //                             <td>{term}</td>
+                    //                             <td>{description}</td>
+                    //                             <td></td>
+                    //                         </tr>
+                    //                     )
+                    //                 })
+                    //             }
+                    //         </tbody>
+                    //     </table>
+                    // </div>
                 }
             </div>
         </div>

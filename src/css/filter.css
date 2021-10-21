@@ -84,3 +84,7 @@
 .highlight {
     background-color: yellow;
 }
+
+mark, .mark {
+    padding: 0px !important;
+}

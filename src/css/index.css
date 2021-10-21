@@ -88,3 +88,7 @@ body, html, .App, #root, .auth-wrapper {
         max-width: 800px;
     }
 } */
+
+.form-control:focus {
+    box-shadow: none !important;
+}

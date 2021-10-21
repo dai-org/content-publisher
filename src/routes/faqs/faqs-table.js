@@ -32,12 +32,18 @@ function FaqsTable(props) {
 
                                 return(
                                     <tr onClick={editFaq} key={item.id}>
-                                        {/* <td>
+                                        <td>
                                             <Cell words={[searchQuery]} text={question} />
-                                        </td> */}
-                                        <td>{question}</td>
+                                        </td>
+                                        <td>
+                                            <Cell words={[searchQuery]} text={answer} />
+                                        </td>
+                                        <td>
+                                            <Cell words={[searchQuery]} text={group} />
+                                        </td>
+                                        {/* <td>{question}</td>
                                         <td>{answer}</td>
-                                        <td>{group}</td>
+                                        <td>{group}</td> */}
                                     </tr>
                                 )
                             })

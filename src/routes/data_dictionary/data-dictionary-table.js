@@ -32,9 +32,18 @@ function DataDictionaryTable(props) {
 
                                 return(
                                     <tr onClick={editFaq} key={item.id}>
-                                        <td>{term}</td>
+                                        <td>
+                                            <Cell words={[searchQuery]} text={term} />
+                                        </td>
+                                        <td>
+                                            <Cell words={[searchQuery]} text={description} />
+                                        </td>
+                                        <td>
+                                            {/* <Cell words={[searchQuery]} text={group} /> */}
+                                        </td>
+                                        {/* <td>{term}</td>
                                         <td>{description}</td>
-                                        <td></td>
+                                        <td></td> */}
                                     </tr>
                                 )
                             })

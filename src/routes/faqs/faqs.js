@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { getFirestore, collection, addDoc, onSnapshot, query } from 'firebase/firestore'
 import './faqs.css'
-import Cell from '../../components/cell';
 import FaqsTable from './faqs-table';
 
 // TODO: Invert progress bar text color as bar fills, see post [https://stackoverflow.com/a/61353195]

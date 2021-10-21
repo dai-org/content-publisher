@@ -155,7 +155,7 @@ function Newsletters() {
                         </div>
                         <button
                             type='button'
-                            className='btn btn-success w-100'
+                            className='btn btn-success w-100 round-10'
                             ref={uploadButton}
                             onClick={async (event) => {
                                 // console.log(

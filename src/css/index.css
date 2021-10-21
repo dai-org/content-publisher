@@ -97,3 +97,7 @@ body, html, .App, #root, .auth-wrapper {
 .App span {
     font-weight: 400;
 }
+
+.round-10 {
+    border-radius: 10px !important;
+}

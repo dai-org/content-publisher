@@ -10,7 +10,7 @@ function Cell(props) {
             highlightClassName="highlight"
             searchWords={words}
             autoEscape={true}
-            textToHighlight={text}
+            textToHighlight={text || ''}
         />
     );
 }

@@ -14,6 +14,7 @@ function DataDictionary() {
     const uploadButton = useRef();
     const [cache, setCache] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [filterNoGroup, setFilterNoGroup] = useState(false);
     const [filterOTL, setFilterOTL] = useState(false);
     const [filterB2R, setFilterB2R] = useState(false);
     const [filterCA, setFilterCA] = useState(false);
@@ -145,6 +146,20 @@ function DataDictionary() {
                     <button
                         className={`btn btn-secondary btn-sm ${filterCA ? 'selected' : ''}`}
                         onClick={event => {
+                            filterByGroup('No Group');
+                            setFilterB2R(false);
+                            setFilterOTL(false);
+                            setFilterP2P(false);
+                            setFilterDAI101(false);
+                            setFilterCA(false);
+                            setFilterNoGroup(toggle(filterNoGroup))
+                        }}
+                    >
+                        No Group
+                    </button>
+                    <button
+                        className={`btn btn-secondary btn-sm ${filterCA ? 'selected' : ''}`}
+                        onClick={event => {
                             filterByGroup('CA');
                             setFilterB2R(false);
                             setFilterOTL(false);
@@ -215,6 +230,7 @@ function DataDictionary() {
                             setFilterP2P(false);
                             setFilterDAI101(false);
                             setFilterCA(false);
+                            setFilterNoGroup(false);
                             setEntries(cache);
                         }}
                     >

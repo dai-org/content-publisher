@@ -6,7 +6,7 @@ function DataDictionaryTable(props) {
 
     return (
         <div className='table-container'>
-            <h4 className='mb-4 text-start'>Data Dictionary Entries ({entries.length})</h4>
+            <h4 className={`text-start${entries.length !== 0 ? ' mb-4' : ' mb-0'}`}>Data Dictionary Entries ({entries.length})</h4>
             {
                 entries.length !== 0 &&
                 <table className='w-100'>

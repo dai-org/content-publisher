@@ -7,12 +7,13 @@
 .filter-container button {
     border-radius: 10px;
     box-shadow: none;
-    width: 70px;
+    font-size: 12px;
     font-weight: 600;
     height: 44px;
 }
 
 .filter-container button.btn-secondary {
+    width: 75px;
     background-color: #e9ecef;
     border-color: #e9ecef;
     color: black;

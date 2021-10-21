@@ -89,6 +89,11 @@ body, html, .App, #root, .auth-wrapper {
     }
 } */
 
-.form-control:focus {
+.form-control:focus,
+.form-select:focus {
     box-shadow: none !important;
+}
+
+.App span {
+    font-weight: 400;
 }

@@ -1,4 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { getFirestore, collection, addDoc, onSnapshot, query } from 'firebase/firestore'
 import DataDictionaryTable from './data-dictionary-table';
 // import Highlighter from 'react-highlight-words';
@@ -142,7 +144,10 @@ function DataDictionary() {
                     </div>
                 </div>
                 <div className='d-flex justify-content-start filter-container'>
-                    <input type='search' placeholder='Search data dictionary' title='search data dictionary' ref={searchField} onChange={onSearch}/>
+                    <div className='search-container'>
+                        <FontAwesomeIcon icon={faSearch} className='search-icon' />
+                        <input type='search' placeholder='Search data dictionary' title='search data dictionary' ref={searchField} onChange={onSearch}/>
+                    </div>
                     <button
                         className={`btn btn-secondary btn-sm ${filterCA ? 'selected' : ''}`}
                         onClick={event => {

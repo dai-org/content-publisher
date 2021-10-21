@@ -1,7 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { getFirestore, collection, addDoc, onSnapshot, query } from 'firebase/firestore'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import './newsletters.css'
+import NewslettersTable from './newsletters-table';
 
 // TODO: Invert progress bar text color as bar fills, see post [https://stackoverflow.com/a/61353195]
 
@@ -28,7 +31,13 @@ function Newsletters() {
     const year = useRef();
     const issue = useRef();
     const uploadButton = useRef();
+    const searchField = useRef();
+    const [searchQuery, setSearchQuery] = useState('');
+    const [adHocFilter, setAdHocFilter] = useState(false);
+    const [monthlyFilter, setMonthlyFilter] = useState(false);
+    const [weeklyFilter, setWeeklyFilter] = useState(false);
     const [uploaded, setUploaded] = useState([]);
+    const [cache, setCache] = useState([]);
     const [newsletters, setNewsletters] = useState([]);
     const [showProgressBar, setShowProgressBar] = useState(false);
     const [progress, setProgress] = useState(0);
@@ -38,15 +47,64 @@ function Newsletters() {
         // const q = query(collection(db, "newsletters"), where("state", "==", "CA"));
         const q = query(collection(db, "newsletters"));
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            const items = [];
+            let items = [];
+
             querySnapshot.forEach((doc) => {
                 items.push(doc);
             });
+
+            items = items.sort((a, b) => {
+                return b.data().month - a.data().month || b.data().issue - a.data().issue;
+            });
+
+            setCache(items);
             setNewsletters(items);
         });
 
         return unsubscribe;
     }, []);
+
+    useEffect(() => {
+        if (searchQuery) {
+            console.log('Filter Query: ', searchQuery);
+
+            setNewsletters(cache.filter(entry => {
+                const month = months[entry.data().month - 1];
+
+                console.log(month);
+
+                return entry.data()?.title.toUpperCase().includes(searchQuery.toUpperCase()) ||
+                    entry.data()?.edition.toUpperCase().includes(searchQuery.toUpperCase()) ||
+                    entry.data()?.issue.toString().toUpperCase().includes(searchQuery.toUpperCase()) ||
+                    entry.data()?.month.toString().toUpperCase().includes(searchQuery.toUpperCase()) ||
+                    entry.data()?.year.toString().toUpperCase().includes(searchQuery.toUpperCase()) ||
+                    month?.toUpperCase().includes(searchQuery.toUpperCase())
+            }));
+        } else {
+            setNewsletters(cache);
+        }
+        
+    }, [searchQuery, cache]);
+
+    function onSearch(event) {
+        setSearchQuery(event.target.value);
+    }
+
+    function filterByGroup(edition) {
+        console.log('Filter by:', edition);
+
+        setNewsletters(cache.filter(entry => {
+            return entry.data().edition === edition
+        }));
+    }
+
+    function toggle(state) {
+        if (state === true) {
+            setNewsletters(cache);    
+        }
+
+        return state ? false : true;
+    }
 
     return (
         <div className='upload-container'>
@@ -210,57 +268,108 @@ function Newsletters() {
                         }
                     </div>
                 </div>
-                {
-                    newsletters.length !== 0 &&
-                    <div className='table-container'>
-                        <h4 className='mb-4 text-start'>Newsletters ({newsletters.length})</h4>
-                        <table className='w-100'>
-                            <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Issue</th>
-                                    <th>Month</th>
-                                    <th>Year</th>
-                                    <th>Edition</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    newsletters.map(item => {
-                                        const {
-                                            edition,
-                                            title,
-                                            issue,
-                                            month,
-                                            year
-                                        } = item.data();
-
-                                        function openNewsletter(event) {
-                                            const storage = getStorage();
-                                            getDownloadURL(ref(storage, `${edition.split(' ').join('-')}_${year}-${month}_${issue}.pdf`))
-                                            .then((url) => {
-                                                // console.log(url);
-                                                window.open(url);
-                                            })
-                                            .catch((error) => {
-                                                // Handle any errors
-                                            });
-                                        }
-
-                                        return(
-                                            <tr onClick={openNewsletter} key={item.id}>
-                                                <td>{title}</td>
-                                                <td>{issue}</td>
-                                                <td>{months[month - 1]}</td>
-                                                <td>{year}</td>
-                                                <td>{edition}</td>
-                                            </tr>
-                                        )
-                                    })
-                                }
-                            </tbody>
-                        </table>
+                <div className='d-flex justify-content-start filter-container'>
+                    <div className='search-container'>
+                        <FontAwesomeIcon icon={faSearch} className='search-icon' />
+                        <input type='search' placeholder='Search newsletters' title='search newsletters' ref={searchField} onChange={onSearch}/>
                     </div>
+                    <button
+                        className={`btn btn-secondary btn-sm ${adHocFilter ? 'selected' : ''}`}
+                        onClick={event => {
+                            filterByGroup('Ad Hoc');
+                            setAdHocFilter(toggle(adHocFilter));
+                            setMonthlyFilter(false);
+                            setWeeklyFilter(false);
+                        }}
+                    >
+                        Ad Hoc
+                    </button>
+                    <button
+                        className={`btn btn-secondary btn-sm ${monthlyFilter ? 'selected' : ''}`}
+                        onClick={event => {
+                            filterByGroup('Monthly');
+                            setAdHocFilter(false);
+                            setMonthlyFilter(toggle(monthlyFilter));
+                            setWeeklyFilter(false);
+                        }}
+                    >
+                        Monthly
+                    </button>
+                    <button
+                        className={`btn btn-secondary btn-sm ${weeklyFilter ? 'selected' : ''}`}
+                        onClick={event => {
+                            filterByGroup('Weekly');
+                            setAdHocFilter(false);
+                            setMonthlyFilter(false);
+                            setWeeklyFilter(toggle(weeklyFilter));
+                        }}
+                    >
+                        Weekly
+                    </button>
+                    <button
+                        className='btn btn-primary btn-sm mr-5'
+                        onClick={event => {
+                            setAdHocFilter(false);
+                            setMonthlyFilter(false);
+                            setWeeklyFilter(false)
+                            setNewsletters(cache);
+                        }}
+                    >
+                        Clear
+                    </button>
+                </div>
+                <NewslettersTable newsletters={newsletters} searchQuery={searchQuery} />
+                {
+                    // newsletters.length !== 0 &&
+                    // <div className='table-container'>
+                    //     <h4 className='mb-4 text-start'>Newsletters ({newsletters.length})</h4>
+                    //     <table className='w-100'>
+                    //         <thead>
+                    //             <tr>
+                    //                 <th>Title</th>
+                    //                 <th>Issue</th>
+                    //                 <th>Month</th>
+                    //                 <th>Year</th>
+                    //                 <th>Edition</th>
+                    //             </tr>
+                    //         </thead>
+                    //         <tbody>
+                    //             {
+                    //                 newsletters.map(item => {
+                    //                     const {
+                    //                         edition,
+                    //                         title,
+                    //                         issue,
+                    //                         month,
+                    //                         year
+                    //                     } = item.data();
+
+                    //                     function openNewsletter(event) {
+                    //                         const storage = getStorage();
+                    //                         getDownloadURL(ref(storage, `${edition.split(' ').join('-')}_${year}-${month}_${issue}.pdf`))
+                    //                         .then((url) => {
+                    //                             // console.log(url);
+                    //                             window.open(url);
+                    //                         })
+                    //                         .catch((error) => {
+                    //                             // Handle any errors
+                    //                         });
+                    //                     }
+
+                    //                     return(
+                    //                         <tr onClick={openNewsletter} key={item.id}>
+                    //                             <td>{title}</td>
+                    //                             <td>{issue}</td>
+                    //                             <td>{months[month - 1]}</td>
+                    //                             <td>{year}</td>
+                    //                             <td>{edition}</td>
+                    //                         </tr>
+                    //                     )
+                    //                 })
+                    //             }
+                    //         </tbody>
+                    //     </table>
+                    // </div>
                 }
             </div>
         </div>

@@ -20,8 +20,8 @@
 }
 
 .filter-container .selected {
-    background-color: #abb0b4 !important;
-    border-color: #abb0b4 !important;
+    background-color: #6c757d !important;
+    border-color: #6c757d !important;
     color: white !important;
 }
 
@@ -48,6 +48,21 @@
     margin-right: 5px;
 }
 
+.search-container {
+    display: flex;
+    align-items: center;
+    flex: 2;
+    margin-right: 10px;
+    padding: 10px 15px;
+    background-color: #e9ecef;
+    border-radius: 10px;
+}
+
+.search-icon {
+    margin-right: 10px;
+    color: gray;
+}
+
 .filter-container input,
 .filter-container input:focus,
 .filter-container input:active {
@@ -56,11 +71,8 @@
 }
 
 .filter-container input {
-    flex: 2;
-    margin-right: 10px;
-    padding: 10px 15px;
     background-color: #e9ecef;
-    border-radius: 10px;
+    width: 100%;
 }
 
 .filter-container input::-webkit-search-cancel-button {

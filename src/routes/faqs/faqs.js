@@ -24,6 +24,8 @@ function Faqs() {
     const [faqs, setFaqs] = useState([]);
 
     useEffect(() => {
+        console.log('triggered');
+
         const db = getFirestore();
         const q = query(collection(db, "faq"));
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -40,21 +42,28 @@ function Faqs() {
 
     useEffect(() => {
         if (searchQuery) {
-            console.log('Filter Query: ', searchQuery);
-
-            setFaqs(cache.filter(entry => {
+            console.log('Filter query: ', searchQuery);
+            
+            const filtered = cache.filter(entry => {
                 return entry.data()?.question.toUpperCase().includes(searchQuery.toUpperCase()) ||
                     entry.data()?.answer.toUpperCase().includes(searchQuery.toUpperCase()) ||
                     entry.data()?.group.toUpperCase().includes(searchQuery.toUpperCase())
-            }));
+            });
+
+            setFaqs(filtered);
         } else {
             setFaqs(cache);
         }
-        
     }, [searchQuery, cache]);
 
     function onSearch(event) {
         setSearchQuery(event.target.value);
+        setFilterB2R(false);
+        setFilterOTL(false);
+        setFilterP2P(false);
+        setFilterDAI101(false);
+        setFilterCA(false);
+        setFilterNoGroup(false);
     }
 
     function filterByGroup(group) {
@@ -129,7 +138,7 @@ function Faqs() {
                         <input type='search' placeholder='Search FAQs' title='Search FAQs' ref={searchField} onChange={onSearch}/>
                     </div>
                     <button
-                        className={`btn btn-secondary btn-sm ${filterCA ? 'selected' : ''}`}
+                        className={`btn btn-secondary btn-sm ${filterNoGroup ? 'selected' : ''}`}
                         onClick={event => {
                             filterByGroup('No Group');
                             setFilterB2R(false);
@@ -137,7 +146,7 @@ function Faqs() {
                             setFilterP2P(false);
                             setFilterDAI101(false);
                             setFilterCA(false);
-                            setFilterNoGroup(toggle(filterNoGroup))
+                            setFilterNoGroup(toggle(filterNoGroup));
                         }}
                     >
                         No Group
@@ -151,6 +160,7 @@ function Faqs() {
                             setFilterP2P(false);
                             setFilterDAI101(false);
                             setFilterCA(toggle(filterCA));
+                            setFilterNoGroup(false);
                         }}
                     >
                         CA
@@ -164,6 +174,7 @@ function Faqs() {
                             setFilterP2P(false);
                             setFilterDAI101(false);
                             setFilterCA(false);
+                            setFilterNoGroup(false);
                         }}
                     >
                         B2R
@@ -177,6 +188,7 @@ function Faqs() {
                             setFilterP2P(false);
                             setFilterDAI101(toggle(filterDAI101));
                             setFilterCA(false);
+                            setFilterNoGroup(false);
                         }}
                     >
                         DAI 101
@@ -190,6 +202,7 @@ function Faqs() {
                             setFilterP2P(false);
                             setFilterDAI101(false);
                             setFilterCA(false);
+                            setFilterNoGroup(false);
                         }}
                     >
                         OTL
@@ -203,6 +216,7 @@ function Faqs() {
                             setFilterP2P(toggle(filterP2P));
                             setFilterDAI101(false);
                             setFilterCA(false);
+                            setFilterNoGroup(false);
                         }}
                     >
                         P2P
@@ -223,53 +237,6 @@ function Faqs() {
                     </button>
                 </div>
                 <FaqsTable faqs={faqs} searchQuery={searchQuery} />
-                {
-                    // faqs.length !== 0 &&
-                    // <div className='table-container'>
-                    //     <h4 className='mb-4 text-start'>FAQs ({faqs.length})</h4>
-                    //     <table className='w-100'>
-                    //         <thead>
-                    //             <tr>
-                    //                 <th>Question</th>
-                    //                 <th>Answer</th>
-                    //                 <th>Group</th>
-                    //             </tr>
-                    //         </thead>
-                    //         <tbody>
-                    //             {
-                    //                 faqs.map(item => {
-                    //                     const {
-                    //                         question,
-                    //                         answer,
-                    //                         group
-                    //                     } = item.data();
-
-                    //                     function editFaq(event) {
-                    //                         console.log(event);
-                    //                     }
-
-                    //                     return(
-                    //                         <tr onClick={editFaq} key={item.id}>
-                    //                             <td>
-                    //                                 {/* <Highlighter
-                    //                                     highlightClassName="highlight"
-                    //                                     searchWords={[searchQuery]}
-                    //                                     autoEscape={true}
-                    //                                     textToHighlight={question}
-                    //                                 /> */}
-                    //                                 <Cell words={[searchQuery]} text={question} />
-                    //                             </td>
-                    //                             {/* <td>{question}</td> */}
-                    //                             <td>{answer}</td>
-                    //                             <td>{group}</td>
-                    //                         </tr>
-                    //                     )
-                    //                 })
-                    //             }
-                    //         </tbody>
-                    //     </table>
-                    // </div>
-                }
             </div>
         </div>
     );

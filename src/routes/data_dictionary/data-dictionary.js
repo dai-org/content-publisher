@@ -46,34 +46,17 @@ function DataDictionary() {
         if (searchQuery) {
             console.log('Filter Query: ', searchQuery);
 
-            // setEntries(cache.filter(entry => {
-            //     return entry.data().term.toUpperCase().includes(searchQuery.toUpperCase()) ||
-            //         entry.data().description.toUpperCase().includes(searchQuery.toUpperCase()) ||
-            //         entry.data().group.toUpperCase().includes(searchQuery.toUpperCase())
-            // }));
-
             setEntries(cache.filter(entry => {
                 const { term, description } = entry.data();
 
                 return term?.toUpperCase().includes(searchQuery.toUpperCase()) || description?.toUpperCase().includes(searchQuery.toUpperCase())
             }));
-
-            // cache.forEach(entry => {
-            //     const { term, description } = entry.data();
-
-            //     if (term && description) {
-            //         return entry.data().term.toUpperCase().includes(searchQuery.toUpperCase()) ||
-            //             entry.data().description.toUpperCase().includes(searchQuery.toUpperCase())
-            //     }
-            // });
         } else {
             setEntries(cache);
         }
-        
     }, [searchQuery, cache]);
 
     function onSearch(event) {
-        console.log(event.target.value);
         setSearchQuery(event.target.value);
     }
 
@@ -149,7 +132,7 @@ function DataDictionary() {
                         <input type='search' placeholder='Search data dictionary' title='search data dictionary' ref={searchField} onChange={onSearch}/>
                     </div>
                     <button
-                        className={`btn btn-secondary btn-sm ${filterCA ? 'selected' : ''}`}
+                        className={`btn btn-secondary btn-sm ${filterNoGroup ? 'selected' : ''}`}
                         onClick={event => {
                             filterByGroup('No Group');
                             setFilterB2R(false);
@@ -157,7 +140,7 @@ function DataDictionary() {
                             setFilterP2P(false);
                             setFilterDAI101(false);
                             setFilterCA(false);
-                            setFilterNoGroup(toggle(filterNoGroup))
+                            setFilterNoGroup(toggle(filterNoGroup));
                         }}
                     >
                         No Group
@@ -171,6 +154,7 @@ function DataDictionary() {
                             setFilterP2P(false);
                             setFilterDAI101(false);
                             setFilterCA(toggle(filterCA));
+                            setFilterNoGroup(false);
                         }}
                     >
                         CA
@@ -184,6 +168,7 @@ function DataDictionary() {
                             setFilterP2P(false);
                             setFilterDAI101(false);
                             setFilterCA(false);
+                            setFilterNoGroup(false);
                         }}
                     >
                         B2R
@@ -197,6 +182,7 @@ function DataDictionary() {
                             setFilterP2P(false);
                             setFilterDAI101(toggle(filterDAI101));
                             setFilterCA(false);
+                            setFilterNoGroup(false);
                         }}
                     >
                         DAI 101
@@ -210,6 +196,7 @@ function DataDictionary() {
                             setFilterP2P(false);
                             setFilterDAI101(false);
                             setFilterCA(false);
+                            setFilterNoGroup(false);
                         }}
                     >
                         OTL
@@ -223,6 +210,7 @@ function DataDictionary() {
                             setFilterP2P(toggle(filterP2P));
                             setFilterDAI101(false);
                             setFilterCA(false);
+                            setFilterNoGroup(false);
                         }}
                     >
                         P2P

@@ -101,3 +101,67 @@ body, html, .App, #root, .auth-wrapper {
 .round-10 {
     border-radius: 10px !important;
 }
+
+.signout {
+    position: fixed;
+    top: 5px;
+    right: 5px;
+}
+
+.cp-form-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: left;
+}
+
+.cp-form-inner {
+    width: 820px;
+    margin: 20px 80px;
+    padding-bottom: 40px;
+    transition: all .3s;
+}
+
+.cp-form-inner .input-group-text {
+    width: 109.36px;
+}
+
+.cp-form-inner a {
+    text-decoration: none !important;
+}
+
+.cp-form-inner textarea.form-control {
+    border-top-right-radius: .25rem !important;
+    border-bottom-right-radius: .25rem !important;
+}
+
+.cp-form-container {
+    padding: 0px 20px;
+}
+
+.cp-form-container .table-container {
+    width: 820px;
+    margin: 20px 80px;
+    background: #f8f9fa;
+    padding: 40px 55px 45px 55px;
+    border-radius: 15px;
+}
+
+.cp-form-container table {
+    text-align: left;
+}
+
+.cp-form-container table td,
+.cp-form-container table th {
+    padding: 4px 8px;
+}
+
+.cp-form-container table tbody tr:hover {
+    background-color: gainsboro;
+    cursor: pointer;
+}
+
+.cp-form-container table tr:not(:last-child) {
+    border-bottom: solid 1px lightgray;
+}

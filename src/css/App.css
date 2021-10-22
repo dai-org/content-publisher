@@ -17,6 +17,14 @@
     background-clip: content-box;
 }
 
+body {
+    background-color: rgb(var(--bs-light-rgb))!important; /* bg='light' */
+}
+
+#root {
+    background-color: white;
+}
+
 .App {
     text-align: center;
 }

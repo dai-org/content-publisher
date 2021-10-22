@@ -43,7 +43,7 @@ function Faqs() {
     useEffect(() => {
         if (searchQuery) {
             console.log('Filter query: ', searchQuery);
-            
+
             const filtered = cache.filter(entry => {
                 return entry.data()?.question.toUpperCase().includes(searchQuery.toUpperCase()) ||
                     entry.data()?.answer.toUpperCase().includes(searchQuery.toUpperCase()) ||
@@ -83,9 +83,9 @@ function Faqs() {
     }
 
     return (
-        <div className='faqs-container'>
-            <div className='faqs-wrapper'>
-                <div className='faqs-inner'>
+        <div className='cp-form-container'>
+            <div className='cp-form-wrapper'>
+                <div className='cp-form-inner'>
                     <div>
                         <h3 className='mb-4'>Create FAQ</h3>
                         <div className='input-group mb-3'>

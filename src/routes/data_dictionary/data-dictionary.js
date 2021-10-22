@@ -77,9 +77,9 @@ function DataDictionary() {
     }
 
     return (
-        <div className='data-dictionary-container'>
-            <div className='data-dictionary-wrapper'>
-                <div className='data-dictionary-inner'>
+        <div className='cp-form-container'>
+            <div className='cp-form-wrapper'>
+                <div className='cp-form-inner'>
                     <div>
                         <h3 className='mb-4'>Add Data Dictionary Entry</h3>
                         <div className='input-group mb-3'>

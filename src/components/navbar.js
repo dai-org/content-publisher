@@ -7,7 +7,7 @@ function NavBar() {
     const auth = useAuth();
 
     return (
-        <Navbar collapseOnSelect expand="lg" style={{ boxShadow: 'none' }}>
+        <Navbar collapseOnSelect expand="lg" style={{ boxShadow: 'none' }} bg="light" variant="light" sticky="top">
             <Container>
                 <Navbar.Brand href="/">DAI App | Content Publisher</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />

@@ -1,3 +1,7 @@
+.navbar {
+    border-bottom: solid 1px #ced4da;
+}
+
 .nav-link {
     text-align: right;
 }

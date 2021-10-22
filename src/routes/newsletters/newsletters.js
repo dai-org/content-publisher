@@ -107,9 +107,9 @@ function Newsletters() {
     }
 
     return (
-        <div className='upload-container'>
-            <div className='upload-wrapper'>
-                <div className='upload-inner'>
+        <div className='cp-form-container'>
+            <div className='cp-form-wrapper'>
+                <div className='cp-form-inner'>
                     <div>
                         <h3 className='mb-4'>Upload Newsletter (PDF)</h3>
                         <div className='input-group mb-3'>

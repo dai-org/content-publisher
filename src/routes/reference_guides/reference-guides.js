@@ -25,9 +25,9 @@ function ReferenceGuides() {
     }, []);
 
     return (
-        <div className='reference-guides-container'>
-            <div className='reference-guides-wrapper'>
-                <div className='reference-guides-inner'>
+        <div className='cp-form-container'>
+            <div className='cp-form-wrapper'>
+                <div className='cp-form-inner'>
                     <div>
                         <h3 className='mb-4'>Upload Reference Guide</h3>
                         <div className='input-group mb-3'>

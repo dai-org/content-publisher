@@ -21,7 +21,7 @@ function NavBar() {
                     </Nav>
                     <button
                         type='button'
-                        className='btn btn-danger'
+                        className='btn btn-danger btn-sm'
                         style={{ float: 'right' }}
                         onClick={async (event) => {
                             await auth.signout();

@@ -50,7 +50,8 @@ function NewslettersTable(props) {
 
                                 function openNewsletter(event) {
                                     const storage = getStorage();
-                                    getDownloadURL(ref(storage, `${edition.split(' ').join('-')}_${year}-${month}_${issue}.pdf`))
+                                    // getDownloadURL(ref(storage, `${edition.split(' ').join('-')}_${year}-${month}_${issue}.pdf`))
+                                    getDownloadURL(ref(storage, `${edition}_${year}-${month}_${issue}.pdf`))
                                     .then((url) => {
                                         // console.log(url);
                                         window.open(url);

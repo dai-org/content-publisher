@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { getFirestore, collection, addDoc, onSnapshot, query } from 'firebase/firestore'
+import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from 'firebase/firestore'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import './newsletters.css'
 import NewslettersTable from './newsletters-table';
@@ -215,7 +215,9 @@ function Newsletters() {
                                             // Handle unsuccessful uploads
                                         }, 
                                         async () => {
-                                            // Handle successful uploads on complete
+                                            console.log(serverTimestamp());
+
+                                            return;
 
                                             // Create Firestore document, holds file metadata
                                             const db = getFirestore();
@@ -224,7 +226,8 @@ function Newsletters() {
                                                 title: title.current.value,
                                                 issue: parseInt(issue.current.value),
                                                 month: parseInt(month.current.value),
-                                                year: parseInt(year.current.value)
+                                                year: parseInt(year.current.value),
+                                                created: serverTimestamp()
                                             });
 
                                             console.log('Document written with ID: ', docRef.id);

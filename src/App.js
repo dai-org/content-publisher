@@ -13,6 +13,7 @@ import Newsletters from './routes/newsletters/newsletters'
 import DataDictionary from './routes/data_dictionary/data-dictionary';
 import ReferenceGuides from './routes/reference_guides/reference-guides';
 import TrainingGuides from './routes/training_guides/training-guides';
+import News from './routes/news/news';
 
 function App() {
     return (
@@ -34,6 +35,10 @@ function App() {
                             <PrivateRoute path="/faqs">
                                 <Navbar />
                                 <Faqs />
+                            </PrivateRoute>
+                            <PrivateRoute path="/posts">
+                                <Navbar/>
+                                <News/>
                             </PrivateRoute>
                             <PrivateRoute path="/data-dictionary">
                                 <Navbar />

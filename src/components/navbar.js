@@ -16,6 +16,7 @@ function NavBar() {
                         <Nav.Link href="/data-dictionary">Data Dictionary</Nav.Link>
                         <Nav.Link href="/faqs">FAQs</Nav.Link>
                         <Nav.Link href="/newsletters">Newsletters</Nav.Link>
+                        <Nav.Link href="/posts">Posts</Nav.Link>
                         <Nav.Link href="/reference-guides">Reference Guides</Nav.Link>
                         <Nav.Link href="/training-guides">Training Guides</Nav.Link>
                     </Nav>

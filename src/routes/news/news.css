@@ -1,0 +1,63 @@
+.faqs-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: left;
+}
+
+.faqs-inner {
+    width: 820px;
+    margin: 20px 80px;
+    background: #f8f9fa;
+    padding: 40px 55px 45px 55px;
+    border-radius: 15px;
+    transition: all .3s;
+}
+
+.faqs-inner .input-group-text {
+    width: 91.58px;
+}
+
+.faqs-inner a {
+    text-decoration: none !important;
+}
+
+.faqs-inner textarea.form-control {
+    border-top-right-radius: .25rem !important;
+    border-bottom-right-radius: .25rem !important;
+}
+
+.faqs-container {
+    padding: 0px 20px;
+}
+
+.faqs-container .table-container {
+    width: 820px;
+    margin: 20px 80px;
+    background: #f8f9fa;
+    padding: 40px 55px 45px 55px;
+    border-radius: 15px;
+}
+
+.faqs-container table {
+    text-align: left;
+}
+
+.faqs-container table td,
+.faqs-container table th {
+    padding: 4px 8px;
+}
+
+.faqs-container table tbody tr:hover {
+    background-color: gainsboro;
+    cursor: pointer;
+}
+
+.faqs-container table tr:not(:last-child) {
+    border-bottom: solid 1px lightgray;
+}
+
+table tr td.word-break {
+    word-break: break-word;
+}

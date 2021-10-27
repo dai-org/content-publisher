@@ -7,6 +7,7 @@ function Upload() {
     const [dataDictionaryCount, setDataDictionaryCount] = useState(0);
     const [faqCount, setFaqCount] = useState(0);
     const [newsletterCount, setNewsletterCount] = useState(0);
+    const [postsCount, setPostsCount] = useState(0);
     const [trainingGuideCount, setTrainingGuide] = useState(0);
     const [referenceGuideCount, setReferenceGuide] = useState(0);
 
@@ -46,6 +47,14 @@ function Upload() {
 
         return unsubscribe;
     }, []);
+   
+    useEffect(() => {
+        const db = getFirestore();
+        const training = query(collection(db, "posts"));
+        const unsubscribe = onSnapshot(training, (querySnapshot) => { setPostsCount(querySnapshot.size) });
+
+        return unsubscribe;
+    }, []);
 
     useEffect(() => {
         const db = getFirestore();
@@ -79,6 +88,11 @@ function Upload() {
                 <div className='upload-inner pointer' onClick={event => { history.push('/newsletters'); }}>
                     <div>
                         <h5 className='mb-0'>Newsletters <span className="badge bg-secondary">{newsletterCount}</span></h5>
+                    </div>
+                </div>
+                <div className='upload-inner pointer' onClick={event => { history.push('/posts'); }}>
+                    <div>
+                        <h5 className='mb-0'>Posts<span className="badge bg-secondary">{postsCount}</span></h5>
                     </div>
                 </div>
                 <div className='upload-inner pointer' onClick={event => { history.push('/reference-guides'); }}>

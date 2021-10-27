@@ -215,10 +215,6 @@ function Newsletters() {
                                             // Handle unsuccessful uploads
                                         }, 
                                         async () => {
-                                            console.log(serverTimestamp());
-
-                                            return;
-
                                             // Create Firestore document, holds file metadata
                                             const db = getFirestore();
                                             const docRef = await addDoc(collection(db, 'newsletters'), {

@@ -106,6 +106,25 @@ function Newsletters() {
         return state ? false : true;
     }
 
+    function downloadCSV(param) {
+        const {
+            fileName,
+            csv
+        } = param;
+
+        const csvString = csv;
+        const universalBOM = "\uFEFF";
+        const a = window.document.createElement('a');
+        const today = new Date();
+
+        a.setAttribute('href', 'data:text/csv; charset=utf-8,' + encodeURIComponent(universalBOM+csvString));
+        a.setAttribute('download', `${`${fileName}-${today.getFullYear()}${today.getMonth() + 1}${today.getDate()}`}.csv`);
+
+        window.document.body.appendChild(a);
+
+        a.click();
+    }
+
     return (
         <div className='cp-form-container'>
             <div className='cp-form-wrapper'>
@@ -315,6 +334,102 @@ function Newsletters() {
                         }}
                     >
                         Clear
+                    </button>
+                </div>
+                <div style={{width: '820px'}}>
+                    <button
+                        type='button'
+                        className='btn btn-secondary w-100 round-10 mt-4'
+                        ref={uploadButton}
+                        onClick={async (event) => {
+                            const months = [
+                                'January',
+                                'February',
+                                'March',
+                                'April',
+                                'May',
+                                'June',
+                                'July',
+                                'August',
+                                'September',
+                                'October',
+                                'November',
+                                'December'
+                            ];
+
+                            async function openNewsletter(item) {
+                                const {
+                                    edition,
+                                    issue,
+                                    month,
+                                    year
+                                } = item.data();
+
+                                try {
+                                    const storage = getStorage();
+                                    const getUrl = await getDownloadURL(ref(storage, `${edition}_${year}-${month}_${issue}.pdf`));
+    
+                                    console.log(getUrl);
+                                    
+                                    return getUrl;
+                                } catch (error) {
+                                    return 'None';
+                                }
+                            }
+
+                            const items = await Promise.all(newsletters.map(async item => {
+                                const {
+                                    title,
+                                    edition,
+                                    issue,
+                                    month,
+                                    year
+                                } = item.data();
+
+                                const url = await openNewsletter(item);
+
+                                return {
+                                    issue: issue || '',
+                                    title: title || '',
+                                    longMonth: months[month - 1] || '',
+                                    year: year || '',
+                                    edition: edition || '',
+                                    url: url || ''
+                                }
+                            }));
+
+                            /** Build CSV String */
+                            const fields = [
+                                'title',
+                                'issue',
+                                'longMonth',
+                                'year',
+                                'edition',
+                                'url'
+                            ];
+                            const headers = [
+                                'Title',
+                                'Issue',
+                                'Month',
+                                'Year',
+                                'Edition',
+                                'URL'
+                            ].join(',');
+                            const rows = items.map(item => fields.map(field => {
+                                console.log(item, field, item[field]);
+                                return `"${item[field]}"`;
+                            }).join(',')).join('\n');
+                            const csv = `${headers}\n${rows}`;
+                                            
+                            console.log(csv);
+
+                            downloadCSV({
+                                fileName: 'newsletters',
+                                csv
+                            });
+                        }}
+                    >
+                        Download
                     </button>
                 </div>
                 <NewslettersTable newsletters={newsletters} searchQuery={searchQuery} />

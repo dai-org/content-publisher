@@ -76,6 +76,25 @@ function DataDictionary() {
         return state ? false : true;
     }
 
+    function downloadCSV(param) {
+        const {
+            fileName,
+            csv
+        } = param;
+
+        const csvString = csv;
+        const universalBOM = "\uFEFF";
+        const a = window.document.createElement('a');
+        const today = new Date();
+
+        a.setAttribute('href', 'data:text/csv; charset=utf-8,' + encodeURIComponent(universalBOM+csvString));
+        a.setAttribute('download', `${`${fileName}-${today.getFullYear()}${today.getMonth() + 1}${today.getDate()}`}.csv`);
+
+        window.document.body.appendChild(a);
+
+        a.click();
+    }
+
     return (
         <div className='cp-form-container'>
             <div className='cp-form-wrapper'>
@@ -101,6 +120,15 @@ function DataDictionary() {
                             <span className='input-group-text'>Description</span>
                             <textarea className="form-control" rows="6" ref={description}></textarea>
                         </div>
+                        <div className='input-group mb-3'>
+                            <label className='input-group-text' htmlFor='group'>Published Status</label>
+                            <select className='form-select' id='group' ref={group} >
+                                <option value='Awaiting Review'>Awaiting Reivew</option>
+                                <option value='Published'>Published</option>
+                                <option value='Archivec'>Archived</option>
+                            </select>
+                        </div>
+                        
                         <button
                             type='button'
                             className='btn btn-success w-100 round-10'
@@ -228,6 +256,35 @@ function DataDictionary() {
                         }}
                     >
                         Clear
+                    </button>
+                </div>
+                <div style={{width: '820px'}}>
+                    <button
+                        type='button'
+                        className='btn btn-secondary w-100 round-10 mt-4'
+                        ref={uploadButton}
+                        onClick={async (event) => {
+                            /** Build CSV String */
+                            const fields = [
+                                'term',
+                                'description'
+                            ];
+                            const headers = [
+                                'Term',
+                                'Description'
+                            ].join(',');
+                            const rows = entries.map(item => fields.map(field => `"${item.data()[field]?.replace(/(\r\n|\n|\r)/gm,"").trim()}"`).join(',')).join('\n');
+                            const csv = `${headers}\n${rows}`;
+                                            
+                            console.log(csv);
+
+                            downloadCSV({
+                                fileName: 'data-dictionary',
+                                csv
+                            });
+                        }}
+                    >
+                        Download
                     </button>
                 </div>
                 <DataDictionaryTable entries={entries} searchQuery={searchQuery} />

@@ -82,6 +82,25 @@ function Faqs() {
         return state ? false : true;
     }
 
+    function downloadCSV(param) {
+        const {
+            fileName,
+            csv
+        } = param;
+
+        const csvString = csv;
+        const universalBOM = "\uFEFF";
+        const a = window.document.createElement('a');
+        const today = new Date();
+
+        a.setAttribute('href', 'data:text/csv; charset=utf-8,' + encodeURIComponent(universalBOM+csvString));
+        a.setAttribute('download', `${`${fileName}-${today.getFullYear()}${today.getMonth() + 1}${today.getDate()}`}.csv`);
+
+        window.document.body.appendChild(a);
+
+        a.click();
+    }
+
     return (
         <div className='cp-form-container'>
             <div className='cp-form-wrapper'>
@@ -234,6 +253,37 @@ function Faqs() {
                         }}
                     >
                         Clear
+                    </button>
+                </div>
+                <div style={{width: '820px'}}>
+                    <button
+                        type='button'
+                        className='btn btn-secondary w-100 round-10 mt-4'
+                        ref={uploadButton}
+                        onClick={async (event) => {
+                            /** Build CSV String */
+                            const fields = [
+                                'question',
+                                'answer',
+                                'group'
+                            ];
+                            const headers = [
+                                'Question',
+                                'Answer',
+                                'Group'
+                            ].join(',');
+                            const rows = faqs.map(item => fields.map(field => `"${item.data()[field].replace(/(\r\n|\n|\r)/gm,"").trim()}"`).join(',')).join('\n');
+                            const csv = `${headers}\n${rows}`;
+                                            
+                            console.log(csv);
+
+                            downloadCSV({
+                                fileName: 'faqs',
+                                csv
+                            });
+                        }}
+                    >
+                        Download
                     </button>
                 </div>
                 <FaqsTable faqs={faqs} searchQuery={searchQuery} />

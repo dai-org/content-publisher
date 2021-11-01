@@ -3,13 +3,13 @@ import Cell from '../../components/cell';
 import Linkify from 'linkify-react';
 
 function NewsTable(props) {
-    const { faqs, searchQuery } = props;
+    const { posts, searchQuery } = props;
    
     return (
         <div className='table-container'>
-            <h4 className={`text-start${faqs.length !== 0 ? ' mb-4' : ' mb-0'}`}>FAQs ({faqs.length})</h4>
+            <h4 className={`text-start${posts.length !== 0 ? ' mb-4' : ' mb-0'}`}>FAQs ({posts.length})</h4>
             {
-                faqs.length !== 0 &&
+                posts.length !== 0 &&
                 <table className='w-100'>
                     <thead>
                         <tr>
@@ -22,7 +22,7 @@ function NewsTable(props) {
                     </thead>
                     <tbody>
                         {
-                            faqs.map(item => {
+                            posts.map(item => {
                                 const {
                                     subject,
                                     body,
@@ -39,6 +39,10 @@ function NewsTable(props) {
                                  * {@ https://stackoverflow.com/a/17913752} 
                                  */
                                 function formatTimeHHMMA(d) {
+                                    if (!d) {
+                                        return '';
+                                    }
+
                                     function z(n){return (n<10?'0':'')+n}
                                     var h = d.getHours();
                                     return (h%12 || 12) + ':' + z(d.getMinutes()) + ' ' + (h<12? 'AM' :'PM');
@@ -46,6 +50,8 @@ function NewsTable(props) {
 
                                 // const options = { defaultProtocol: 'https' };
                                 const options = {target: '_blank'};
+
+                                console.log('Date: ', date);
 
                                 return(
                                     <tr onClick={editFaq} key={item.id}>
@@ -65,7 +71,7 @@ function NewsTable(props) {
                                             <Cell words={[searchQuery]} text={author} />
                                         </td>
                                         <td className=''>
-                                            <Cell words={[searchQuery]} text={date.toDate().toLocaleDateString() + ' ' + formatTimeHHMMA(date.toDate())} />
+                                            <Cell words={[searchQuery]} text={date?.toDate()?.toLocaleDateString() + ' ' + formatTimeHHMMA(date?.toDate())} />
                                         </td>
                                     </tr>
                                 )

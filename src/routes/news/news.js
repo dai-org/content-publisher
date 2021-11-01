@@ -83,6 +83,8 @@ function News() {
                             className='btn btn-success w-100 round-10'
                             ref={uploadButton}
                             onClick={async (event) => {
+                                console.log(serverTimestamp());
+                                
                                 // Create Firestore document, holds file metadata
                                 const db = getFirestore();
                                 const docRef = await addDoc(collection(db, 'posts'), {
@@ -112,7 +114,7 @@ function News() {
                         <input type='search' placeholder='Search Posts' title='Search Posts' ref={searchField} onChange={onSearch}/>
                     </div>
                 </div>
-                <NewsTable faqs={posts} searchQuery={searchQuery} />
+                <NewsTable posts={posts} searchQuery={searchQuery} />
             </div>
         </div>
     );

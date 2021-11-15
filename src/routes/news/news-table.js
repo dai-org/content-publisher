@@ -7,7 +7,7 @@ function NewsTable(props) {
    
     return (
         <div className='table-container'>
-            <h4 className={`text-start${posts.length !== 0 ? ' mb-4' : ' mb-0'}`}>FAQs ({posts.length})</h4>
+            <h4 className={`text-start${posts.length !== 0 ? ' mb-4' : ' mb-0'}`}>Posts ({posts.length})</h4>
             {
                 posts.length !== 0 &&
                 <table className='w-100'>
@@ -55,7 +55,7 @@ function NewsTable(props) {
 
                                 return(
                                     <tr onClick={editFaq} key={item.id}>
-                                        <td className='word-break'>
+                                        <td className=''>
                                             <Cell words={[searchQuery]} text={subject} />
                                         </td>
                                         <td className='word-break'>
@@ -67,7 +67,7 @@ function NewsTable(props) {
                                                 {video}
                                             </Linkify>
                                         </td>
-                                        <td className='word-break'>
+                                        <td className=''>
                                             <Cell words={[searchQuery]} text={author} />
                                         </td>
                                         <td className=''>

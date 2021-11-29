@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, where, updateDoc, doc } from 'firebase/firestore'
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, where, updateDoc, doc, serverTimestamp } from 'firebase/firestore'
 import DataDictionaryTable from './data-dictionary-table';
 import { useAuth } from "../../components/provideAuth";
 // import Highlighter from 'react-highlight-words';
@@ -30,8 +30,6 @@ function DataDictionary() {
 
     useEffect(() => {
         if (auth.user.email) {
-            console.log(auth.user.email);
-
             const db = getFirestore();
             const q = query(collection(db, "appUsers"), where('email', '==', auth.user.email));
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -40,6 +38,8 @@ function DataDictionary() {
                 querySnapshot.forEach((doc) => {
                     items.push(doc);
                 });
+
+                console.log(items[0].data());
 
                 setFormLoading(false);
                 setAppUser(items[0].data());
@@ -187,17 +187,26 @@ function DataDictionary() {
                                 onClick={async (event) => {
                                     // Create Firestore document, holds file metadata
                                     const db = getFirestore();
-                                    const docRef = await addDoc(collection(db, 'dataDictionary'), {
+                                    const data = {
                                         status: status.current.value,
                                         group: group.current.value,
                                         term: term.current.value,
-                                        description: description.current.value
-                                    });
+                                        description: description.current.value,
+                                        publishedBy: AppUser?.name,
+                                        publishedOn: serverTimestamp(),
+                                    };
+                                    
+                                    if (status.current.value === 'Approved') {
+                                        data.approvedBy = AppUser.name;
+                                        data.approvedOn = serverTimestamp();
+                                    }
+
+                                    const docRef = await addDoc(collection(db, 'dataDictionary'), data);
 
                                     console.log('Document written with ID: ', docRef.id);
 
                                     // Reset fields
-                                    status.current.value = 'Awaiting Review'
+                                    status.current.value = 'Awaiting Approval'
                                     group.current.value = 'None'
                                     term.current.value = '';
                                     description.current.value = '';
@@ -247,7 +256,9 @@ function DataDictionary() {
                                                 updateDoc(
                                                     doc(getFirestore(), 'dataDictionary', id),
                                                     {
-                                                        status: 'Approved'
+                                                        status: 'Approved',
+                                                        approvedBy: AppUser.name,
+                                                        approvedOn: serverTimestamp()
                                                     }
                                                 );
                                             }}

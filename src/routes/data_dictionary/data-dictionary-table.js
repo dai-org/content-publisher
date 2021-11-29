@@ -16,6 +16,8 @@ function DataDictionaryTable(props) {
                             <th>Description</th>
                             <th>Group</th>
                             <th>Status</th>
+                            <th>Published</th>
+                            <th>Approved</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -25,7 +27,11 @@ function DataDictionaryTable(props) {
                                     term,
                                     description,
                                     group,
-                                    status
+                                    status,
+                                    publishedBy,
+                                    publishedOn,
+                                    approvedBy,
+                                    approvedOn
                                 } = item.data();
 
                                 function editFaq(event) {
@@ -45,6 +51,12 @@ function DataDictionaryTable(props) {
                                         </td>
                                         <td>
                                             <Cell words={[searchQuery]} text={status} />
+                                        </td>
+                                        <td>
+                                            <Cell words={[searchQuery]} text={( publishedBy || '' ) + ' ' + ( publishedOn?.toDate()?.toLocaleDateString() || '') } />
+                                        </td>
+                                        <td>
+                                            <Cell words={[searchQuery]} text={( approvedBy || '' ) + ' ' + ( approvedOn?.toDate()?.toLocaleDateString() || '' )} />
                                         </td>
                                         {/* <td>{term}</td>
                                         <td>{description}</td>

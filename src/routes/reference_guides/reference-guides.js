@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from 'firebase/firestore'
+import { getFirestore, collection, addDoc, onSnapshot, query } from 'firebase/firestore'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -17,8 +17,8 @@ function ReferenceGuides() {
     const [searchQuery, setSearchQuery] = useState('');
     const [referenceGuides, setReferenceGuides] = useState([]);
     const [cache, setCache] = useState([]);
-    const [showProgressBar, setShowProgressBar] = useState(false);
-    const [progress, setProgress] = useState(0);
+    // const [showProgressBar, setShowProgressBar] = useState(false);
+    // const [progress, setProgress] = useState(0);
     const [uploaded, setUploaded] = useState([]);
 
     useEffect(() => {
@@ -101,7 +101,7 @@ function ReferenceGuides() {
                                     const uploadTask = uploadBytesResumable(storageRef, fileRef);
 
                                     // Show progress bar
-                                    setShowProgressBar(true);
+                                    // setShowProgressBar(true);
 
                                     // Register three observers:
                                     // 1. 'state_changed' observer, called any time the state changes
@@ -114,7 +114,7 @@ function ReferenceGuides() {
                                             // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
                                             const progress = Math.ceil((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
 
-                                            setProgress(progress);
+                                            // setProgress(progress);
 
                                             console.log('Upload is ' + progress + '% done');
 
@@ -139,7 +139,7 @@ function ReferenceGuides() {
                                             title.current.value = '';
 
                                             // Hide progress bar
-                                            setShowProgressBar(false);
+                                            // setShowProgressBar(false);
 
                                             // Reenable button
                                             uploadButton.current.disabled = false;

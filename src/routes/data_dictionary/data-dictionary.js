@@ -232,8 +232,7 @@ function DataDictionary() {
                                 const {
                                     term,
                                     description,
-                                    group,
-                                    status
+                                    group
                                 } = entry.data();
 
                                 return (

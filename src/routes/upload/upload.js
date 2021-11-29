@@ -5,6 +5,7 @@ import './upload.css'
 
 function Upload() {
     const [dataDictionaryCount, setDataDictionaryCount] = useState(0);
+    const [dataDictionaryAwaiting, setDataDictionaryAwaiting] = useState(0);
     const [faqCount, setFaqCount] = useState(0);
     const [newsletterCount, setNewsletterCount] = useState(0);
     const [postsCount, setPostsCount] = useState(0);
@@ -24,9 +25,16 @@ function Upload() {
         const dataDictionary = query(collection(db, "dataDictionary"));
         const unsubscribe = onSnapshot(dataDictionary, (querySnapshot) => { 
             setDataDictionaryCount(querySnapshot.size);
-            // setLastDictionary(querySnapshot.docs[querySnapshot.size - 1]);
 
-            // console.log(querySnapshot.docs[querySnapshot.size - 1]._document.version.toTimestamp());
+            let awaiting = 0;
+                
+            querySnapshot.forEach((doc) => {
+                if (doc.data().status === 'Awaiting Approval') {
+                    awaiting++;
+                }
+            });
+
+            setDataDictionaryAwaiting(awaiting);
         });
 
         return unsubscribe;
@@ -79,6 +87,12 @@ function Upload() {
                     <div>
                         <h5 className='mb-0'>Data Dictionary <span className="badge bg-secondary">{dataDictionaryCount}</span></h5>
                     </div>
+                    {
+                        dataDictionaryAwaiting !== 0 &&
+                        <div className='alert alert-danger w-100 mb-0 mt-3 p-1 pe-4 ps-4' style={{ textAlign: 'center' }}>
+                            Awaiting approval ({dataDictionaryAwaiting})
+                        </div>
+                    }
                 </div>
                 <div className='upload-inner pointer' onClick={event => { history.push('/faqs'); }}>
                     <div>

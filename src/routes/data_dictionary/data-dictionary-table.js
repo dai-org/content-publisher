@@ -6,7 +6,7 @@ function DataDictionaryTable(props) {
 
     return (
         <div className='table-container'>
-            <h4 className={`text-start${entries.length !== 0 ? ' mb-4' : ' mb-0'}`}>Data Dictionary Entries ({entries.length})</h4>
+            {/* <h4 className={`text-start${entries.length !== 0 ? ' mb-4' : ' mb-0'}`}>Data Dictionary Entries ({entries.length})</h4> */}
             {
                 entries.length !== 0 &&
                 <table className='w-100'>
@@ -15,6 +15,7 @@ function DataDictionaryTable(props) {
                             <th>Term</th>
                             <th>Description</th>
                             <th>Group</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -23,7 +24,8 @@ function DataDictionaryTable(props) {
                                 const {
                                     term,
                                     description,
-                                    // group
+                                    group,
+                                    status
                                 } = item.data();
 
                                 function editFaq(event) {
@@ -39,7 +41,10 @@ function DataDictionaryTable(props) {
                                             <Cell words={[searchQuery]} text={description} />
                                         </td>
                                         <td>
-                                            {/* <Cell words={[searchQuery]} text={group} /> */}
+                                            <Cell words={[searchQuery]} text={group} />
+                                        </td>
+                                        <td>
+                                            <Cell words={[searchQuery]} text={status} />
                                         </td>
                                         {/* <td>{term}</td>
                                         <td>{description}</td>

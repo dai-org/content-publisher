@@ -1,14 +1,15 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { getFirestore, collection, addDoc, onSnapshot, query } from 'firebase/firestore'
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, where, updateDoc, doc } from 'firebase/firestore'
 import DataDictionaryTable from './data-dictionary-table';
+import { useAuth } from "../../components/provideAuth";
 // import Highlighter from 'react-highlight-words';
 import './data-dictionary.css'
 
 // TODO: Invert progress bar text color as bar fills, see post [https://stackoverflow.com/a/61353195]
-
 function DataDictionary() {
+    const status = useRef();
     const group = useRef();
     const term = useRef();
     const description = useRef();
@@ -22,11 +23,35 @@ function DataDictionary() {
     const [filterCA, setFilterCA] = useState(false);
     const [filterP2P, setFilterP2P] = useState(false);
     const [filterDAI101, setFilterDAI101] = useState(false);
+    const [formLoading, setFormLoading] = useState(true);
     const [entries, setEntries] = useState([]);
+    const [AppUser, setAppUser] = useState([]);
+    const auth = useAuth();
+
+    useEffect(() => {
+        if (auth.user.email) {
+            console.log(auth.user.email);
+
+            const db = getFirestore();
+            const q = query(collection(db, "appUsers"), where('email', '==', auth.user.email));
+            const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                const items = [];
+                
+                querySnapshot.forEach((doc) => {
+                    items.push(doc);
+                });
+
+                setFormLoading(false);
+                setAppUser(items[0].data());
+            });
+
+            return unsubscribe;
+        }
+    }, [auth]);
 
     useEffect(() => {
         const db = getFirestore();
-        const q = query(collection(db, "dataDictionary"));
+        const q = query(collection(db, "dataDictionary"), orderBy('term', 'asc'));
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const items = [];
             querySnapshot.forEach((doc) => {
@@ -98,62 +123,146 @@ function DataDictionary() {
     return (
         <div className='cp-form-container'>
             <div className='cp-form-wrapper'>
-                <div className='cp-form-inner'>
-                    <div>
-                        <h3 className='mb-4'>Add Data Dictionary Entry</h3>
-                        <div className='input-group mb-3'>
-                            <label className='input-group-text' htmlFor='group'>Group</label>
-                            <select className='form-select' id='group' ref={group} >
-                                <option value='None'>No Group</option>
-                                <option value='CA'>CA</option>
-                                <option value='DAI 101'>DAI 101</option>
-                                <option value='B2R'>B2R</option>
-                                <option value='OTL'>OTL</option>
-                                <option value='P2P'>P2P</option>
-                            </select>
+                {
+                    formLoading &&
+                    <div style={{ height: 488 }} className='d-flex align-items-center justify-content-center w-100'>
+                        <div className="spinner-border text-primary" role="status">
+                            <span className="sr-only">Loading...</span>
                         </div>
-                        <div className='input-group mb-3'>
-                            <span className='input-group-text'>Term</span>
-                            <textarea className="form-control" rows="2" ref={term}></textarea>
-                        </div>
-                        <div className='input-group mb-3'>
-                            <span className='input-group-text'>Description</span>
-                            <textarea className="form-control" rows="6" ref={description}></textarea>
-                        </div>
-                        <div className='input-group mb-3'>
-                            <label className='input-group-text' htmlFor='group'>Published Status</label>
-                            <select className='form-select' id='group' ref={group} >
-                                <option value='Awaiting Review'>Awaiting Reivew</option>
-                                <option value='Published'>Published</option>
-                                <option value='Archivec'>Archived</option>
-                            </select>
-                        </div>
-                        
-                        <button
-                            type='button'
-                            className='btn btn-success w-100 round-10'
-                            ref={uploadButton}
-                            onClick={async (event) => {
-                                // Create Firestore document, holds file metadata
-                                const db = getFirestore();
-                                const docRef = await addDoc(collection(db, 'dataDictionary'), {
-                                    group: group.current.value,
-                                    term: term.current.value,
-                                    description: description.current.value
-                                });
-
-                                console.log('Document written with ID: ', docRef.id);
-
-                                // Reset fields
-                                group.current.value = 'None'
-                                term.current.value = '';
-                                description.current.value = '';
-                            }}
-                        >
-                            Add
-                        </button>
                     </div>
-                </div>
+                }
+                {
+                    AppUser?.roles?.includes('Publisher') ?
+                    <div className='cp-form-inner mb-5 mt-4'>
+                        <div>
+                            <h3 className='mb-4'>Add Data Dictionary Entry</h3>
+                            <div className='input-group mb-3'>
+                                <label className='input-group-text' htmlFor='group'>Group</label>
+                                <select className='form-select' id='group' ref={group} >
+                                    <option value='None'>No Group</option>
+                                    <option value='CA'>CA</option>
+                                    <option value='DAI 101'>DAI 101</option>
+                                    <option value='B2R'>B2R</option>
+                                    <option value='OTL'>OTL</option>
+                                    <option value='P2P'>P2P</option>
+                                </select>
+                            </div>
+                            <div className='input-group mb-3'>
+                                <span className='input-group-text'>Term</span>
+                                <textarea className="form-control" rows="2" ref={term}></textarea>
+                            </div>
+                            <div className='input-group mb-3'>
+                                <span className='input-group-text'>Description</span>
+                                <textarea className="form-control" rows="6" ref={description}></textarea>
+                            </div>
+                            <div className='input-group mb-2'>
+                                <label className='input-group-text' htmlFor='group'>Published Status</label>
+                                    {
+                                        AppUser?.roles?.includes('Approver') ?
+                                        <select className='form-select' id='group' ref={status} >
+                                            <option value='Awaiting Approval'>Submit for approval</option>
+                                            <option value='Published'>Approved</option>
+                                            {/* <option value='Archived'>Archived</option> */}
+                                        </select> :
+                                        <select className='form-select' id='group' ref={status} >
+                                            <option value='Awaiting Approval'>Submit for approval</option>
+                                            {/* <option value='Archived'>Archived</option> */}
+                                        </select>
+                                    }
+                            </div>
+                            {
+                                AppUser?.roles ?
+                                <div className='w-100 d-flex justify-content-end align-items-center mb-3'>
+                                    <span>
+                                        <strong>Roles: </strong>
+                                    </span>
+                                    <span className='ps-2'>{AppUser?.roles.sort().join(', ')}</span>
+                                </div> :
+                                ''
+                            }
+                            <button
+                                type='button'
+                                className='btn btn-success w-100 round-10'
+                                ref={uploadButton}
+                                onClick={async (event) => {
+                                    // Create Firestore document, holds file metadata
+                                    const db = getFirestore();
+                                    const docRef = await addDoc(collection(db, 'dataDictionary'), {
+                                        status: status.current.value,
+                                        group: group.current.value,
+                                        term: term.current.value,
+                                        description: description.current.value
+                                    });
+
+                                    console.log('Document written with ID: ', docRef.id);
+
+                                    // Reset fields
+                                    status.current.value = 'Awaiting Review'
+                                    group.current.value = 'None'
+                                    term.current.value = '';
+                                    description.current.value = '';
+                                }}
+                            >
+                                Add
+                            </button>
+                        </div>
+                    </div> : ''
+                }
+                {
+                    AppUser?.roles?.includes('Approver') ?
+                    <div className='d-flex flex-column mt-3 w-100 mb-5' style={{ maxWidth: 820}}>
+                        <div className='alert alert-info w-100' style={{ borderRadius: 20 }}>
+                            <strong>Data dictionary entries awaiting approval ({entries.filter(entry => entry.data().status === 'Awaiting Approval').length})</strong>
+                        </div> 
+                        {
+                            entries
+                            .filter(entry => entry.data().status === 'Awaiting Approval')
+                            .map(entry => {
+                                const { id } = entry;
+
+                                const {
+                                    term,
+                                    description,
+                                    group,
+                                    status
+                                } = entry.data();
+
+                                return (
+                                    <div key={id} className='mb-4 alert alert-danger' style={{ borderRadius: 20, padding: 20 }}>
+                                        <div className='mb-3'>
+                                            <label>Term</label>
+                                            <div>{term}</div>
+                                        </div>
+                                        <div className='mb-3'>
+                                            <label>Description</label>
+                                            <div>{description}</div>
+                                        </div>
+                                        <div className='mb-3'>
+                                            <label>Group</label>
+                                            <div>{group || 'None'}</div>
+                                        </div>
+                                        <button
+                                            className={`btn btn-success btn-sm w-100 round-10`}
+                                            onClick={event => {
+                                                updateDoc(
+                                                    doc(getFirestore(), 'dataDictionary', id),
+                                                    {
+                                                        status: 'Approved'
+                                                    }
+                                                );
+                                            }}
+                                        >
+                                            Approve
+                                        </button>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                    :
+                    ''
+                }
+                <h4 className='text-start mb-4 w-100' style={{maxWidth: 820}}>Data Dictionary Entries ({entries.length})</h4>
                 <div className='d-flex justify-content-start filter-container'>
                     <div className='search-container'>
                         <FontAwesomeIcon icon={faSearch} className='search-icon' />

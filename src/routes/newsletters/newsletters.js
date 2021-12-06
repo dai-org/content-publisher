@@ -1,10 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from 'firebase/firestore'
+import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, orderBy, where, updateDoc, doc } from 'firebase/firestore'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import './newsletters.css'
+import { useAuth } from "../../components/provideAuth";
 import NewslettersTable from './newsletters-table';
+import './newsletters.css'
 
 // TODO: Invert progress bar text color as bar fills, see post [https://stackoverflow.com/a/61353195]
 
@@ -24,6 +25,7 @@ const months = [
 ];
 
 function Newsletters() {
+    const status = useRef();
     const file = useRef();
     const title = useRef();
     const edition = useRef();
@@ -41,6 +43,30 @@ function Newsletters() {
     const [newsletters, setNewsletters] = useState([]);
     const [showProgressBar, setShowProgressBar] = useState(false);
     const [progress, setProgress] = useState(0);
+    const [formLoading, setFormLoading] = useState(true);
+    const [AppUser, setAppUser] = useState([]);
+    const auth = useAuth();
+
+    useEffect(() => {
+        if (auth.user.email) {
+            const db = getFirestore();
+            const q = query(collection(db, "appUsers"), where('email', '==', auth.user.email));
+            const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                const items = [];
+                
+                querySnapshot.forEach((doc) => {
+                    items.push(doc);
+                });
+
+                console.log(items[0].data());
+
+                setFormLoading(false);
+                setAppUser(items[0].data());
+            });
+
+            return unsubscribe;
+        }
+    }, [auth]);
 
     useEffect(() => {
         const db = getFirestore();
@@ -128,164 +154,275 @@ function Newsletters() {
     return (
         <div className='cp-form-container'>
             <div className='cp-form-wrapper'>
-                <div className='cp-form-inner mb-5 mt-4'>
-                    <div>
-                        <h3 className='mb-4'>Upload Newsletter (PDF)</h3>
-                        <div className='input-group mb-3'>
-                            <input type='file' className='form-control' id='file' ref={file} />
+                {
+                    formLoading &&
+                    <div style={{ height: 488 }} className='d-flex align-items-center justify-content-center w-100'>
+                        <div className="spinner-border text-primary" role="status">
+                            <span className="sr-only">Loading...</span>
                         </div>
-                        <hr />
-                        <div className='input-group mb-3'>
-                            <span className='input-group-text'>Title</span>
-                            <input type='text' className='form-control' aria-label='Title' ref={title} />
-                        </div>
-                        <div className='input-group mb-3'>
-                            <label className='input-group-text' htmlFor='edition'>Edition</label>
-                            <select className='form-select' id='edition' ref={edition} >
-                                <option value='Weekly'>Weekly</option>
-                                <option value='Monthly'>Monthly</option>
-                                <option value='Ad Hoc'>Ad Hoc</option>
-                            </select>
-                        </div>
-                        <div className='input-group mb-3'>
-                            <label className='input-group-text' htmlFor='edition'>Month</label>
-                            <select className='form-select' id='edition' ref={month} >
-                                <option value='1'>January</option>
-                                <option value='2'>February</option>
-                                <option value='3'>March</option>
-                                <option value='4'>April</option>
-                                <option value='5'>May</option>
-                                <option value='6'>June</option>
-                                <option value='7'>July</option>
-                                <option value='8'>August</option>
-                                <option value='9'>September</option>
-                                <option value='10'>October</option>
-                                <option value='11'>November</option>
-                                <option value='12'>December</option>
-                            </select>
-                        </div>
-                        <div className='input-group mb-3'>
-                            <span className='input-group-text'>Year</span>
-                            <input type='number' className='form-control' defaultValue={new Date().getFullYear()} aria-label='year' ref={year} />
-                        </div>
-                        <div className='input-group mb-4'>
-                            <span className='input-group-text'>Issue</span>
-                            <input type='number' className='form-control' defaultValue='1' aria-label='issue' ref={issue} />
-                        </div>
-                        <button
-                            type='button'
-                            className='btn btn-success w-100 round-10'
-                            ref={uploadButton}
-                            onClick={async (event) => {
-                                // console.log(
-                                //     file,
-                                //     title,
-                                //     edition,
-                                //     month,
-                                //     year,
-                                //     issue
-                                // );
-
-                                // Disable while uploading, prevent second click
-                                uploadButton.current.disabled = true;
-
-                                try {
-                                    // console.log(file.current.files[0]);
-                                    const fileRef = file.current.files[0]
-                                    const storage = getStorage();
-                                    // Edition_YYYY-M_issue.ext
-                                    const fileName = `${edition.current.value}_${year.current.value}-${month.current.value}_${issue.current.value}.pdf`
-                                    const storageRef = ref(storage, fileName);
-
-                                    // Upload file to Storage
-                                    const uploadTask = uploadBytesResumable(storageRef, fileRef);
-
-                                    // Show progress bar
-                                    setShowProgressBar(true);
-
-                                    // Register three observers:
-                                    // 1. 'state_changed' observer, called any time the state changes
-                                    // 2. Error observer, called on failure
-                                    // 3. Completion observer, called on successful completion
-                                    uploadTask.on(
-                                        'state_changed', 
-                                        (snapshot) => {
-                                            // Observe state change events such as progress, pause, and resume
-                                            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                                            const progress = Math.ceil((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-
-                                            setProgress(progress);
-
-                                            console.log('Upload is ' + progress + '% done');
-
-                                            switch (snapshot.state) {
-                                                case 'paused':
-                                                    console.log('Upload is paused');
-                                                    break;
-                                                case 'running':
-                                                    console.log('Upload is running');
-                                                    break;
-                                                default:
-                                                    console.log('Upload status is unknown.');
-                                                    break;
-                                            }
-                                        }, 
-                                        (error) => {
-                                            // Handle unsuccessful uploads
-                                        }, 
-                                        async () => {
-                                            // Create Firestore document, holds file metadata
-                                            const db = getFirestore();
-                                            const docRef = await addDoc(collection(db, 'newsletters'), {
-                                                edition: edition.current.value,
-                                                title: title.current.value,
-                                                issue: parseInt(issue.current.value),
-                                                month: parseInt(month.current.value),
-                                                year: parseInt(year.current.value),
-                                                created: serverTimestamp()
-                                            });
-
-                                            console.log('Document written with ID: ', docRef.id);
-
-                                            // Reset fields
-                                            file.current.value = '';
-                                            title.current.value = '';
-
-                                            // Hide progress bar
-                                            setShowProgressBar(false);
-
-                                            // Reenable button
-                                            uploadButton.current.disabled = false;
-
-                                            // et the download URL: https://firebasestorage.googleapis.com/...
-                                            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                                                console.log('File available at', downloadURL);
-
-                                                // Add file to uploaded list
-                                                setUploaded([{
-                                                    name: fileName,
-                                                    url: downloadURL,
-                                                    file: fileRef
-                                                }].concat(uploaded))
-                                            });
-                                        }
-                                    );
-                                } catch (event) {
-                                    console.error('Error adding document: ', event);
-                                }
-                            }}
-                        >
-                            Upload
-                        </button>
-                        {
-                            showProgressBar &&
-                            <div className='progress position-relative mt-4'>
-                                <div className='progress-bar bg-success' role='progressbar' style={{ width: `${progress}%` }} aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'></div>
-                                <small className='justify-content-center d-flex position-absolute w-100'>{progress}%</small>
+                    </div>
+                }
+                {
+                    AppUser?.roles?.includes('Publisher') &&
+                    <div className='cp-form-inner mb-5 mt-4'>
+                        <div>
+                            <h3 className='mb-4'>Upload Newsletter (PDF)</h3>
+                            <div className='input-group mb-3'>
+                                <input type='file' className='form-control' id='file' ref={file} />
                             </div>
+                            <hr />
+                            <div className='input-group mb-3'>
+                                <span className='input-group-text'>Title</span>
+                                <input type='text' className='form-control' aria-label='Title' ref={title} />
+                            </div>
+                            <div className='input-group mb-3'>
+                                <label className='input-group-text' htmlFor='edition'>Edition</label>
+                                <select className='form-select' id='edition' ref={edition} >
+                                    <option value='Weekly'>Weekly</option>
+                                    <option value='Monthly'>Monthly</option>
+                                    <option value='Ad Hoc'>Ad Hoc</option>
+                                </select>
+                            </div>
+                            <div className='input-group mb-3'>
+                                <label className='input-group-text' htmlFor='edition'>Month</label>
+                                <select className='form-select' id='edition' ref={month} >
+                                    <option value='1'>January</option>
+                                    <option value='2'>February</option>
+                                    <option value='3'>March</option>
+                                    <option value='4'>April</option>
+                                    <option value='5'>May</option>
+                                    <option value='6'>June</option>
+                                    <option value='7'>July</option>
+                                    <option value='8'>August</option>
+                                    <option value='9'>September</option>
+                                    <option value='10'>October</option>
+                                    <option value='11'>November</option>
+                                    <option value='12'>December</option>
+                                </select>
+                            </div>
+                            <div className='input-group mb-3'>
+                                <span className='input-group-text'>Year</span>
+                                <input type='number' className='form-control' defaultValue={new Date().getFullYear()} aria-label='year' ref={year} />
+                            </div>
+                            <div className='input-group mb-4'>
+                                <span className='input-group-text'>Issue</span>
+                                <input type='number' className='form-control' defaultValue='1' aria-label='issue' ref={issue} />
+                            </div>
+                            <div className='input-group mb-2'>
+                                <label className='input-group-text' htmlFor='group'>Published Status</label>
+                                {
+                                    AppUser?.roles?.includes('Approver') ?
+                                    <select className='form-select' id='group' ref={status} >
+                                        <option value='Awaiting Approval'>Submit for approval</option>
+                                        <option value='Published'>Approved</option>
+                                        {/* <option value='Archived'>Archived</option> */}
+                                    </select> :
+                                    <select className='form-select' id='group' ref={status} >
+                                        <option value='Awaiting Approval'>Submit for approval</option>
+                                        {/* <option value='Archived'>Archived</option> */}
+                                    </select>
+                                }
+                            </div>
+                            {
+                                AppUser?.roles ?
+                                <div className='w-100 d-flex justify-content-end align-items-center mb-3'>
+                                    <span>
+                                        <strong>Roles: </strong>
+                                    </span>
+                                    <span className='ps-2'>{AppUser?.roles.sort().join(', ')}</span>
+                                </div> :
+                                ''
+                            }
+                            <button
+                                type='button'
+                                className='btn btn-success w-100 round-10'
+                                ref={uploadButton}
+                                onClick={async (event) => {
+                                    // console.log(
+                                    //     file,
+                                    //     title,
+                                    //     edition,
+                                    //     month,
+                                    //     year,
+                                    //     issue
+                                    // );
+
+                                    // Disable while uploading, prevent second click
+                                    uploadButton.current.disabled = true;
+
+                                    try {
+                                        // console.log(file.current.files[0]);
+                                        const fileRef = file.current.files[0]
+                                        const storage = getStorage();
+                                        // Edition_YYYY-M_issue.ext
+                                        const fileName = `${edition.current.value}_${year.current.value}-${month.current.value}_${issue.current.value}.pdf`
+                                        const storageRef = ref(storage, fileName);
+
+                                        // Upload file to Storage
+                                        const uploadTask = uploadBytesResumable(storageRef, fileRef);
+
+                                        // Show progress bar
+                                        setShowProgressBar(true);
+
+                                        // Register three observers:
+                                        // 1. 'state_changed' observer, called any time the state changes
+                                        // 2. Error observer, called on failure
+                                        // 3. Completion observer, called on successful completion
+                                        uploadTask.on(
+                                            'state_changed', 
+                                            (snapshot) => {
+                                                // Observe state change events such as progress, pause, and resume
+                                                // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+                                                const progress = Math.ceil((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+
+                                                setProgress(progress);
+
+                                                console.log('Upload is ' + progress + '% done');
+
+                                                switch (snapshot.state) {
+                                                    case 'paused':
+                                                        console.log('Upload is paused');
+                                                        break;
+                                                    case 'running':
+                                                        console.log('Upload is running');
+                                                        break;
+                                                    default:
+                                                        console.log('Upload status is unknown.');
+                                                        break;
+                                                }
+                                            }, 
+                                            (error) => {
+                                                // Handle unsuccessful uploads
+                                            }, 
+                                            async () => {
+                                                // Create Firestore document, holds file metadata
+                                                const data = {
+                                                    status: status.current.value,
+                                                    publishedBy: AppUser?.name,
+                                                    publishedOn: serverTimestamp(),
+                                                    edition: edition.current.value,
+                                                    title: title.current.value,
+                                                    issue: parseInt(issue.current.value),
+                                                    month: parseInt(month.current.value),
+                                                    year: parseInt(year.current.value),
+                                                    created: serverTimestamp()
+                                                };
+
+                                                if (status.current.value === 'Approved') {
+                                                    data.approvedBy = AppUser.name;
+                                                    data.approvedOn = serverTimestamp();
+                                                }
+
+                                                const db = getFirestore();
+                                                const docRef = await addDoc(collection(db, 'newsletters'), data);
+
+                                                console.log('Document written with ID: ', docRef.id);
+
+                                                // Reset fields
+                                                status.current.value = 'Awaiting Approval'
+                                                file.current.value = '';
+                                                title.current.value = '';
+
+                                                // Hide progress bar
+                                                setShowProgressBar(false);
+
+                                                // Reenable button
+                                                uploadButton.current.disabled = false;
+
+                                                // et the download URL: https://firebasestorage.googleapis.com/...
+                                                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                                                    console.log('File available at', downloadURL);
+
+                                                    // Add file to uploaded list
+                                                    setUploaded([{
+                                                        name: fileName,
+                                                        url: downloadURL,
+                                                        file: fileRef
+                                                    }].concat(uploaded))
+                                                });
+                                            }
+                                        );
+                                    } catch (event) {
+                                        console.error('Error adding document: ', event);
+                                    }
+                                }}
+                            >
+                                Upload
+                            </button>
+                            {
+                                showProgressBar &&
+                                <div className='progress position-relative mt-4'>
+                                    <div className='progress-bar bg-success' role='progressbar' style={{ width: `${progress}%` }} aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'></div>
+                                    <small className='justify-content-center d-flex position-absolute w-100'>{progress}%</small>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+                {
+                    AppUser?.roles?.includes('Approver') &&
+                    <div className='d-flex flex-column mt-3 w-100 mb-5' style={{ maxWidth: 820}}>
+                        <div className='alert alert-info w-100' style={{ borderRadius: 20 }}>
+                            <strong>Newsletters awaiting approval ({newsletters.filter(entry => entry.data().status === 'Awaiting Approval').length})</strong>
+                        </div> 
+                        {
+                            newsletters
+                            .filter(entry => entry.data().status === 'Awaiting Approval')
+                            .map(entry => {
+                                const { id } = entry;
+
+                                const {
+                                    edition,
+                                    title,
+                                    issue,
+                                    month,
+                                    year
+                                } = entry.data();
+
+                                return (
+                                    <div key={id} className='mb-4 alert alert-danger' style={{ borderRadius: 20, padding: 20 }}>
+                                        <div className='mb-3'>
+                                            <label>Edition</label>
+                                            <div>{edition}</div>
+                                        </div>
+                                        <div className='mb-3'>
+                                            <label>Title</label>
+                                            <div>{title}</div>
+                                        </div>
+                                        <div className='mb-3'>
+                                            <label>Issue</label>
+                                            <div>{issue}</div>
+                                        </div>
+                                        <div className='mb-3'>
+                                            <label>Month</label>
+                                            <div>{month}</div>
+                                        </div>
+                                        <div className='mb-3'>
+                                            <label>Year</label>
+                                            <div>{year}</div>
+                                        </div>
+                                        <button
+                                            className={`btn btn-success btn-sm w-100 round-10`}
+                                            onClick={event => {
+                                                updateDoc(
+                                                    doc(getFirestore(), 'newsletters', id),
+                                                    {
+                                                        status: 'Approved',
+                                                        approvedBy: AppUser.name,
+                                                        approvedOn: serverTimestamp()
+                                                    }
+                                                );
+                                            }}
+                                        >
+                                            Approve
+                                        </button>
+                                    </div>
+                                )
+                            })
                         }
                     </div>
-                </div>
+                }
+                <h4 className={`text-start${newsletters.length !== 0 ? ' mb-4' : ' mb-0'}`}>Newsletters ({newsletters.length})</h4>
                 <div className='d-flex justify-content-start filter-container'>
                     <div className='search-container'>
                         <FontAwesomeIcon icon={faSearch} className='search-icon' />
@@ -336,7 +473,7 @@ function Newsletters() {
                         Clear
                     </button>
                 </div>
-                <div style={{width: '820px'}}>
+                <div style={{width: 'calc(100% - 160px)'}}>
                     <button
                         type='button'
                         className='btn btn-secondary w-100 round-10 mt-4'
@@ -433,58 +570,6 @@ function Newsletters() {
                     </button>
                 </div>
                 <NewslettersTable newsletters={newsletters} searchQuery={searchQuery} />
-                {
-                    // newsletters.length !== 0 &&
-                    // <div className='table-container'>
-                    //     <h4 className='mb-4 text-start'>Newsletters ({newsletters.length})</h4>
-                    //     <table className='w-100'>
-                    //         <thead>
-                    //             <tr>
-                    //                 <th>Title</th>
-                    //                 <th>Issue</th>
-                    //                 <th>Month</th>
-                    //                 <th>Year</th>
-                    //                 <th>Edition</th>
-                    //             </tr>
-                    //         </thead>
-                    //         <tbody>
-                    //             {
-                    //                 newsletters.map(item => {
-                    //                     const {
-                    //                         edition,
-                    //                         title,
-                    //                         issue,
-                    //                         month,
-                    //                         year
-                    //                     } = item.data();
-
-                    //                     function openNewsletter(event) {
-                    //                         const storage = getStorage();
-                    //                         getDownloadURL(ref(storage, `${edition.split(' ').join('-')}_${year}-${month}_${issue}.pdf`))
-                    //                         .then((url) => {
-                    //                             // console.log(url);
-                    //                             window.open(url);
-                    //                         })
-                    //                         .catch((error) => {
-                    //                             // Handle any errors
-                    //                         });
-                    //                     }
-
-                    //                     return(
-                    //                         <tr onClick={openNewsletter} key={item.id}>
-                    //                             <td>{title}</td>
-                    //                             <td>{issue}</td>
-                    //                             <td>{months[month - 1]}</td>
-                    //                             <td>{year}</td>
-                    //                             <td>{edition}</td>
-                    //                         </tr>
-                    //                     )
-                    //                 })
-                    //             }
-                    //         </tbody>
-                    //     </table>
-                    // </div>
-                }
             </div>
         </div>
     );

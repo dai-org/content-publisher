@@ -8,11 +8,12 @@
 
 .upload-inner {
     width: 820px;
-    margin: 20px 80px;
+    margin: 10px 80px;
     background: #f8f9fa;
     padding: 20px;
     border-radius: 15px;
     transition: all .3s;
+    border: solid 1px #ced4da;
 }
 
 .upload-inner .input-group-text {

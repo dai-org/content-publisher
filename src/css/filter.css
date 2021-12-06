@@ -1,5 +1,6 @@
 .filter-container {
-    width: 820px;
+    width: 100%;
+    padding: 0px 80px;
     display: flex;
     align-items: center;
 }

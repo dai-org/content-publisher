@@ -24,7 +24,6 @@ function NewslettersTable(props) {
 
     return (
         <div className='table-container'>
-            <h4 className={`text-start${newsletters.length !== 0 ? ' mb-4' : ' mb-0'}`}>Newsletters ({newsletters.length})</h4>
             {
                 newsletters.length !== 0 &&
                 <table className='w-100'>
@@ -35,6 +34,9 @@ function NewslettersTable(props) {
                             <th>Month</th>
                             <th>Year</th>
                             <th>Edition</th>
+                            <th>Status</th>
+                            <th>Published</th>
+                            <th>Approved</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,7 +47,12 @@ function NewslettersTable(props) {
                                     title,
                                     issue,
                                     month,
-                                    year
+                                    year,
+                                    status,
+                                    publishedBy,
+                                    publishedOn,
+                                    approvedBy,
+                                    approvedOn
                                 } = item.data();
 
                                 function openNewsletter(event) {
@@ -77,6 +84,15 @@ function NewslettersTable(props) {
                                         </td>
                                         <td>
                                             <Cell words={[searchQuery]} text={edition} />
+                                        </td>
+                                        <td>
+                                            <Cell words={[searchQuery]} text={status} />
+                                        </td>
+                                        <td>
+                                            <Cell words={[searchQuery]} text={( publishedBy || '' ) + ' ' + ( publishedOn?.toDate()?.toLocaleDateString() || '') } />
+                                        </td>
+                                        <td>
+                                            <Cell words={[searchQuery]} text={( approvedBy || '' ) + ' ' + ( approvedOn?.toDate()?.toLocaleDateString() || '' )} />
                                         </td>
                                         {/* <td>{title}</td>
                                         <td>{issue}</td>

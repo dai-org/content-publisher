@@ -139,7 +139,8 @@ body, html, .App, #root, .auth-wrapper {
 }
 
 .cp-form-container .table-container {
-    width: 820px;
+    /* width: 820px; */
+    min-width: calc(100% - 160px);
     margin: 20px 80px;
     background: #f8f9fa;
     padding: 40px 55px 45px 55px;

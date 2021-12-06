@@ -6,7 +6,6 @@ function FaqsTable(props) {
    
     return (
         <div className='table-container'>
-            <h4 className={`text-start${faqs.length !== 0 ? ' mb-4' : ' mb-0'}`}>FAQs ({faqs.length})</h4>
             {
                 faqs.length !== 0 &&
                 <table className='w-100'>
@@ -15,6 +14,9 @@ function FaqsTable(props) {
                             <th>Question</th>
                             <th>Answer</th>
                             <th>Group</th>
+                            <th>Status</th>
+                            <th>Published</th>
+                            <th>Approved</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -23,7 +25,12 @@ function FaqsTable(props) {
                                 const {
                                     question,
                                     answer,
-                                    group
+                                    group,
+                                    status,
+                                    publishedBy,
+                                    publishedOn,
+                                    approvedBy,
+                                    approvedOn
                                 } = item.data();
 
                                 function editFaq(event) {
@@ -40,6 +47,15 @@ function FaqsTable(props) {
                                         </td>
                                         <td>
                                             <Cell words={[searchQuery]} text={group} />
+                                        </td>
+                                        <td>
+                                            <Cell words={[searchQuery]} text={status} />
+                                        </td>
+                                        <td>
+                                            <Cell words={[searchQuery]} text={( publishedBy || '' ) + ' ' + ( publishedOn?.toDate()?.toLocaleDateString() || '') } />
+                                        </td>
+                                        <td>
+                                            <Cell words={[searchQuery]} text={( approvedBy || '' ) + ' ' + ( approvedOn?.toDate()?.toLocaleDateString() || '' )} />
                                         </td>
                                         {/* <td>{question}</td>
                                         <td>{answer}</td>

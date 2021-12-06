@@ -4,10 +4,8 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, where, updateDoc, doc, serverTimestamp } from 'firebase/firestore'
 import DataDictionaryTable from './data-dictionary-table';
 import { useAuth } from "../../components/provideAuth";
-// import Highlighter from 'react-highlight-words';
 import './data-dictionary.css'
 
-// TODO: Invert progress bar text color as bar fills, see post [https://stackoverflow.com/a/61353195]
 function DataDictionary() {
     const status = useRef();
     const group = useRef();
@@ -23,8 +21,8 @@ function DataDictionary() {
     const [filterCA, setFilterCA] = useState(false);
     const [filterP2P, setFilterP2P] = useState(false);
     const [filterDAI101, setFilterDAI101] = useState(false);
-    const [formLoading, setFormLoading] = useState(true);
     const [entries, setEntries] = useState([]);
+    const [formLoading, setFormLoading] = useState(true);
     const [AppUser, setAppUser] = useState([]);
     const auth = useAuth();
 
@@ -132,7 +130,7 @@ function DataDictionary() {
                     </div>
                 }
                 {
-                    AppUser?.roles?.includes('Publisher') ?
+                    AppUser?.roles?.includes('Publisher') &&
                     <div className='cp-form-inner mb-5 mt-4'>
                         <div>
                             <h3 className='mb-4'>Add Data Dictionary Entry</h3>
@@ -186,14 +184,13 @@ function DataDictionary() {
                                 ref={uploadButton}
                                 onClick={async (event) => {
                                     // Create Firestore document, holds file metadata
-                                    const db = getFirestore();
                                     const data = {
                                         status: status.current.value,
-                                        group: group.current.value,
-                                        term: term.current.value,
-                                        description: description.current.value,
                                         publishedBy: AppUser?.name,
                                         publishedOn: serverTimestamp(),
+                                        group: group.current.value,
+                                        term: term.current.value,
+                                        description: description.current.value
                                     };
                                     
                                     if (status.current.value === 'Approved') {
@@ -201,6 +198,7 @@ function DataDictionary() {
                                         data.approvedOn = serverTimestamp();
                                     }
 
+                                    const db = getFirestore();
                                     const docRef = await addDoc(collection(db, 'dataDictionary'), data);
 
                                     console.log('Document written with ID: ', docRef.id);
@@ -215,10 +213,10 @@ function DataDictionary() {
                                 Add
                             </button>
                         </div>
-                    </div> : ''
+                    </div>
                 }
                 {
-                    AppUser?.roles?.includes('Approver') ?
+                    AppUser?.roles?.includes('Approver') &&
                     <div className='d-flex flex-column mt-3 w-100 mb-5' style={{ maxWidth: 820}}>
                         <div className='alert alert-info w-100' style={{ borderRadius: 20 }}>
                             <strong>Data dictionary entries awaiting approval ({entries.filter(entry => entry.data().status === 'Awaiting Approval').length})</strong>
@@ -269,8 +267,6 @@ function DataDictionary() {
                             })
                         }
                     </div>
-                    :
-                    ''
                 }
                 <h4 className='text-start mb-4 w-100' style={{maxWidth: 820}}>Data Dictionary Entries ({entries.length})</h4>
                 <div className='d-flex justify-content-start filter-container'>
@@ -377,7 +373,7 @@ function DataDictionary() {
                         Clear
                     </button>
                 </div>
-                <div style={{width: '820px'}}>
+                <div style={{width: 'calc(100% - 160px)'}}>
                     <button
                         type='button'
                         className='btn btn-secondary w-100 round-10 mt-4'

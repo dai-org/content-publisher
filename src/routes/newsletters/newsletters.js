@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, orderBy, where, updateDoc, doc } from 'firebase/firestore'
+import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, where, updateDoc, doc } from 'firebase/firestore'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { useAuth } from "../../components/provideAuth";
 import NewslettersTable from './newsletters-table';

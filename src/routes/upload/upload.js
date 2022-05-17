@@ -11,6 +11,8 @@ function Upload() {
     const [postsCount, setPostsCount] = useState(0);
     const [trainingGuideCount, setTrainingGuide] = useState(0);
     const [referenceGuideCount, setReferenceGuide] = useState(0);
+    const [upkCount, setupkCount] = useState(0);
+    const [eventsCount, seteventsCount] = useState(0);
 
     // const [lastDictionary, setLastDictionary] = useState(null);
     // const [lastFaq, setLastFaq] = useState(null);
@@ -80,6 +82,22 @@ function Upload() {
         return unsubscribe;
     }, []);
 
+    useEffect(() => {
+        const db = getFirestore();
+        const upktraining = query(collection(db, "upktraining"));
+        const unsubscribe = onSnapshot(upktraining, (querySnapshot) => { setupkCount(querySnapshot.size) });
+
+        return unsubscribe;
+    }, []);
+
+    useEffect(() => {
+        const db = getFirestore();
+        const events = query(collection(db, "events"));
+        const unsubscribe = onSnapshot(events, (querySnapshot) => { seteventsCount(querySnapshot.size) });
+
+        return unsubscribe;
+    }, []);
+
     return (
         <div className='upload-container'>
             <div className='upload-wrapper'>
@@ -117,6 +135,16 @@ function Upload() {
                 <div className='upload-inner pointer' onClick={event => { history.push('/training-guides'); }}>
                     <div>
                         <h5 className='mb-0'>Training Guides <span className="badge bg-secondary">{trainingGuideCount}</span></h5>
+                    </div>
+                </div>
+                <div className='upload-inner pointer' onClick={event => { history.push('/upk_usmc'); }}>
+                    <div>
+                        <h5 className='mb-0'>DAI USMC UPK <span className="badge bg-secondary">{upkCount}</span></h5>
+                    </div>
+                </div>
+                <div className='upload-inner pointer' onClick={event => { history.push('/usmc_events'); }}>
+                    <div>
+                        <h5 className='mb-0'>DAI Events <span className="badge bg-secondary">{eventsCount}</span></h5>
                     </div>
                 </div>
             </div>

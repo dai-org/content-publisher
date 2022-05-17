@@ -19,6 +19,9 @@ function NavBar() {
                         <Nav.Link href="/posts">Posts</Nav.Link>
                         <Nav.Link href="/reference-guides">Reference Guides</Nav.Link>
                         <Nav.Link href="/training-guides">Training Guides</Nav.Link>
+                        <Nav.Link href="/upk_usmc">DAI USMC UPK</Nav.Link>
+                        <Nav.Link href="/usmc_events">DAI Events</Nav.Link>
+
                     </Nav>
                     <button
                         type='button'

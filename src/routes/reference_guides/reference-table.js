@@ -7,7 +7,7 @@ function ReferenceGuidesTable(props) {
 
     return (
         <div className='table-container'>
-            <h4 className={`text-start${referenceGuides.length !== 0 ? ' mb-4' : ' mb-0'}`}>ReferenceGuides ({referenceGuides.length})</h4>
+            <h4 className={`text-start${referenceGuides.length !== 0 ? ' mb-4' : ' mb-0'}`}>Reference Guides ({referenceGuides.length})</h4>
             {
                 referenceGuides.length !== 0 &&
                 <table className='w-100'>

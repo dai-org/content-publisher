@@ -12,7 +12,7 @@ import Faqs from './routes/faqs/faqs';
 import Newsletters from './routes/newsletters/newsletters'
 import DataDictionary from './routes/data_dictionary/data-dictionary';
 import ReferenceGuides from './routes/reference_guides/reference-guides';
-import TrainingGuides from './routes/training_guides/training-guides';
+import USMCEvents from './routes/usmc_events/usmc-events';
 import News from './routes/news/news';
 
 function App() {
@@ -48,9 +48,9 @@ function App() {
                                 <Navbar />
                                 <ReferenceGuides />
                             </PrivateRoute>
-                            <PrivateRoute path="/training-guides">
+                            <PrivateRoute path="/usmc-events">
                                 <Navbar />
-                                <TrainingGuides />
+                                <USMCEvents />
                             </PrivateRoute>
                         </Route>
                     </Switch>

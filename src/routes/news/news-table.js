@@ -18,6 +18,7 @@ function NewsTable(props) {
                             <th>Video</th>
                             <th>Author</th>
                             <th>Date</th>
+                            <th>Post Type</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -28,7 +29,8 @@ function NewsTable(props) {
                                     body,
                                     video,
                                     author,
-                                    date
+                                    date,
+                                    type
                                 } = item.data();
 
                                 function editFaq(event) {
@@ -72,6 +74,9 @@ function NewsTable(props) {
                                         </td>
                                         <td className=''>
                                             <Cell words={[searchQuery]} text={date?.toDate()?.toLocaleDateString() + ' ' + formatTimeHHMMA(date?.toDate())} />
+                                        </td>
+                                        <td className=''>
+                                            <Cell words={[searchQuery]} text={type.toUpperCase()} />
                                         </td>
                                     </tr>
                                 )

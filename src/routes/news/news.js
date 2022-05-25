@@ -78,6 +78,15 @@ function News() {
                             <span className='input-group-text'>Author</span>
                             <textarea className="form-control" rows="1" ref={author}></textarea>
                         </div>
+                        <div className='input-group mb-3'>
+                            <span className='input-group-text'>Post Type</span>
+                            <select onChange={{}} className='form-select' id='status'>
+                                    <option value='general'>Select An Option</option>
+                                    <option value='alert'>Alert</option>
+                                    <option value='info'>Information Only</option>
+                                    <option value='general'>General</option>
+                                </select>
+                        </div>
                         <button
                             type='button'
                             className='btn btn-success w-100 round-10'

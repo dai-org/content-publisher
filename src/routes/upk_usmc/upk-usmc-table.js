@@ -1,9 +1,12 @@
-import React from 'react';
 import Cell from '../../components/cell';
+import React from 'react';
 
-function USMCEventsTable(props) {
+function UPKUSMCTable(props) {
     const { posts, searchQuery } = props;
-   
+
+
+
+
     return (
         <div className='table-container'>
             <h4 className={`text-start${posts.length !== 0 ? ' mb-4' : ' mb-0'}`}>Events ({posts.length})</h4>
@@ -12,11 +15,10 @@ function USMCEventsTable(props) {
                 <table className='w-100'>
                     <thead>
                         <tr>
-                            <th width='15%'>Event</th>
-                            <th width='45%'>Description</th>
-                            <th width='10%'>Date</th>
-                            <th width='10%'>Time From</th>
-                            <th width='10%'>Time To</th>
+                            <th width='10%'>Module Name</th>
+                            <th width='35%'>Description</th>
+                            <th width='15%'>Module ID</th>
+                            <th width='15%'>Tags</th>
                             <th width='10%'>Approval</th>
                         </tr>
                     </thead>
@@ -24,11 +26,10 @@ function USMCEventsTable(props) {
                         {
                             posts.map(item => {
                                 const {
-                                    subject,
+                                    module,
                                     description,
-                                    date,
-                                    timefrom,
-                                    timeto,
+                                    docID,
+                                    tags,
                                     approved,
                                     approvedBy,
                                     approvedOn
@@ -51,28 +52,25 @@ function USMCEventsTable(props) {
                                 return(
                                     <tr onClick={editFaq} key={item.id}>
                                         <td className='word-break'>
-                                            <Cell words={[searchQuery]} text={subject} />
+                                            <Cell words={[searchQuery]} text={module} />
                                         </td>
                                         <td className='word-break'>
                                             <Cell words={[searchQuery]} text={description} />
                                         </td>
                                         {/* <td className='word-break' dangerouslySetInnerHTML={{__html: videoLink}} /> */}
                                         <td className=''>
-                                            <Cell words={[searchQuery]} text={date} />
+                                            <Cell words={[searchQuery]} text={docID} />
                                         </td>
                                         <td className=''>
-                                            <Cell words={[searchQuery]} text={timefrom} />
+                                            <Cell words={[searchQuery]} text={tags} />
                                         </td>
                                         <td className=''>
-                                        <Cell words={[searchQuery]} text={timeto} />
-                                        </td>
-                                        <td className=''>
-                                        {
-                                            approvedBy === 'undefined' ? 
+                                            {
+                                            approvedBy !== 'undefined' ? 
                                         <Cell words={[searchQuery]} text={approved +' by '+  approvedBy + ' on '+ approvedOn?.toDate()?.toLocaleDateString() + ' ' + formatTimeHHMMA(approvedOn?.toDate())}/>
-                                         : ''
+                                         : <Cell words={[searchQuery]} text='Unapproved'/>
                                             }
-                                        </td>
+                                            </td>
                                     </tr>
                                 )
                             })
@@ -84,4 +82,4 @@ function USMCEventsTable(props) {
     );
 }
 
-export default USMCEventsTable;
+export default UPKUSMCTable;

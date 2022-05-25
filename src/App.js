@@ -13,7 +13,9 @@ import Newsletters from './routes/newsletters/newsletters'
 import DataDictionary from './routes/data_dictionary/data-dictionary';
 import ReferenceGuides from './routes/reference_guides/reference-guides';
 import USMCEvents from './routes/usmc_events/usmc-events';
+import USMCUPK from './routes/upk_usmc/upk-usmc';
 import News from './routes/news/news';
+
 
 function App() {
     return (
@@ -51,6 +53,10 @@ function App() {
                             <PrivateRoute path="/usmc-events">
                                 <Navbar />
                                 <USMCEvents />
+                            </PrivateRoute>
+                            <PrivateRoute path="/upk-usmc">
+                                <Navbar />
+                                <USMCUPK />
                             </PrivateRoute>
                         </Route>
                     </Switch>

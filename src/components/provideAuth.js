@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 import { initializeApp } from "firebase/app";
 import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, signOut, signInWithEmailAndPassword } from "firebase/auth";
+import { enableIndexedDbPersistence, initializeFirestore, CACHE_SIZE_UNLIMITED} from "firebase/firestore"; 
 
 // Add your Firebase credentials
-initializeApp({
+const app = initializeApp({
     apiKey: 'AIzaSyA71Gd5pJvkYIpuqdMmi1hA-TXPJouLEo8',
     authDomain: 'dai-app-8f509.firebaseapp.com',
     projectId: 'dai-app-8f509',
@@ -12,6 +13,22 @@ initializeApp({
     appId: '1:179206889396:web:abafe2ab079fc492b51ce1',
     measurementId: 'G-0C5K8FKX50',
     merge: true
+});
+const firestoreDb = initializeFirestore(app, {
+    cacheSizeBytes: CACHE_SIZE_UNLIMITED
+  });
+enableIndexedDbPersistence(firestoreDb)
+.catch((err) => {
+  console.log(err.code);
+  if (err.code == 'failed-precondition') {
+      // Multiple tabs open, persistence can only be enabled
+      // in one tab at a a time.
+      // ...
+  } else if (err.code == 'unimplemented') {
+      // The current browser does not support all of the
+      // features required to enable persistence
+      // ...
+  }
 });
 
 const auth = getAuth();

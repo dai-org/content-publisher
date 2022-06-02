@@ -64,9 +64,19 @@ function useProvideAuth() {
         // ...
         // New sign-in will be persisted with session persistence.
         // await setPersistence(auth, browserLocalPersistence)
-        const response = await signInWithEmailAndPassword(auth, email, password);
+        const response = await signInWithEmailAndPassword(auth, email, password)
+        .catch((err) => {
+            alert(err);
+            setUser("");
+        }
+        );
+        try {
         setUser(response.user);
-        return response.user;
+        }catch (err) {
+
+        }
+        return user;
+
     };
 
     const signout = async () => {

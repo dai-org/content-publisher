@@ -9,7 +9,9 @@ function Login() {
     // Get auth state and re-render anytime it changes
     const auth = useAuth();
     const history = useHistory();
+    function toggleLoader () {
 
+    }
     return (
         auth.user ?
         <Redirect
@@ -31,10 +33,12 @@ function Login() {
                         <label htmlFor="password" className="form-label">Password</label>
                         <input type="password" className="form-control" id="password" onChange={event => setPassword(event.target.value)} />
                     </div>
+
                     <button
                         type="button"
                         className="btn btn-primary w-100"
                         onClick={async (event) => {
+                            toggleLoader () ;
                             await auth.signin(email, password);
                             history.push('/upload');
                         }}

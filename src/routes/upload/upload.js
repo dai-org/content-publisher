@@ -15,7 +15,6 @@ function Upload() {
     const [unapprovedEventsCount, setunapprovedEventsCount] = useState(0);
     const [postsCount, setPostsCount] = useState(0);
     const [unapprovedFAQCount, setUnapprovedFAQCount] = useState(0);
-    const [referenceGuideCount, setReferenceGuide] = useState(0);
     const [upkCount, setupkCount] = useState(0);
     const [eventsCount, seteventsCount] = useState(0);
     var [systemStatus, setsystemStatus] = useState("0");
@@ -166,13 +165,6 @@ function Upload() {
         return unsubscribe;
     }, []);
 
-    useEffect(() => {
-        const db = getFirestore();
-        const referenceGuides = query(collection(db, "referenceGuides"));
-        const unsubscribe = onSnapshot(referenceGuides, { includeMetadataChanges: true },(querySnapshot) => { setReferenceGuide(querySnapshot.size) });
-
-        return unsubscribe;
-    }, []);
 
     useEffect(() => {
         const db = getFirestore();

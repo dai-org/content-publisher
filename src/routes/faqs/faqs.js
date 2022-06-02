@@ -203,6 +203,9 @@ function Faqs() {
                                     if (status.current.value === 'Approved') {
                                         data.approvedBy = AppUser.name;
                                         data.approvedOn = serverTimestamp();
+                                        data.status = 'Approved';
+                                        data.publishedOn = serverTimestamp();
+                                        data.publishedBy = AppUser.name;
                                     }
 
                                     const db = getFirestore();
@@ -262,7 +265,9 @@ function Faqs() {
                                                     {
                                                         status: 'Approved',
                                                         approvedBy: AppUser.name,
-                                                        approvedOn: serverTimestamp()
+                                                        approvedOn: serverTimestamp(),
+                                                        publishedOn: serverTimestamp(),
+                                                        publishedBy: AppUser.name
                                                     }
                                                 );
                                             }}

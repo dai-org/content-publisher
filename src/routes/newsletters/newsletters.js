@@ -409,7 +409,9 @@ function Newsletters() {
                                                     {
                                                         status: 'Approved',
                                                         approvedBy: AppUser.name,
-                                                        approvedOn: serverTimestamp()
+                                                        approvedOn: serverTimestamp(),
+                                                        publishedOn: serverTimestamp(),
+                                                        publishedBy: AppUser.name
                                                     }
                                                 );
                                             }}

@@ -17,7 +17,6 @@ function NavBar() {
                         <Nav.Link href="/faqs">FAQs</Nav.Link>
                         <Nav.Link href="/newsletters">Newsletters</Nav.Link>
                         <Nav.Link href="/posts">Posts</Nav.Link>
-                        <Nav.Link href="/reference-guides">Reference Guides</Nav.Link>
                         <Nav.Link href="/upk-usmc">DAI USMC UPK & SDPs</Nav.Link>
                         <Nav.Link href="/usmc-events">DAI Event Calendar</Nav.Link>
 

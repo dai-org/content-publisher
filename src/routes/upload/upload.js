@@ -35,7 +35,7 @@ function Upload() {
         if (auth.user.email) {
             const db = getFirestore();
             const q = query(collection(db, "appUsers"), where('email', '==', auth.user.email));
-            const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            const unsubscribe = onSnapshot(q, { includeMetadataChanges: true },(querySnapshot) => {
                 const items = [];
                 
                 querySnapshot.forEach((doc) => {
@@ -56,7 +56,7 @@ function Upload() {
     useEffect(() => {
         const db = getFirestore();
         const dataDictionary = query(collection(db, "dataDictionary"));
-        const unsubscribe = onSnapshot(dataDictionary, (querySnapshot) => { 
+        const unsubscribe = onSnapshot(dataDictionary, { includeMetadataChanges: true },(querySnapshot) => { 
             setDataDictionaryCount(querySnapshot.size);
 
             let awaiting = 0;
@@ -76,7 +76,7 @@ function Upload() {
     useEffect(() => {
         const db = getFirestore();
         const dataDictionary = query(collection(db, "faq"));
-        const unsubscribe = onSnapshot(dataDictionary, (querySnapshot) => { 
+        const unsubscribe = onSnapshot(dataDictionary, { includeMetadataChanges: true },(querySnapshot) => { 
             setFaqCount(querySnapshot.size);
 
             let awaiting = 0;
@@ -97,7 +97,7 @@ function Upload() {
     useEffect(() => {
         const db = getFirestore();
         const dataDictionary = query(collection(db, "systemStatus"));
-        const unsubscribe = onSnapshot(dataDictionary, (querySnapshot) => {                 
+        const unsubscribe = onSnapshot(dataDictionary, { includeMetadataChanges: true },(querySnapshot) => {                 
             querySnapshot.forEach((doc) => {
                     setsystemStatus(doc.data().status);
             });
@@ -109,7 +109,7 @@ function Upload() {
     useEffect(() => {
         const db = getFirestore();
         const dataDictionary = query(collection(db, "newsletters"));
-        const unsubscribe = onSnapshot(dataDictionary, (querySnapshot) => { 
+        const unsubscribe = onSnapshot(dataDictionary, { includeMetadataChanges: true },(querySnapshot) => { 
             setNewsletterCount(querySnapshot.size);
 
             let awaiting = 0;
@@ -129,7 +129,7 @@ function Upload() {
     useEffect(() => {
         const db = getFirestore();
         const dataDictionary = query(collection(db, "posts"));
-        const unsubscribe = onSnapshot(dataDictionary, (querySnapshot) => { 
+        const unsubscribe = onSnapshot(dataDictionary, { includeMetadataChanges: true },(querySnapshot) => { 
             setPostsCount(querySnapshot.size);
 
             let awaiting = 0;
@@ -149,7 +149,7 @@ function Upload() {
     useEffect(() => {
         const db = getFirestore();
         const dataDictionary = query(collection(db, "events"));
-        const unsubscribe = onSnapshot(dataDictionary, (querySnapshot) => { 
+        const unsubscribe = onSnapshot(dataDictionary, { includeMetadataChanges: true },(querySnapshot) => { 
             seteventsCount(querySnapshot.size);
 
             let awaiting = 0;
@@ -169,15 +169,15 @@ function Upload() {
     useEffect(() => {
         const db = getFirestore();
         const referenceGuides = query(collection(db, "referenceGuides"));
-        const unsubscribe = onSnapshot(referenceGuides, (querySnapshot) => { setReferenceGuide(querySnapshot.size) });
+        const unsubscribe = onSnapshot(referenceGuides, { includeMetadataChanges: true },(querySnapshot) => { setReferenceGuide(querySnapshot.size) });
 
         return unsubscribe;
     }, []);
 
     useEffect(() => {
         const db = getFirestore();
-        const dataDictionary = query(collection(db, "upktraining"));
-        const unsubscribe = onSnapshot(dataDictionary, (querySnapshot) => { 
+        const dataDictionary = query(collection(db, "upktraining"),);
+        const unsubscribe = onSnapshot(dataDictionary, { includeMetadataChanges: true },(querySnapshot) => { 
             setupkCount(querySnapshot.size);
 
             let awaiting = 0;
@@ -298,11 +298,7 @@ function Upload() {
                         </h5>
                     </div>
                 </div>
-                <div className='upload-inner pointer' onClick={event => { history.push('/reference-guides'); }}>
-                    <div>
-                        <h5 className='mb-0'>Reference Guides <span className="badge bg-secondary">{referenceGuideCount}</span></h5>
-                    </div>
-                </div>
+
             </div>
         </div>
     );

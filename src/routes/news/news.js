@@ -153,6 +153,7 @@ function News() {
                                     publishedBy: AppUser?.name,
                                     publishedOn: serverTimestamp(), 
                                     status: status.current.value,
+                                    type: postType.current.value
 
                                 };
 
@@ -165,6 +166,7 @@ function News() {
                                 console.log('Document written with ID: ', docRef.id);
 
                                 // Reset fields
+                                postType.current.value = '';
                                 subject.current.value = '';
                                 body.current.value = '';
                                 video.current.value = '';

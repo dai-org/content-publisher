@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { getFirestore, collection, addDoc, onSnapshot, query, updateDoc, doc, serverTimestamp } from 'firebase/firestore'
+import { getFirestore, collection, addDoc, onSnapshot, query, where, updateDoc, doc, serverTimestamp } from 'firebase/firestore'
 import './news.css'
 import NewsTable from './news-table';
 import { useAuth } from "../../components/provideAuth";
@@ -22,6 +22,7 @@ function News() {
     const status = useRef();
     const [AppUser, setAppUser] = useState([]);
     const auth = useAuth();
+    const [formLoading, setFormLoading] = useState(true);
 
     useEffect(() => {
         if (auth.user.email) {
@@ -85,6 +86,14 @@ function News() {
     return (
         <div className='cp-form-container'>
             <div className='cp-form-wrapper'>
+            {
+                    formLoading &&
+                    <div style={{ height: 488 }} className='d-flex align-items-center justify-content-center w-100'>
+                        <div className="spinner-border text-primary" role="status">
+                            <span className="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                }
                 <div className='cp-form-inner mb-5 mt-4'>
                     <div>
                         <h3 className='mb-4'>New Post</h3>

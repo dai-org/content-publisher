@@ -111,7 +111,7 @@ function News() {
                         </div>
                         <div className='input-group mb-3'>
                             <span className='input-group-text'>Author</span>
-                            <textarea className="form-control" rows="1" ref={author}></textarea>
+                            <textarea value={AppUser.name} className="form-control" rows="1" ref={author}></textarea>
                         </div>
                         <div className='input-group mb-3'>
                             <span className='input-group-text'>Post Type</span>

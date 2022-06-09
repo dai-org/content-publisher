@@ -28,7 +28,8 @@ function NewsTable(props) {
                                     body,
                                     video,
                                     author,
-                                    date,
+                                    publishedOn,
+                                    approvedOn,
                                     type
                                 } = item.data();
 
@@ -70,11 +71,15 @@ function NewsTable(props) {
                                             <Cell words={[searchQuery]} text={author} />
                                         </td>
                                         <td className=''>
-                                            <Cell words={[searchQuery]} text={date?.toDate()?.toLocaleDateString() + ' ' + formatTimeHHMMA(date?.toDate())} />
-                                        </td>
-                                        <td className=''>
                                             <Cell words={[searchQuery]} text={type} />
                                         </td>
+                                        <td>
+                                            <Cell words={[searchQuery]} text={( publishedBy || '' ) + ' ' + ( publishedOn?.toDate()?.toLocaleDateString() || '') } />
+                                        </td>
+                                        <td>
+                                            <Cell words={[searchQuery]} text={( approvedBy || '' ) + ' ' + ( approvedOn?.toDate()?.toLocaleDateString() || '' )} />
+                                        </td>
+
                                     </tr>
                                 )
                             })

@@ -73,7 +73,7 @@ function NewsTable(props) {
                                             <Cell words={[searchQuery]} text={date?.toDate()?.toLocaleDateString() + ' ' + formatTimeHHMMA(date?.toDate())} />
                                         </td>
                                         <td className=''>
-                                            <Cell words={[searchQuery]} text={type.toUpperCase()} />
+                                            <Cell words={[searchQuery]} text={type} />
                                         </td>
                                     </tr>
                                 )

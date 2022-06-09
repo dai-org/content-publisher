@@ -52,8 +52,6 @@ function NewsTable(props) {
                                 // const options = { defaultProtocol: 'https' };
                                 const options = {target: '_blank'};
 
-                                console.log('Date: ', date);
-
                                 return(
                                     <tr onClick={editFaq} key={item.id}>
                                         <td className=''>

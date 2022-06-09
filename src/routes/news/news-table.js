@@ -30,6 +30,8 @@ function NewsTable(props) {
                                     author,
                                     publishedOn,
                                     approvedOn,
+                                    publishedBy,
+                                    approvedBy,
                                     type
                                 } = item.data();
 

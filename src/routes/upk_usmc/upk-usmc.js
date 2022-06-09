@@ -176,7 +176,7 @@ function UPKUSMC() {
                                 ids.current.value = '';
                                 module.current.value = '';
                                 tags.current.value = '';
-                                approved.current.value = 'Awaiting Approval';
+                                status.current.value = 'Awaiting Approval';
                             }}
                         >
                             Post

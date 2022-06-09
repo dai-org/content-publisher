@@ -14,7 +14,7 @@ function NewsTable(props) {
                         <tr>
                             <th>Subject</th>
                             <th>Body</th>
-                            <th>Video</th>
+                            <th>Video URL</th>
                             <th>Author</th>
                             <th>Date</th>
                             <th>Post Type</th>

@@ -7,7 +7,6 @@ function NewsTable(props) {
    
     return (
         <div className='table-container'>
-            <h4 className={`text-start${posts.length !== 0 ? ' mb-4' : ' mb-0'}`}>Posts ({posts.length})</h4>
             {
                 posts.length !== 0 &&
                 <table className='w-100'>

@@ -311,6 +311,7 @@ function Newsletters() {
                                                 if (status.current.value === 'Approved') {
                                                     data.approvedBy = AppUser.name;
                                                     data.approvedOn = serverTimestamp();
+                                                    data.status = 'Approved';
                                                 }
 
                                                 const db = getFirestore();
@@ -410,8 +411,6 @@ function Newsletters() {
                                                         status: 'Approved',
                                                         approvedBy: AppUser.name,
                                                         approvedOn: serverTimestamp(),
-                                                        publishedOn: serverTimestamp(),
-                                                        publishedBy: AppUser.name
                                                     }
                                                 );
                                             }}

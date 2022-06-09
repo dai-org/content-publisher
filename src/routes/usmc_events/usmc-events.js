@@ -164,15 +164,13 @@ function USMCEvents() {
                                     timefrom: convertTime12To24(timefrom.current.value),
                                     timeto: convertTime12To24(timeto.current.value),
                                     status: status.current.value,
+                                    publishedOn:serverTimestamp(),
                                     publishedBy:AppUser.name,
-                                    publishedOn:serverTimestamp()
                                 };
 
                                 if (status.current.value === 'Approved') {
                                     data.approvedBy = AppUser.name;
                                     data.approvedOn = serverTimestamp();
-                                    data.publishedOn = serverTimestamp();
-                                    data.publishedBy = AppUser.name;
                                     data.status = 'Approved';
                                 }
 

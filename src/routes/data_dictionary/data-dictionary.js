@@ -190,12 +190,13 @@ function DataDictionary() {
                                         publishedOn: serverTimestamp(),
                                         group: group.current.value,
                                         term: term.current.value,
-                                        description: description.current.value
+                                        description: description.current.value,
                                     };
                                     
                                     if (status.current.value === 'Approved') {
                                         data.approvedBy = AppUser.name;
                                         data.approvedOn = serverTimestamp();
+                                        data.status = "Approved";
                                     }
 
                                     const db = getFirestore();
@@ -255,9 +256,7 @@ function DataDictionary() {
                                                     {
                                                         status: 'Approved',
                                                         approvedBy: AppUser.name,
-                                                        approvedOn: serverTimestamp(),
-                                                        publishedOn: serverTimestamp(),
-                                                        publishedBy: AppUser.name
+                                                        approvedOn: serverTimestamp()
 
                                                     }
                                                 );

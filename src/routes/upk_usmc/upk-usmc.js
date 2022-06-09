@@ -153,18 +153,17 @@ function UPKUSMC() {
                                     ids: ids.current.value,
                                     module: module.current.value,
                                     tags: tags.current.value,
-                                    approved: status.current.value,
                                     publishedBy:AppUser.name,
                                     publishedOn:serverTimestamp(),
-                                    status: status.current.value
+                                    approved: status.current.value,
+                                    approvedBy: "", 
+                                    approvedOn: ""
                                 };
 
-                                if (approved.current.value === 'Approved') {
+                                if (status.current.value === 'Approved') {
                                     data.approvedBy = AppUser.name;
                                     data.approvedOn = serverTimestamp();
-                                    data.publishedOn = serverTimestamp();
-                                    data.publishedBy = AppUser.name;
-                                    data.status = 'Approved';
+                                    data.approved = 'Approved';
                                 }
 
                                 const docRef = await addDoc(collection(db, 'upktraining'), data);
@@ -177,7 +176,7 @@ function UPKUSMC() {
                                 ids.current.value = '';
                                 module.current.value = '';
                                 tags.current.value = '';
-                                status.current.value = 'Awaiting Approval';
+                                approved.current.value = 'Awaiting Approval';
                             }}
                         >
                             Post

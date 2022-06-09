@@ -9,6 +9,7 @@ import NewsTable from './news-table';
 
 function News() {
     const subject = useRef();
+    const postType = useRef();
     const body = useRef();
     const video = useRef();
     const author = useRef();
@@ -17,6 +18,7 @@ function News() {
     const [cache, setCache] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [posts, setPosts] = useState([]);
+    const status = useRef();
 
     useEffect(() => {
         const db = getFirestore();
@@ -80,7 +82,7 @@ function News() {
                         </div>
                         <div className='input-group mb-3'>
                             <span className='input-group-text'>Post Type</span>
-                            <select onChange={{}} className='form-select' id='status'>
+                            <select onChange={{}} className='form-select' id='status' ref={postType} >
                                     <option value='general'>Select An Option</option>
                                     <option value='alert'>Alert</option>
                                     <option value='info'>Information Only</option>
@@ -118,15 +120,15 @@ function News() {
                                     author: author.current.value,
                                     date: serverTimestamp(),
                                     publishedBy: AppUser?.name,
-                                    publishedOn: serverTimestamp()
+                                    publishedOn: serverTimestamp(), 
+                                    status: status.current.value,
+
                                 });
 
-                                if (data.current.value === 'Approved') {
+                                if (status.current.value === 'Approved') {
                                     data.approvedBy = AppUser.name;
                                     data.approvedOn = serverTimestamp();
                                     data.status = 'Approved';
-                                    data.publishedOn = serverTimestamp();
-                                    data.publishedBy = AppUser.name;
                                 }
                                 console.log('Document written with ID: ', docRef.id);
 
@@ -135,12 +137,78 @@ function News() {
                                 body.current.value = '';
                                 video.current.value = '';
                                 author.current.value = '';
+                                status.current.value = 'Awaiting Approval';
                             }}
                         >
                             Post
                         </button>
                     </div>
                 </div>
+
+                {
+                    AppUser?.roles?.includes('Approver') &&
+                    <div className='d-flex flex-column mt-3 w-100 mb-5' style={{ maxWidth: 820}}>
+                        <div className='alert alert-info w-100' style={{ borderRadius: 20 }}>
+                            <strong>Posts awaiting approval ({posts.filter(entry => entry.data().status === 'Awaiting Approval').length})</strong>
+                        </div> 
+                        {
+                            faqs
+                            .filter(entry => entry.data().status === 'Awaiting Approval')
+                            .map(entry => {
+                                const { id } = entry;
+
+                                const {
+                                    subject,
+                                    body,
+                                    video,
+                                    author,
+                                    postType
+                                } = entry.data();
+
+                                return (
+                                    <div key={id} className='mb-4 alert alert-danger' style={{ borderRadius: 20, padding: 20 }}>
+                                        <div className='mb-3'>
+                                            <label>Subject</label>
+                                            <div>{subject}</div>
+                                        </div>
+                                        <div className='mb-3'>
+                                            <label>Body</label>
+                                            <div>{body}</div>
+                                        </div>
+                                        <div className='mb-3'>
+                                            <label>Video URL</label>
+                                            <div>{video}</div>
+                                        </div>
+                                        <div className='mb-3'>
+                                            <label>Author</label>
+                                            <div>{author}</div>
+                                        </div>
+                                        <div className='mb-3'>
+                                            <label>Post Type</label>
+                                            <div>{postType}</div>
+                                        </div>
+                                        <button
+                                            className={`btn btn-success btn-sm w-100 round-10`}
+                                            onClick={event => {
+                                                updateDoc(
+                                                    doc(getFirestore(), 'posts', id),
+                                                    {
+                                                        status: 'Approved',
+                                                        approvedBy: AppUser.name,
+                                                        approvedOn: serverTimestamp(),
+                                                    }
+                                                );
+                                            }}
+                                        >
+                                            Approve
+                                        </button>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                }
+                <h4 className={`text-start${faqs.length !== 0 ? ' mb-4' : ' mb-0'}`}>Posts ({posts.length})</h4>
                 <div className='d-flex justify-content-start filter-container'>
                 <div className='search-container'>
                         <FontAwesomeIcon icon={faSearch} className='search-icon' />

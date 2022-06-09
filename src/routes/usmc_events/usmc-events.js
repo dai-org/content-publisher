@@ -163,12 +163,17 @@ function USMCEvents() {
                                     date: date.current.value,
                                     timefrom: convertTime12To24(timefrom.current.value),
                                     timeto: convertTime12To24(timeto.current.value),
-                                    status: status.current.value
+                                    status: status.current.value,
+                                    publishedBy:AppUser.name,
+                                    publishedOn:serverTimestamp()
                                 };
 
                                 if (status.current.value === 'Approved') {
                                     data.approvedBy = AppUser.name;
                                     data.approvedOn = serverTimestamp();
+                                    data.publishedOn = serverTimestamp();
+                                    data.publishedBy = AppUser.name;
+                                    data.status = 'Approved';
                                 }
 
                                 const docRef = await addDoc(collection(db, 'events'), data);

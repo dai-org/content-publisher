@@ -87,6 +87,21 @@ function News() {
                                     <option value='general'>General</option>
                                 </select>
                         </div>
+                        <div className='input-group mb-2'>
+                                <label className='input-group-text' htmlFor='group'>Published Status</label>
+                                {
+                                    AppUser?.roles?.includes('Approver') ?
+                                    <select className='form-select' id='group' ref={status} >
+                                        <option value='Awaiting Approval'>Submit for approval</option>
+                                        <option value='Published'>Approved</option>
+                                        {/* <option value='Archived'>Archived</option> */}
+                                    </select> :
+                                    <select className='form-select' id='group' ref={status} >
+                                        <option value='Awaiting Approval'>Submit for approval</option>
+                                        {/* <option value='Archived'>Archived</option> */}
+                                    </select>
+                                }
+                            </div>
                         <button
                             type='button'
                             className='btn btn-success w-100 round-10'
@@ -101,9 +116,18 @@ function News() {
                                     body: body.current.value,
                                     video: video.current.value,
                                     author: author.current.value,
-                                    date: serverTimestamp()
+                                    date: serverTimestamp(),
+                                    publishedBy: AppUser?.name,
+                                    publishedOn: serverTimestamp()
                                 });
 
+                                if (data.current.value === 'Approved') {
+                                    data.approvedBy = AppUser.name;
+                                    data.approvedOn = serverTimestamp();
+                                    data.status = 'Approved';
+                                    data.publishedOn = serverTimestamp();
+                                    data.publishedBy = AppUser.name;
+                                }
                                 console.log('Document written with ID: ', docRef.id);
 
                                 // Reset fields

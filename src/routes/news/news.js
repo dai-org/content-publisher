@@ -240,7 +240,7 @@ function News() {
                         }
                     </div>
                 }
-                                <h4 className={`text-start${faqs.length !== 0 ? ' mb-4' : ' mb-0'}`}>Posts ({posts.length})</h4>
+                                <h4 className={`text-start${posts.length !== 0 ? ' mb-4' : ' mb-0'}`}>Posts ({posts.length})</h4>
 
                 <div className='d-flex justify-content-start filter-container'>
                 <div className='search-container'>

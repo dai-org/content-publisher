@@ -47,7 +47,6 @@ function NewslettersTable(props) {
                                     issue,
                                     month,
                                     year,
-                                    status,
                                     publishedBy,
                                     publishedOn,
                                     approvedBy,

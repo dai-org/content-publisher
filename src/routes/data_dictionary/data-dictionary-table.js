@@ -24,7 +24,6 @@ function DataDictionaryTable(props) {
                                 const {
                                     term,
                                     description,
-                                    group,
                                     publishedBy,
                                     publishedOn,
                                     approvedBy,

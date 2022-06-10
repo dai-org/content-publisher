@@ -115,7 +115,7 @@ function News() {
                         </div>
                         <div className='input-group mb-3'>
                             <span className='input-group-text'>Post Type</span>
-                            <select onChange={{}} className='form-select' id='status' ref={postType} >
+                            <select className='form-select' id='status' ref={postType} >
                                     <option value='general'>Select An Option</option>
                                     <option value='alert'>Alert</option>
                                     <option value='info'>Information Only</option>

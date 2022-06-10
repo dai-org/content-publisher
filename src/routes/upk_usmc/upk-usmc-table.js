@@ -41,16 +41,6 @@ function UPKUSMCTable(props) {
                                     console.log(event);
                                 }
 
-                                function formatTimeHHMMA(d) {
-                                    if (!d) {
-                                        return '';
-                                    }
-
-                                    function z(n){return (n<10?'0':'')+n}
-                                    var h = d.getHours();
-                                    return (h%12 || 12) + ':' + z(d.getMinutes()) + ' ' + (h<12? 'AM' :'PM');
-                                }
-
                                 return(
                                     <tr onClick={editFaq} key={item.id}>
                                         <td className='word-break'>

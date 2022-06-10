@@ -25,7 +25,6 @@ function FaqsTable(props) {
                                     question,
                                     answer,
                                     group,
-                                    status,
                                     publishedBy,
                                     publishedOn,
                                     approvedBy,

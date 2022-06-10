@@ -40,18 +40,6 @@ function NewsTable(props) {
                                     console.log(event);
                                 }
 
-                                /** 
-                                 * {@ https://stackoverflow.com/a/17913752} 
-                                 */
-                                function formatTimeHHMMA(d) {
-                                    if (!d) {
-                                        return '';
-                                    }
-
-                                    function z(n){return (n<10?'0':'')+n}
-                                    var h = d.getHours();
-                                    return (h%12 || 12) + ':' + z(d.getMinutes()) + ' ' + (h<12? 'AM' :'PM');
-                                }
 
                                 // const options = { defaultProtocol: 'https' };
                                 const options = {target: '_blank'};

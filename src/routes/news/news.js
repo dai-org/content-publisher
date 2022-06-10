@@ -149,7 +149,7 @@ function News() {
                                     body: body.current.value,
                                     video: video.current.value,
                                     author: author.current.value,
-                                    date: serverTimestamp(),
+                                    created: serverTimestamp(),
                                     publishedBy: AppUser?.name,
                                     publishedOn: serverTimestamp(), 
                                     status: status.current.value,

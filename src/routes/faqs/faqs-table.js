@@ -14,7 +14,6 @@ function FaqsTable(props) {
                             <th>Question</th>
                             <th>Answer</th>
                             <th>Group</th>
-                            <th>Status</th>
                             <th>Published</th>
                             <th>Approved</th>
                         </tr>
@@ -48,9 +47,7 @@ function FaqsTable(props) {
                                         <td>
                                             <Cell words={[searchQuery]} text={group} />
                                         </td>
-                                        <td>
-                                            <Cell words={[searchQuery]} text={status} />
-                                        </td>
+
                                         <td>
                                             <Cell words={[searchQuery]} text={( publishedBy || '' ) + ' ' + ( publishedOn?.toDate()?.toLocaleDateString() || '') } />
                                         </td>

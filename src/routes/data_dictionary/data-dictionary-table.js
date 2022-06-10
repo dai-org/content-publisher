@@ -14,8 +14,6 @@ function DataDictionaryTable(props) {
                         <tr>
                             <th>Term</th>
                             <th>Description</th>
-                            <th>Group</th>
-                            <th>Status</th>
                             <th>Published</th>
                             <th>Approved</th>
                         </tr>
@@ -27,7 +25,6 @@ function DataDictionaryTable(props) {
                                     term,
                                     description,
                                     group,
-                                    status,
                                     publishedBy,
                                     publishedOn,
                                     approvedBy,
@@ -45,12 +42,6 @@ function DataDictionaryTable(props) {
                                         </td>
                                         <td>
                                             <Cell words={[searchQuery]} text={description} />
-                                        </td>
-                                        <td>
-                                            <Cell words={[searchQuery]} text={group} />
-                                        </td>
-                                        <td>
-                                            <Cell words={[searchQuery]} text={status} />
                                         </td>
                                         <td>
                                             <Cell words={[searchQuery]} text={( publishedBy || '' ) + ' ' + ( publishedOn?.toDate()?.toLocaleDateString() || '') } />

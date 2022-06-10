@@ -19,7 +19,8 @@ function UPKUSMCTable(props) {
                             <th width='35%'>Description</th>
                             <th width='15%'>Module ID</th>
                             <th width='15%'>Tags</th>
-                            <th width='10%'>Approval</th>
+                            <th width='5%'>Published</th>
+                            <th width='5%'>Approved</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -30,7 +31,8 @@ function UPKUSMCTable(props) {
                                     description,
                                     docID,
                                     tags,
-                                    approved,
+                                    publishedBy,
+                                    publishedOn,
                                     approvedBy,
                                     approvedOn
                                 } = item.data();
@@ -64,13 +66,12 @@ function UPKUSMCTable(props) {
                                         <td className=''>
                                             <Cell words={[searchQuery]} text={tags} />
                                         </td>
-                                        <td className=''>
-                                            {
-                                            approvedBy !== 'undefined' ? 
-                                        <Cell words={[searchQuery]} text={approved +' by '+  approvedBy + ' on '+ approvedOn?.toDate()?.toLocaleDateString() + ' ' + formatTimeHHMMA(approvedOn?.toDate())}/>
-                                         : <Cell words={[searchQuery]} text='Unapproved'/>
-                                            }
-                                            </td>
+                                        <td>
+                                            <Cell words={[searchQuery]} text={( publishedBy || '' ) + ' ' + ( publishedOn?.toDate()?.toLocaleDateString() || '') } />
+                                        </td>
+                                        <td>
+                                            <Cell words={[searchQuery]} text={( approvedBy || '' ) + ' ' + ( approvedOn?.toDate()?.toLocaleDateString() || '' )} />
+                                        </td>
                                     </tr>
                                 )
                             })

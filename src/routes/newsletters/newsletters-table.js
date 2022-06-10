@@ -34,7 +34,6 @@ function NewslettersTable(props) {
                             <th>Month</th>
                             <th>Year</th>
                             <th>Edition</th>
-                            <th>Status</th>
                             <th>Published</th>
                             <th>Approved</th>
                         </tr>
@@ -84,9 +83,6 @@ function NewslettersTable(props) {
                                         </td>
                                         <td>
                                             <Cell words={[searchQuery]} text={edition} />
-                                        </td>
-                                        <td>
-                                            <Cell words={[searchQuery]} text={status} />
                                         </td>
                                         <td>
                                             <Cell words={[searchQuery]} text={( publishedBy || '' ) + ' ' + ( publishedOn?.toDate()?.toLocaleDateString() || '') } />

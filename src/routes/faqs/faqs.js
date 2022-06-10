@@ -166,7 +166,7 @@ function Faqs() {
                                     AppUser?.roles?.includes('Approver') ?
                                     <select className='form-select' id='group' ref={status} >
                                         <option value='Awaiting Approval'>Submit for approval</option>
-                                        <option value='Published'>Approved</option>
+                                        <option value='Approved'>Approved</option>
                                         {/* <option value='Archived'>Archived</option> */}
                                     </select> :
                                     <select className='form-select' id='group' ref={status} >

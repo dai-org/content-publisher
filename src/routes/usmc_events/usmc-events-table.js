@@ -29,8 +29,9 @@ function USMCEventsTable(props) {
                                     date,
                                     timefrom,
                                     timeto,
-                                    approved,
+                                    publishedBy,
                                     approvedBy,
+                                    publishedOn,
                                     approvedOn
                                 } = item.data();
 
@@ -66,12 +67,11 @@ function USMCEventsTable(props) {
                                         <td className=''>
                                         <Cell words={[searchQuery]} text={timeto} />
                                         </td>
-                                        <td className=''>
-                                        {
-                                            approvedBy === 'undefined' ? 
-                                        <Cell words={[searchQuery]} text={approved +' by '+  approvedBy + ' on '+ approvedOn?.toDate()?.toLocaleDateString() + ' ' + formatTimeHHMMA(approvedOn?.toDate())}/>
-                                         : ''
-                                            }
+                                        <td>
+                                            <Cell words={[searchQuery]} text={( publishedBy || '' ) + ' ' + ( publishedOn?.toDate()?.toLocaleDateString() || '') } />
+                                        </td>
+                                        <td>
+                                            <Cell words={[searchQuery]} text={( approvedBy || '' ) + ' ' + ( approvedOn?.toDate()?.toLocaleDateString() || '' )} />
                                         </td>
                                     </tr>
                                 )

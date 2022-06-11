@@ -11,6 +11,7 @@ import { useAuth } from "../../components/provideAuth";
 function News() {
     const subject = useRef();
     const postType = useRef();
+    const maradminid = useRef();
     const body = useRef();
     const video = useRef();
     const author = useRef();
@@ -70,6 +71,7 @@ function News() {
                     entry.data()?.body?.toUpperCase().includes(queryUpperCase) ||
                     entry.data()?.author?.toUpperCase().includes(queryUpperCase) ||
                     entry.data()?.video?.toUpperCase().includes(queryUpperCase) ||
+                    entry.data()?.maradminid?.toUpperCase().includes(queryUpperCase) ||
                     entry.data()?.date?.toDate().toLocaleString()?.toUpperCase().includes(queryUpperCase)
             });
 
@@ -110,6 +112,10 @@ function News() {
                             <textarea className="form-control" rows="1" ref={video}></textarea>
                         </div>
                         <div className='input-group mb-3'>
+                            <span className='input-group-text'>MarAdmin ID</span>
+                            <textarea className="form-control" rows="1" ref={maradminid}></textarea>
+                        </div>
+                        <div className='input-group mb-3'>
                             <span className='input-group-text'>Author</span>
                             <textarea value={AppUser.name} className="form-control" rows="1" ref={author}></textarea>
                         </div>
@@ -147,7 +153,8 @@ function News() {
                                 const data = {
                                     subject: subject.current.value,
                                     body: body.current.value,
-                                    video: video.current.value,
+                                    video: (video.current.value > 0) ? video.current.value : "undefined",
+                                    maradminid: (maradminid.current.value > 0) ? maradminid.current.value : "undefined",
                                     author: author.current.value,
                                     date: serverTimestamp(),
                                     publishedBy: AppUser?.name,
@@ -171,6 +178,7 @@ function News() {
                                 body.current.value = '';
                                 video.current.value = '';
                                 author.current.value = '';
+                                maradminid.current.value = '';
                                 status.current.value = 'Awaiting Approval';
                             }}
                         >
@@ -197,6 +205,7 @@ function News() {
                                     video,
                                     author,
                                     postType, 
+                                    maradminid
                                 } = entry.data();
 
                                 return (
@@ -212,6 +221,10 @@ function News() {
                                         <div className='mb-3'>
                                             <label>Video URL</label>
                                             <div>{video}</div>
+                                        </div>
+                                        <div className='mb-3'>
+                                            <label>MarAdmin ID</label>
+                                            <div>{maradminid}</div>
                                         </div>
                                         <div className='mb-3'>
                                             <label>Author</label>

@@ -15,6 +15,7 @@ function NewsTable(props) {
                             <th>Subject</th>
                             <th>Body</th>
                             <th>Video URL</th>
+                            <th>MarAdmin ID</th>
                             <th>Author</th>
                             <th>Post Type</th>
                             <th>Published</th>
@@ -29,6 +30,7 @@ function NewsTable(props) {
                                     body,
                                     video,
                                     author,
+                                    maradminid,
                                     publishedOn,
                                     approvedOn,
                                     publishedBy,
@@ -57,6 +59,9 @@ function NewsTable(props) {
                                             <Linkify tagName="span" options={options}>
                                                 {video}
                                             </Linkify>
+                                        </td>
+                                        <td className=''>
+                                            <Cell words={[searchQuery]} text={maradminid} />
                                         </td>
                                         <td className=''>
                                             <Cell words={[searchQuery]} text={author} />

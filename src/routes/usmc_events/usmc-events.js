@@ -86,6 +86,7 @@ function USMCEvents() {
     }
 
     function convertTime12To24(time) {
+        if ((time.includes("PM")) || (time.includes("AM"))){
         var hours   = Number(time.match(/^(\d+)/)[1]);
         var minutes = Number(time.match(/:(\d+)/)[1]);
         var AMPM    = time.match(/\s(.*)$/)[1];
@@ -96,6 +97,8 @@ function USMCEvents() {
         if (hours < 10) sHours = "0" + sHours;
         if (minutes < 10) sMinutes = "0" + sMinutes;
         return (sHours + "" + sMinutes);
+    }
+    return time;
     }
 
     return (

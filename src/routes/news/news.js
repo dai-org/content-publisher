@@ -153,8 +153,8 @@ function News() {
                                 const data = {
                                     subject: subject.current.value,
                                     body: body.current.value,
-                                    video: (video.current.value > 0) ? video.current.value : "undefined",
-                                    maradminid: (maradminid.current.value > 0) ? maradminid.current.value : "undefined",
+                                    video: (video.current.value.length > 0) ? video.current.value : "undefined",
+                                    maradminid: (maradminid.current.value.length > 0) ? maradminid.current.value : "undefined",
                                     author: author.current.value,
                                     date: serverTimestamp(),
                                     publishedBy: AppUser?.name,

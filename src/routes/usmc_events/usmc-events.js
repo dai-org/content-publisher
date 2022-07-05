@@ -237,11 +237,11 @@ function USMCEvents() {
                                         </div>
                                         <div className='mb-3'>
                                             <label>Date & Time From</label>
-                                            <div>{datefrom} - {timefrom}</div>
+                                            <div>{datefrom +' - '+ timefrom}</div>
                                         </div>
                                         <div className='mb-3'>
                                             <label>Date & Time To</label>
-                                            <div>{dateto} - {timeto}</div>
+                                            <div>{dateto +' - '+ timeto}</div>
                                         </div>
                                         <button
                                             className={`btn btn-success btn-sm w-100 round-10`}

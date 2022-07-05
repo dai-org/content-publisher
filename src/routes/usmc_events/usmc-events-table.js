@@ -12,7 +12,7 @@ function USMCEventsTable(props) {
                 <table className='w-100'>
                     <thead>
                         <tr>
-                            <th width='15%'>Event</th>
+                            <th width='15%'>Event Title</th>
                             <th width='45%'>Description</th>
                             <th width='10%'>Date & Time From</th>
                             <th width='10%'>Date & Time To</th>

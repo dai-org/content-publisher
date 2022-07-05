@@ -49,10 +49,10 @@ function USMCEventsTable(props) {
                                             <Cell words={[searchQuery]} text={summary} />
                                         </td>
                                         <td className=''>
-                                            <Cell words={[searchQuery]} text={datefrom - timefrom} />
+                                            <Cell words={[searchQuery]} text={datefrom +' - '+ timefrom} />
                                         </td>
                                         <td className=''>
-                                        <Cell words={[searchQuery]} text={dateto - timeto} />
+                                        <Cell words={[searchQuery]} text={dateto +' - '+ timeto} />
                                         </td>
                                         <td>
                                             <Cell words={[searchQuery]} text={( publishedBy || '' ) + ' ' + ( publishedOn?.toDate()?.toLocaleDateString() || '') } />

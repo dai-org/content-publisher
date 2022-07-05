@@ -9,11 +9,12 @@ import { useAuth } from "../../components/provideAuth";
 // TODO: Invert progress bar text color as bar fills, see post [https://stackoverflow.com/a/61353195]
 
 function USMCEvents() {
-    const subject = useRef();
-    const description = useRef();
+    const title = useRef();
+    const summary = useRef();
     const timefrom = useRef();
     const timeto = useRef();
-    const date = useRef();
+    const datefrom = useRef();
+    const dateto = useRef();
     const searchField = useRef();
     const uploadButton = useRef();
     const [cache, setCache] = useState([]);
@@ -48,7 +49,7 @@ function USMCEvents() {
 
     useEffect(() => {
         const db = getFirestore();
-        const q = query(collection(db, 'events'));
+        const q = query(collection(db, 'calendarEvents'));
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const items = [];
             querySnapshot.forEach((doc) => {
@@ -67,12 +68,12 @@ function USMCEvents() {
             const queryUpperCase = searchQuery.toUpperCase();
 
             const filtered = cache.filter(entry => {
-                return entry.data()?.subject?.toUpperCase().includes(queryUpperCase) ||
-                    entry.data()?.description?.toUpperCase().includes(queryUpperCase) ||
+                return entry.data()?.title?.toUpperCase().includes(queryUpperCase) ||
+                    entry.data()?.summary?.toUpperCase().includes(queryUpperCase) ||
                     entry.data()?.timefrom?.toUpperCase().includes(queryUpperCase) ||
                     entry.data()?.timeto?.toUpperCase().includes(queryUpperCase) ||
-                    entry.data()?.status?.toUpperCase().includes(queryUpperCase) ||
-                    entry.data()?.date?.toUpperCase().toLocaleString()?.toUpperCase().includes(queryUpperCase)
+                    entry.data()?.datefrom?.toUpperCase().includes(queryUpperCase) ||
+                    entry.data()?.dateto?.toUpperCase().includes(queryUpperCase)
             });
 
             setPosts(filtered);
@@ -118,24 +119,28 @@ function USMCEvents() {
                     <div>
                         <h3 className='mb-4'>New DAI Calendar Event</h3>
                         <div className='input-group mb-3'>
-                            <span className='input-group-text'>Event</span>
-                            <input className="form-control" ref={subject}></input>
+                            <span className='input-group-text'>Event Title</span>
+                            <input className="form-control" ref={title}></input>
                         </div>
                         <div className='input-group mb-3'>
                             <span className='input-group-text'>Description</span>
-                            <textarea className="form-control" rows="6" ref={description}></textarea>
+                            <textarea className="form-control" rows="6" ref={summary}></textarea>
+                        </div>
+                        <div className='input-group mb-3'>
+                            <span className='input-group-text'>Date From</span>
+                            <input type="date" className="form-control" ref={datefrom}></input>
                         </div>
                         <div className='input-group mb-3'>
                             <span className='input-group-text'>Time From</span>
-                            <input type="time" className="form-control" ref={timefrom}></input>
+                            <input type="time" className="form-control" ref={timeto}></input>
+                        </div>
+                        <div className='input-group mb-3'>
+                            <span className='input-group-text'>Date To</span>
+                            <input type="date" className="form-control" ref={dateto}></input>
                         </div>
                         <div className='input-group mb-3'>
                             <span className='input-group-text'>Time To</span>
                             <input type="time" className="form-control" ref={timeto}></input>
-                        </div>
-                        <div className='input-group mb-3'>
-                            <span className='input-group-text'>Date</span>
-                            <input type="date" data-provide="datepicker" className="form-control" placeholder='2022-05-01 YYYY-MM-DD' ref={date}></input>
                         </div>
                         <div className='input-group mb-3'>
                                 <label className='input-group-text' htmlFor='group'>Published Status</label>
@@ -161,9 +166,10 @@ function USMCEvents() {
                                 const db = getFirestore();
                                 
                                 const data = {
-                                    subject: subject.current.value,
-                                    description: description.current.value,
-                                    date: date.current.value,
+                                    title: title.current.value,
+                                    summary: summary.current.value,
+                                    datefrom: datefrom.current.value,
+                                    dateto: dateto.current.value,
                                     timefrom: convertTime12To24(timefrom.current.value),
                                     timeto: convertTime12To24(timeto.current.value),
                                     status: status.current.value,
@@ -177,14 +183,15 @@ function USMCEvents() {
                                     data.status = 'Approved';
                                 }
 
-                                const docRef = await addDoc(collection(db, 'events'), data);
+                                const docRef = await addDoc(collection(db, 'calendarEvents'), data);
 
                                 console.log('Document written with ID: ', docRef.id);
 
                                 // Reset fields
-                                subject.current.value = '';
-                                description.current.value = '';
-                                date.current.value = '';
+                                title.current.value = '';
+                                summary.current.value = '';
+                                datefrom.current.value = '';
+                                dateto.current.value = '';
                                 timefrom.current.value = '';
                                 timeto.current.value = '';
                                 status.current.value = 'Awaiting Approval';
@@ -210,40 +217,37 @@ function USMCEvents() {
                                 const { id } = entry;
 
                                 const {
-                                    subject,
-                                    description,
+                                    title,
+                                    summary,
                                     timefrom,
                                     timeto,
-                                    date,
+                                    datefrom,
+                                    dateto,
                                 } = entry.data();
 
                                 return (
                                     <div key={id} className='mb-4 alert alert-danger' style={{ borderRadius: 20, padding: 20 }}>
                                         <div className='mb-3'>
                                             <label>Event</label>
-                                            <div>{subject}</div>
+                                            <div>{title}</div>
                                         </div>
                                         <div className='mb-3'>
                                             <label>Description</label>
-                                            <div>{description}</div>
+                                            <div>{summary}</div>
                                         </div>
                                         <div className='mb-3'>
-                                            <label>Time From</label>
-                                            <div>{timefrom}</div>
+                                            <label>Date & Time From</label>
+                                            <div>{datefrom} - {timefrom}</div>
                                         </div>
                                         <div className='mb-3'>
-                                            <label>Time To</label>
-                                            <div>{timeto}</div>
-                                        </div>
-                                        <div className='mb-3'>
-                                            <label>Date</label>
-                                            <div>{date}</div>
+                                            <label>Date & Time To</label>
+                                            <div>{dateto} - {timeto}</div>
                                         </div>
                                         <button
                                             className={`btn btn-success btn-sm w-100 round-10`}
                                             onClick={event => {
                                                 updateDoc(
-                                                    doc(getFirestore(), 'events', id),
+                                                    doc(getFirestore(), 'calendarEvents', id),
                                                     {
                                                         status: 'Approved',
                                                         approvedBy: AppUser.name,

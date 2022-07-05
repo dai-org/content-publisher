@@ -9,7 +9,7 @@ function NavBar() {
     return (
         <Navbar collapseOnSelect expand="lg" style={{ boxShadow: 'none' }} bg="light" variant="light" sticky="top">
             <Container>
-                <Navbar.Brand href="/">DAI App | Content Publisher </Navbar.Brand><small>(v 1.2)</small>
+                <Navbar.Brand href="/">DAI App | Content Publisher </Navbar.Brand><small>(v 1.3)</small>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">

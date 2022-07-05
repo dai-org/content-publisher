@@ -14,9 +14,8 @@ function USMCEventsTable(props) {
                         <tr>
                             <th width='15%'>Event</th>
                             <th width='45%'>Description</th>
-                            <th width='10%'>Date</th>
-                            <th width='10%'>Time From</th>
-                            <th width='10%'>Time To</th>
+                            <th width='10%'>Date & Time From</th>
+                            <th width='10%'>Date & Time To</th>
                             <th width='10%'>Approval</th>
                         </tr>
                     </thead>
@@ -24,9 +23,10 @@ function USMCEventsTable(props) {
                         {
                             posts.map(item => {
                                 const {
-                                    subject,
-                                    description,
-                                    date,
+                                    title,
+                                    summary,
+                                    datefrom,
+                                    dateto,
                                     timefrom,
                                     timeto,
                                     publishedBy,
@@ -43,20 +43,16 @@ function USMCEventsTable(props) {
                                 return(
                                     <tr onClick={editFaq} key={item.id}>
                                         <td className='word-break'>
-                                            <Cell words={[searchQuery]} text={subject} />
+                                            <Cell words={[searchQuery]} text={title} />
                                         </td>
                                         <td className='word-break'>
-                                            <Cell words={[searchQuery]} text={description} />
-                                        </td>
-                                        {/* <td className='word-break' dangerouslySetInnerHTML={{__html: videoLink}} /> */}
-                                        <td className=''>
-                                            <Cell words={[searchQuery]} text={date} />
+                                            <Cell words={[searchQuery]} text={summary} />
                                         </td>
                                         <td className=''>
-                                            <Cell words={[searchQuery]} text={timefrom} />
+                                            <Cell words={[searchQuery]} text={datefrom - timefrom} />
                                         </td>
                                         <td className=''>
-                                        <Cell words={[searchQuery]} text={timeto} />
+                                        <Cell words={[searchQuery]} text={dateto - timeto} />
                                         </td>
                                         <td>
                                             <Cell words={[searchQuery]} text={( publishedBy || '' ) + ' ' + ( publishedOn?.toDate()?.toLocaleDateString() || '') } />

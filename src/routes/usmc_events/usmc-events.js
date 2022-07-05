@@ -132,7 +132,7 @@ function USMCEvents() {
                         </div>
                         <div className='input-group mb-3'>
                             <span className='input-group-text'>Time From</span>
-                            <input type="time" className="form-control" ref={timeto}></input>
+                            <input type="time" className="form-control" ref={timefrom}></input>
                         </div>
                         <div className='input-group mb-3'>
                             <span className='input-group-text'>Date To</span>

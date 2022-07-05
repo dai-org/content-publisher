@@ -56,10 +56,10 @@ function USMCEventsTable(props) {
                                         <Cell words={[searchQuery]} text={dateto +' @ '+ timeto} />
                                         </td>
                                         <td>
-                                            <Cell words={[searchQuery]} text={( publishedBy || '' ) + ' ' + ( publishedOn?.toDate()?.toLocaleDateString() || '') } />
+                                            <Cell words={[searchQuery]} text={publishedBy  + ' ' + publishedOn?.toDate()?.toLocaleDateString()} />
                                         </td>
                                         <td>
-                                            <Cell words={[searchQuery]} text={( approvedBy || '' ) + ' ' + ( approvedOn?.toDate()?.toLocaleDateString() || '' )} />
+                                            <Cell words={[searchQuery]} text={approvedBy + ' ' + approvedOn?.toDate()?.toLocaleDateString()} />
                                         </td>
                                     </tr>
                                 )

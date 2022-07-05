@@ -16,7 +16,8 @@ function USMCEventsTable(props) {
                             <th width='45%'>Description</th>
                             <th width='10%'>Date & Time From</th>
                             <th width='10%'>Date & Time To</th>
-                            <th width='10%'>Approval</th>
+                            <th width='10%'>Publisher</th>
+                            <th width='10%'>Approver</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -147,7 +147,7 @@ function Upload() {
 
     useEffect(() => {
         const db = getFirestore();
-        const dataDictionary = query(collection(db, "events"));
+        const dataDictionary = query(collection(db, "calendarEvents"));
         const unsubscribe = onSnapshot(dataDictionary, { includeMetadataChanges: true },(querySnapshot) => { 
             seteventsCount(querySnapshot.size);
 

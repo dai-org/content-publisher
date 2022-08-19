@@ -203,7 +203,7 @@ function Upload() {
                     </div>
                 }
             <div className='input-group upload-inner'>
-                                <label className='input-group-text' htmlFor='status'>DAI System Status</label>
+                                <label className='input-group-text' htmlFor='status'>Status</label>
                                 <select onChange={handleChange} className='form-select' id='status' value={systemStatus}>
                                     <option value='1'>DAI System is Operational</option>
                                     <option value='0'>DAI System is Not Operational</option>

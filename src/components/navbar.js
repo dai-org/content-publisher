@@ -9,16 +9,16 @@ function NavBar() {
     return (
         <Navbar collapseOnSelect expand="lg" style={{ boxShadow: 'none' }} bg="light" variant="light" sticky="top">
             <Container>
-                <Navbar.Brand href="/">DAI App | Content Publisher </Navbar.Brand><small>(v 1.4.1)</small>
+                <Navbar.Brand href="/">DAI App | Content Publisher </Navbar.Brand><small>(v 1.4.2)</small>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
                         <Nav.Link href="/data-dictionary">Data Dictionary</Nav.Link>
                         <Nav.Link href="/faqs">FAQs</Nav.Link>
                         <Nav.Link href="/newsletters">Newsletters</Nav.Link>
-                        <Nav.Link href="/posts">Posts</Nav.Link>
-                        <Nav.Link href="/upk-usmc">DAI USMC UPK & SDPs</Nav.Link>
-                        <Nav.Link href="/usmc-events">DAI Event Calendar</Nav.Link>
+                        <Nav.Link href="/posts">News/Posts</Nav.Link>
+                        <Nav.Link href="/upk-usmc">USMC UPK & SDPs</Nav.Link>
+                        <Nav.Link href="/usmc-events">Events Calendar</Nav.Link>
 
                     </Nav>
                     <button

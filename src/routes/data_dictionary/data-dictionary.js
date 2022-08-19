@@ -137,7 +137,6 @@ function DataDictionary() {
                             <div className='input-group mb-3'>
                                 <label className='input-group-text' htmlFor='group'>Group</label>
                                 <select className='form-select' id='group' ref={group} >
-                                    <option value='None'>No Group</option>
                                     <option value='CA'>CA</option>
                                     <option value='DAI 101'>DAI 101</option>
                                     <option value='B2R'>B2R</option>

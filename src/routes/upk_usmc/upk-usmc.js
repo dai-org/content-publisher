@@ -106,7 +106,7 @@ function UPKUSMC() {
                     <div>
                         <h3 className='mb-4'>New UPK & SDP</h3>
                         <div className='input-group mb-3'>
-                            <span className='input-group-text'>Module ID</span>
+                            <span className='input-group-text'>Module UID</span>
                             <input className="form-control" ref={docID}></input>
                         </div>
                         <div className='input-group mb-3'>

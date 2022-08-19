@@ -108,16 +108,12 @@ function News() {
                             <textarea className="form-control" rows="6" ref={body}></textarea>
                         </div>
                         <div className='input-group mb-3'>
-                            <span className='input-group-text'>Video URL</span>
+                            <span className='input-group-text'>Video/MarAdmin URL</span>
                             <textarea className="form-control" rows="1" ref={video}></textarea>
                         </div>
                         <div className='input-group mb-3'>
                             <span className='input-group-text'>MarAdmin ID</span>
                             <textarea className="form-control" rows="1" ref={maradminid}></textarea>
-                        </div>
-                        <div className='input-group mb-3'>
-                            <span className='input-group-text'>Author</span>
-                            <textarea value={AppUser.name} className="form-control" rows="1" ref={author}></textarea>
                         </div>
                         <div className='input-group mb-3'>
                             <span className='input-group-text'>Post Type</span>

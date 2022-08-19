@@ -202,12 +202,11 @@ function Upload() {
                         </div>
                     </div>
                 }
-           { AppUser?.roles?.includes('Approver') ?
             <div className='input-group upload-inner'>
-                                <label className='input-group-text' htmlFor='status'>Status</label>
+                                <label className='input-group-text' htmlFor='status'>DAI System Status</label>
                                 <select onChange={handleChange} className='form-select' id='status' value={systemStatus}>
-                                    <option value='1'>DAI is Up</option>
-                                    <option value='0'>DAI is Down</option>
+                                    <option value='1'>DAI System is Operational</option>
+                                    <option value='0'>DAI System is Not Operational</option>
                                 </select>
                                 <button
                                 type='button'
@@ -228,8 +227,7 @@ function Upload() {
                                     }}
                                 >Save Status</button>
                             </div>
- : ""
- }
+
                 <div className='upload-inner pointer' onClick={event => { history.push('/data-dictionary'); }}>
                     <div>
                         <h5 className='mb-0'>Data Dictionary

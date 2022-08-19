@@ -260,7 +260,7 @@ function Upload() {
                 </div>
                 <div className='upload-inner pointer' onClick={event => { history.push('/posts'); }}>
                     <div>
-                        <h5 className='mb-0'>Posts
+                        <h5 className='mb-0'>News/Posts
                         <div class="col-lg-0">
                         <span className="badge alert-danger">{unapprovedpostsCount}</span>
                         <span style= {{marginLeft: 10}} className="badge bg-secondary">{postsCount}</span>
@@ -270,7 +270,7 @@ function Upload() {
                 </div>
                 <div className='upload-inner pointer' onClick={event => { history.push('/usmc-events'); }}>
                     <div>
-                        <h5 className='mb-0'>DAI Event Calendar
+                        <h5 className='mb-0'>Event Calendar
                         <div class="col-lg-0">
                         <span className="badge alert-danger">{unapprovedEventsCount}</span>
                         <span style= {{marginLeft: 10}} className="badge bg-secondary">{eventsCount}</span>
@@ -280,7 +280,7 @@ function Upload() {
                 </div>
                 <div className='upload-inner pointer' onClick={event => { history.push('/upk-usmc'); }}>
                     <div>
-                    <h5 className='mb-0'>DAI USMC UPK and SDPs
+                    <h5 className='mb-0'>USMC UPK and SDPs
                         <div class="col-lg-0">
                         <span className="badge alert-danger">{unapprovedUPKCount}</span>
                         <span style= {{marginLeft: 10}} className="badge bg-secondary">{upkCount}</span>

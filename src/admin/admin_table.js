@@ -5,7 +5,6 @@ import { faEdit, faKey } from '@fortawesome/free-solid-svg-icons'
 import Modali, { useModali } from 'modali';
 import { getFirestore, updateDoc, doc, deleteDoc } from 'firebase/firestore'
 import { sendPasswordResetEmail, getAuth} from "firebase/auth";
-import { useAuth } from "../components/provideAuth";
 
 
 function AdminTable(props) {
@@ -23,7 +22,6 @@ function AdminTable(props) {
       const name = useRef();
       const email = useRef();
       const roles = useRef();
-      const auth = useAuth();
       const auths = getAuth();
 
     return (

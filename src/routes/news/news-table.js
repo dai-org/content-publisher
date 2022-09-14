@@ -57,17 +57,6 @@ function NewsTable(props) {
                                     <option value='general'>General</option>
                                 </select>
                         </div>
-
-                            {
-                                AppUser?.roles ?
-                                <div className='w-100 d-flex justify-content-end align-items-center mb-3'>
-                                    <span>
-                                        <strong>Roles: </strong>
-                                    </span>
-                                    <span className='ps-2'>{AppUser?.roles.sort().join(', ')}</span>
-                                </div> :
-                                ''
-                            }
                             <button
                                 type='button'
                                 className='btn btn-success w-75 round-10'

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, where, doc, updateDoc, orderBy } from 'firebase/firestore'
+import { deleteDoc, getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, where, doc, updateDoc, orderBy } from 'firebase/firestore'
 import './upk-usmc.css'
 import UPKUSMCTable from './upk-usmc-table';
 import { useAuth } from "../../components/provideAuth";
@@ -100,26 +100,25 @@ function UPKUSMC() {
                         </div>
                     </div>
                 }
-            { AppUser?.roles?.includes('Publisher') ? 
-
+{
                 <div className='cp-form-inner mb-5 mt-4'>
                     <div>
                         <h3 className='mb-4'>New UPK & SDP</h3>
                         <div className='input-group mb-3'>
                             <span className='input-group-text'>Module UID</span>
-                            <input className="form-control" ref={docID}></input>
+                            <input className="form-control" placeholder="1c4dbeb0-1ae1-44be-99ea-6cd47cd8da89" ref={docID}></input>
                         </div>
                         <div className='input-group mb-3'>
                             <span className='input-group-text'>Description</span>
                             <textarea className="form-control" rows="6" ref={description}></textarea>
                         </div>
                         <div className='input-group mb-3'>
-                            <span className='input-group-text'>Module Title</span>
+                            <span className='input-group-text'>UPK/SPD Title</span>
                             <input type="text" className="form-control" ref={module}></input>
                         </div>
                         <div className='input-group mb-3'>
                             <span className='input-group-text'>TAGs</span>
-                            <input type="text" className="form-control" ref={tags}></input>
+                            <input type="text" className="form-control" placeholder="Seperate by Comma" ref={tags}></input>
                         </div>
                         <div className='input-group mb-3'>
                             <span className='input-group-text'>Auto ID</span>
@@ -183,7 +182,6 @@ function UPKUSMC() {
                         </button>
                     </div>
                 </div> 
-                : ""
             }
 
 {
@@ -203,6 +201,7 @@ function UPKUSMC() {
                                     description,
                                     module,
                                     tags,
+                                    notes
                                 } = entry.data();
 
                                 return (
@@ -223,12 +222,17 @@ function UPKUSMC() {
                                             <label>Tags</label>
                                             <div>{tags}</div>
                                         </div>
+                                        <div className='mb-3'>
+                                        <label>Approver Notes</label>
+                                        <textarea className="form-control" rows="6" ref={notes}></textarea>
+                                        </div>
                                         <button
-                                            className={`btn btn-success btn-sm w-100 round-10`}
+                                            className={`btn btn-success btn-sm w-75 round-10`}
                                             onClick={event => {
                                                 updateDoc(
                                                     doc(getFirestore(), 'upktraining', id),
                                                     {
+                                                        notes: notes.current.value,
                                                         approved: 'Approved',
                                                         approvedBy: AppUser.name,
                                                         approvedOn: serverTimestamp()
@@ -238,6 +242,24 @@ function UPKUSMC() {
                                         >
                                             Approve
                                         </button>
+                                        <button
+                                type='button'
+                                style={{marginLeft:5}}
+                                className='btn btn-danger btn-sm w-20 round-10'
+                                ref={uploadButton}
+                                onClick={async (event) => {
+                                    const docRef = doc(getFirestore(), 'upktraining', id);
+                                    deleteDoc(docRef)
+                                    .then(docRef => {
+                                        alert("The UPK/SDP has been successfully deleted.");
+                                    })
+                                      .catch(error => {
+                                          alert("An error has occured with deleting the UPK/SDP, Please try again.\n\n"+error);
+                                      })
+                                }}
+                            >
+                                Delete
+                            </button>
                                     </div>
                                 )
                             })
@@ -251,7 +273,7 @@ function UPKUSMC() {
                         <input type='search' placeholder='Search Posts' title='Search Posts' ref={searchField} onChange={onSearch}/>
                     </div>
                 </div>
-                <UPKUSMCTable posts={posts} searchQuery={searchQuery} />
+                <UPKUSMCTable posts={posts} AppUser={AppUser} searchQuery={searchQuery} />
 
             </div>
         </div>

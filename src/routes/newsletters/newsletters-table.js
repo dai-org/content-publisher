@@ -1,26 +1,31 @@
-import React from 'react';
-import { getStorage, ref, getDownloadURL } from 'firebase/storage';
+import { getStorage, ref, getDownloadURL, deleteObject } from 'firebase/storage';
 import Cell from '../../components/cell';
+import { faFilePdf, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { getFirestore, doc, deleteDoc } from 'firebase/firestore'
+import React from 'react';
 
 // TODO: Invert progress bar text color as bar fills, see post [https://stackoverflow.com/a/61353195]
 
 const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12'
 ];
 
 function NewslettersTable(props) {
-    const { newsletters, searchQuery } = props;
+    const { newsletters, searchQuery, AppUser } = props;
+    const db = getFirestore();
+    const storage = getStorage();
 
     return (
         <div className='table-container'>
@@ -29,18 +34,18 @@ function NewslettersTable(props) {
                 <table className='w-100'>
                     <thead>
                         <tr>
-                            <th>Title</th>
-                            <th>Issue</th>
-                            <th>Month</th>
-                            <th>Year</th>
-                            <th>Edition</th>
-                            <th>Published</th>
-                            <th>Approved</th>
+                        <th width='5%'></th>
+                            <th width='30%'>Title</th>
+                            <th width='25%'>File Name</th>
+                            <th width='20%'>Published</th> 
+                            <th width='20%'>Approved</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
                             newsletters.map(item => {
+                                const { id } = item;
+
                                 const {
                                     edition,
                                     title,
@@ -53,8 +58,30 @@ function NewslettersTable(props) {
                                     approvedOn
                                 } = item.data();
 
+                                function openEdit(event) {
+                                    if (AppUser?.roles?.includes('Approver')){
+                                    if (window.confirm("Are you sure you want to delete this Newsletter.")){
+                                        const docRef = doc(db, 'newsletters', id);
+                                        deleteDoc(docRef)
+                                        .then(docRef => {
+                                            const desertRef = ref(storage, `${edition}_${year}-${month}_${issue}.pdf`)
+                                            deleteObject(desertRef).then(() => {
+                                                // File deleted successfully
+                                              }).catch((error) => {
+                                                // Uh-oh, an error occurred!
+                                              });
+                                            alert("The Newsletter has been successfully deleted.");
+                                        })
+                                          .catch(error => {
+                                              alert("An error has occured with deleting the Newsletter, Please try again.\n\n"+error);
+                                          })
+                                 }
+                                }else{
+                                    alert("This account does not have permisions to delete newsletters.");
+                                }
+                                 }
+
                                 function openNewsletter(event) {
-                                    const storage = getStorage();
                                     // getDownloadURL(ref(storage, `${edition.split(' ').join('-')}_${year}-${month}_${issue}.pdf`))
                                     getDownloadURL(ref(storage, `${edition}_${year}-${month}_${issue}.pdf`))
                                     .then((url) => {
@@ -67,21 +94,21 @@ function NewslettersTable(props) {
                                 }
 
                                 return(
-                                    <tr onClick={openNewsletter} key={item.id}>
+                                    <tr>
+                                        <td>
+                                        { AppUser?.roles?.includes('Approver') ?
+                                        <FontAwesomeIcon style={{marginRight: 15}} onClick={openEdit} key={item.id} color="red" icon={faTrash}/> : ""
+                                        }
+
+                                        { AppUser?.roles?.includes('Approver') ?
+                                        <FontAwesomeIcon onClick={openNewsletter} key={item.id} icon={faFilePdf}/> : ""
+                                        }
+                                        </td>
                                         <td>
                                             <Cell words={[searchQuery]} text={title} />
                                         </td>
                                         <td>
-                                            <Cell words={[searchQuery]} text={issue.toString()} />
-                                        </td>
-                                        <td>
-                                            <Cell words={[searchQuery]} text={months[month - 1]} />
-                                        </td>
-                                        <td>
-                                            <Cell words={[searchQuery]} text={year.toString()} />
-                                        </td>
-                                        <td>
-                                            <Cell words={[searchQuery]} text={edition} />
+                                            <Cell  words={[searchQuery]} text={ edition +'-'+ year.toString()+'-'+ months[month - 1] +'-'+ issue.toString()+'.pdf'}/>
                                         </td>
                                         <td>
                                             <Cell words={[searchQuery]} text={( publishedBy || '' ) + ' ' + ( (publishedOn === "") ? "" : publishedOn?.toDate()?.toLocaleDateString() || '') } />

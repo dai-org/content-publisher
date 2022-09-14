@@ -15,6 +15,7 @@ import ReferenceGuides from './routes/reference_guides/reference-guides';
 import USMCEvents from './routes/usmc_events/usmc-events';
 import USMCUPK from './routes/upk_usmc/upk-usmc';
 import News from './routes/news/news';
+import Admin from './admin/admin';
 
 
 function App() {
@@ -57,6 +58,10 @@ function App() {
                             <PrivateRoute path="/upk-usmc">
                                 <Navbar />
                                 <USMCUPK />
+                            </PrivateRoute>
+                            <PrivateRoute path="/admin">
+                                <Navbar />
+                                <Admin />
                             </PrivateRoute>
                         </Route>
                     </Switch>

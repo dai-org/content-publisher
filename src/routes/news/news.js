@@ -1,12 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { getFirestore, collection, addDoc, onSnapshot, query, where, updateDoc, doc, serverTimestamp } from 'firebase/firestore'
+import { deleteDoc, getFirestore, collection, addDoc, onSnapshot, query, where, updateDoc, doc, serverTimestamp } from 'firebase/firestore'
 import './news.css'
 import NewsTable from './news-table';
 import { useAuth } from "../../components/provideAuth";
-
-// TODO: Invert progress bar text color as bar fills, see post [https://stackoverflow.com/a/61353195]
 
 function News() {
     const subject = useRef();
@@ -14,7 +12,6 @@ function News() {
     const maradminid = useRef();
     const body = useRef();
     const video = useRef();
-    const author = useRef();
     const searchField = useRef();
     const uploadButton = useRef();
     const [cache, setCache] = useState([]);
@@ -100,32 +97,31 @@ function News() {
                     <div>
                         <h3 className='mb-4'>New Post</h3>
                         <div className='input-group mb-3'>
-                            <span className='input-group-text'>Subject</span>
+                            <span className='input-group-text w-25'>Subject</span>
                             <textarea className="form-control" rows="1" ref={subject}></textarea>
                         </div>
                         <div className='input-group mb-3'>
-                            <span className='input-group-text'>Body</span>
+                            <span className='input-group-text w-25'>Body</span>
                             <textarea className="form-control" rows="6" ref={body}></textarea>
                         </div>
                         <div className='input-group mb-3'>
-                            <span className='input-group-text'>Video/MarAdmin URL</span>
-                            <textarea className="form-control" rows="1" ref={video}></textarea>
+                            <span className='input-group-text w-25'>Video/MarAdmin URL</span>
+                            <textarea placeholder="http://www.website.com (Leave Blank, if there is no URL)" className="form-control" rows="1" ref={video}></textarea>
                         </div>
                         <div className='input-group mb-3'>
-                            <span className='input-group-text'>MarAdmin ID</span>
-                            <textarea className="form-control" rows="1" ref={maradminid}></textarea>
+                            <span className='input-group-text w-25'>MarAdmin ID</span>
+                            <textarea placeholder="245/34 (Leave Blank, if not MarAdmin)" className="form-control" rows="1" ref={maradminid}></textarea>
                         </div>
                         <div className='input-group mb-3'>
-                            <span className='input-group-text'>Post Type</span>
-                            <select className='form-select' id='status' ref={postType} >
-                                    <option value='general'>Select An Option</option>
+                            <span className='input-group-text w-25'>Post Type</span>
+                            <select className='form-select' value="general" id='status' ref={postType} >
                                     <option value='alert'>Alert</option>
                                     <option value='info'>Information Only</option>
                                     <option value='general'>General</option>
                                 </select>
                         </div>
-                        <div className='input-group mb-2'>
-                                <label className='input-group-text' htmlFor='group'>Published Status</label>
+                        <div className='input-group mb-2 '>
+                                <label className='input-group-text w-25' htmlFor='group'>Published Status</label>
                                 {
                                     AppUser?.roles?.includes('Approver') ?
                                     <select className='form-select' id='group' ref={status} >
@@ -151,7 +147,6 @@ function News() {
                                     body: body.current.value,
                                     video: (video.current.value.length > 0) ? video.current.value : "undefined",
                                     maradminid: (maradminid.current.value.length > 0) ? maradminid.current.value : "undefined",
-                                    author: author.current.value,
                                     date: serverTimestamp(),
                                     publishedBy: AppUser?.name,
                                     publishedOn: serverTimestamp(), 
@@ -173,7 +168,6 @@ function News() {
                                 subject.current.value = '';
                                 body.current.value = '';
                                 video.current.value = '';
-                                author.current.value = '';
                                 maradminid.current.value = '';
                                 status.current.value = 'Awaiting Approval';
                             }}
@@ -201,7 +195,8 @@ function News() {
                                     video,
                                     author,
                                     postType, 
-                                    maradminid
+                                    maradminid, 
+                                    notes
                                 } = entry.data();
 
                                 return (
@@ -230,12 +225,17 @@ function News() {
                                             <label>Post Type</label>
                                             <div>{postType}</div>
                                         </div>
+                                        <div className='mb-3'>
+                                        <label>Approver Notes</label>
+                                        <textarea className="form-control" rows="6" ref={notes}></textarea>
+                                        </div>
                                         <button
-                                            className={`btn btn-success btn-sm w-100 round-10`}
+                                            className={`btn btn-success btn-sm w-75 round-10`}
                                             onClick={event => {
                                                 updateDoc(
                                                     doc(getFirestore(), 'posts', id),
                                                     {
+                                                        notes: notes.current.value,
                                                         status: 'Approved',
                                                         approvedBy: AppUser.name,
                                                         approvedOn: serverTimestamp(),
@@ -245,6 +245,24 @@ function News() {
                                         >
                                             Approve
                                         </button>
+                                        <button
+                                type='button'
+                                style={{marginLeft:5}}
+                                className='btn btn-danger w-20 btn-sm round-10'
+                                ref={uploadButton}
+                                onClick={async (event) => {
+                                    const docRef = doc(getFirestore(), 'posts', id);
+                                    deleteDoc(docRef)
+                                    .then(docRef => {
+                                        alert("The News/Post has been successfully deleted.");
+                                    })
+                                      .catch(error => {
+                                          alert("An error has occured with deleting the News/Post, Please try again.\n\n"+error);
+                                      })
+                                }}
+                            >
+                                Delete
+                            </button>
                                     </div>
                                 )
                             })
@@ -259,7 +277,7 @@ function News() {
                         <input type='search' placeholder='Search Posts' title='Search Posts' ref={searchField} onChange={onSearch}/>
                     </div>
                 </div>
-                <NewsTable posts={posts} searchQuery={searchQuery} />
+                <NewsTable posts={posts} AppUser={AppUser} searchQuery={searchQuery} />
             </div>
         </div>
     );

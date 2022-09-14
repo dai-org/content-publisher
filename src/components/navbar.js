@@ -1,7 +1,10 @@
-import React from "react";
+import React from 'react';
 import { useAuth } from './provideAuth';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import './navbar.css'
+
+
+
 
 function NavBar() {
     const auth = useAuth();
@@ -9,7 +12,7 @@ function NavBar() {
     return (
         <Navbar collapseOnSelect expand="lg" style={{ boxShadow: 'none' }} bg="light" variant="light" sticky="top">
             <Container>
-                <Navbar.Brand href="/">DAI App | Content Publisher </Navbar.Brand><small>(v 1.4.2)</small>
+                <Navbar.Brand href="/">Content Publisher </Navbar.Brand><small>(v 1.5)</small>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
@@ -17,9 +20,9 @@ function NavBar() {
                         <Nav.Link href="/faqs">FAQs</Nav.Link>
                         <Nav.Link href="/newsletters">Newsletters</Nav.Link>
                         <Nav.Link href="/posts">News/Posts</Nav.Link>
-                        <Nav.Link href="/upk-usmc">USMC UPK & SDPs</Nav.Link>
+                        <Nav.Link href="/upk-usmc">UPK & SDPs</Nav.Link>
                         <Nav.Link href="/usmc-events">Events Calendar</Nav.Link>
-
+                        <Nav.Link href="/admin">Admin Users</Nav.Link>
                     </Nav>
                     <button
                         type='button'

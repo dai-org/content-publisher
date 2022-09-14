@@ -1,26 +1,108 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import Cell from '../../components/cell';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
+import Modali, { useModali } from 'modali';
+import { getFirestore, updateDoc, doc, deleteDoc } from 'firebase/firestore'
 
 function DataDictionaryTable(props) {
-    const { entries, searchQuery } = props;
+    const { entries, searchQuery, AppUser } = props;
+    const [exampleModal, toggleExampleModal] = useModali({
+        animated: true,
+        large: true,
+        closeButton: true,
+        title: "Edit Data Dictionary Entry"
+      });
+    const [editData, setEditData] = useState([]);
+    const [idData, setIDData] = useState("");
+    const uploadButton = useRef();
+    const term = useRef();
+    const description = useRef();
+    const db = getFirestore(); // initialize Firestore
+
 
     return (
         <div className='table-container'>
-            {/* <h4 className={`text-start${entries.length !== 0 ? ' mb-4' : ' mb-0'}`}>Data Dictionary Entries ({entries.length})</h4> */}
             {
                 entries.length !== 0 &&
-                <table className='w-100'>
+                <table className='w-100'>  
+                       
+                <Modali.Modal {...exampleModal}>
+                   { AppUser?.roles?.includes('Approver') ?
+                    <div className='cp-form-inner mb-5 mt-5 col-12 px-md-5 justify-content-center'>
+                        <div>
+                            <>
+                            <div className='input-group mb-3'>
+                                <span className='input-group-text'>Term</span>
+                                <textarea className="form-control" rows="2" defaultValue={editData.term} ref={term}></textarea>
+                            </div><div className='input-group mb-3'>
+                                    <span className='input-group-text'>Description</span>
+                                    <textarea className="form-control" rows="6" defaultValue={editData.description} ref={description}></textarea>
+                                </div></>
+   
+                            <button
+                                type='button'
+                                className='btn btn-success w-75 round-10'
+                                ref={uploadButton}
+                                onClick={event => {
+                                    const docRef = doc(db, 'dataDictionary', idData);
+                                    const data = {
+                                        term: term.current.value,
+                                        description: description.current.value
+                                      };
+                                      updateDoc(docRef, data)
+                                      .then(docRef => {
+                                        alert("Data Dictionary term has been successfully updated.");
+                                    })
+                                      .catch(error => {
+                                          alert("An error has occured with updating the Data Dictionary, Please try again.\n\n"+error);
+                                      })
+                                }}
+                            >
+                                Update
+                            </button>
+
+                            <button
+                                type='button'
+                                style={{marginLeft:5}}
+                                className='btn btn-danger w-20 round-10'
+                                ref={uploadButton}
+                                onClick={async (event) => {
+                                    const docRef = doc(db, 'dataDictionary', idData);
+                                    deleteDoc(docRef)
+                                    .then(docRef => {
+                                        alert("Data Dictionary term has been successfully deleted.");
+                                    })
+                                      .catch(error => {
+                                          alert("An error has occured with deleting the Data Dictionary, Please try again.\n\n"+error);
+                                      })
+                                }}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                    :
+                    
+<div class="alert">
+  <h4 class="alert-heading">Access Denied!</h4>
+  <p>Current user does not have access to edit entry data.</p>
+</div>
+}
+                                        </Modali.Modal>   
                     <thead>
                         <tr>
-                            <th>Term</th>
-                            <th>Description</th>
-                            <th>Published</th>
-                            <th>Approved</th>
+                        <th width='5%'></th>
+                            <th width='10%'>Term</th>
+                            <th width='45%'>Description</th>
+                            <th width='20%'>Published</th>
+                            <th width='20%'>Approved</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
                             entries.map(item => {
+                                const { id } = item;
                                 const {
                                     term,
                                     description,
@@ -30,12 +112,22 @@ function DataDictionaryTable(props) {
                                     approvedOn
                                 } = item.data();
 
-                                function editFaq(event) {
-                                    console.log(event);
-                                }
+                                function openEdit() {
+                                    if (AppUser?.roles?.includes('Approver')){
+                                     setIDData(id)
+                                     setEditData(item.data())
+                                     toggleExampleModal() 
+                                 }
+                                 }
 
                                 return(
-                                    <tr onClick={editFaq} key={item.id}>
+                                    
+                                        <tr onClick={openEdit} key={id}>
+                                        <td>
+                                        { AppUser?.roles?.includes('Approver') ?
+                                        <FontAwesomeIcon color="red" icon={faEdit}/> : ""
+                                        }
+                                        </td>
                                         <td>
                                             <Cell words={[searchQuery]} text={term} />
                                         </td>
@@ -48,9 +140,6 @@ function DataDictionaryTable(props) {
                                         <td>
                                             <Cell words={[searchQuery]} text={( approvedBy || '' ) + ' ' + ( (approvedOn === "") ? "" : approvedOn?.toDate()?.toLocaleDateString() || '' )} />
                                         </td>
-                                        {/* <td>{term}</td>
-                                        <td>{description}</td>
-                                        <td></td> */}
                                     </tr>
                                 )
                             })

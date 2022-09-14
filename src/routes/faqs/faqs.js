@@ -1,10 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, where, updateDoc, doc, serverTimestamp } from 'firebase/firestore'
+import { deleteDoc, getFirestore, collection, addDoc, onSnapshot, query, orderBy, where, updateDoc, doc, serverTimestamp } from 'firebase/firestore'
 import { useAuth } from "../../components/provideAuth";
 import FaqsTable from './faqs-table';
 import './faqs.css'
+import '../../admin';
+//import { sendApprovalEmail } from '../../admin';
 
 function Faqs() {
     const status = useRef();
@@ -15,12 +17,12 @@ function Faqs() {
     const uploadButton = useRef();
     const [cache, setCache] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
-    const [filterNoGroup, setFilterNoGroup] = useState(false);
     const [filterOTL, setFilterOTL] = useState(false);
     const [filterB2R, setFilterB2R] = useState(false);
     const [filterCA, setFilterCA] = useState(false);
     const [filterP2P, setFilterP2P] = useState(false);
     const [filterDAI101, setFilterDAI101] = useState(false);
+    const [filterOBIEE, setFilterOBIEE] = useState(false);
     const [faqs, setFaqs] = useState([]);
     const [formLoading, setFormLoading] = useState(true);
     const [AppUser, setAppUser] = useState([]);
@@ -87,7 +89,7 @@ function Faqs() {
         setFilterP2P(false);
         setFilterDAI101(false);
         setFilterCA(false);
-        setFilterNoGroup(false);
+        setFilterOBIEE(false);
     }
 
     function filterByGroup(group) {
@@ -137,7 +139,7 @@ function Faqs() {
                     </div>
                 }
                 {
-                    AppUser?.roles?.includes('Publisher') &&
+
                     <div className='cp-form-inner mb-5 mt-4'>
                         <div>
                             <h3 className='mb-4'>Create FAQ</h3>
@@ -146,9 +148,10 @@ function Faqs() {
                                 <select className='form-select' id='group' ref={group} >
                                     <option value='CA'>CA</option>
                                     <option value='B2R'>B2R</option>
-                                    <option value='DAI 101'>DAI 101</option>
+                                    <option value='DAI-101'>DAI-101</option>
                                     <option value='OTL'>OTL</option>
                                     <option value='P2P'>P2P</option>
+                                    <option value='OBIEE'>OBIEE</option>
                                 </select>
                             </div>
                             <div className='input-group mb-3'>
@@ -174,16 +177,6 @@ function Faqs() {
                                     </select>
                                 }
                             </div>
-                            {
-                                AppUser?.roles ?
-                                <div className='w-100 d-flex justify-content-end align-items-center mb-3'>
-                                    <span>
-                                        <strong>Roles: </strong>
-                                    </span>
-                                    <span className='ps-2'>{AppUser?.roles.sort().join(', ')}</span>
-                                </div> :
-                                ''
-                            }
                             <button
                                 type='button'
                                 className='btn btn-success w-100 round-10'
@@ -206,13 +199,16 @@ function Faqs() {
                                     }
 
                                     const db = getFirestore();
-                                    const docRef = await addDoc(collection(db, 'faq'), data);
-
-                                    console.log('Document written with ID: ', docRef.id);
-
+                                    await addDoc(collection(db, 'faq'), data);
+/*
+                                    sendApprovalEmail('aldunn@aeyon.us', 
+                                    'aldunn@aeyon.us', 
+                                        'A DAI App FAQ was Posted', 
+                                        'Recently a DAI App user posted a new FAQ that requires your approval. Document written with ID: '+ docRef.id+'.<BR><BR><a href="https://content-publisher.netlify.app/faqs">Login To Content Publisher</a>');
                                     // Reset fields
+                                    */
                                     status.current.value = 'Awaiting Approval'
-                                    group.current.value = 'None'
+                                    group.current.value = 'CA'
                                     question.current.value = '';
                                     answer.current.value = '';
                                 }}
@@ -237,7 +233,8 @@ function Faqs() {
                                 const {
                                     question,
                                     answer,
-                                    group
+                                    group, 
+                                    notes
                                 } = entry.data();
 
                                 return (
@@ -254,12 +251,17 @@ function Faqs() {
                                             <label>Group</label>
                                             <div>{group || 'None'}</div>
                                         </div>
+                                        <div className='mb-3'>
+                                        <label>Approver Notes</label>
+                                        <textarea className="form-control" rows="6" ref={notes}></textarea>
+                                        </div>
                                         <button
-                                            className={`btn btn-success btn-sm w-100 round-10`}
+                                            className={`btn btn-success btn-sm w-75 round-10`}
                                             onClick={event => {
                                                 updateDoc(
                                                     doc(getFirestore(), 'faq', id),
                                                     {
+                                                        notes: notes.current.value,
                                                         status: 'Approved',
                                                         approvedBy: AppUser.name,
                                                         approvedOn: serverTimestamp(),
@@ -269,6 +271,24 @@ function Faqs() {
                                         >
                                             Approve
                                         </button>
+                                        <button
+                                type='button'
+                                style={{marginLeft:5}}
+                                className='btn btn-danger w-20 btn-sm round-10'
+                                ref={uploadButton}
+                                onClick={async (event) => {
+                                    const docRef = doc(getFirestore(), 'faq', id);
+                                    deleteDoc(docRef)
+                                    .then(docRef => {
+                                        alert("The FAQ has been successfully deleted.");
+                                    })
+                                      .catch(error => {
+                                          alert("An error has occured with deleting the FAQ, Please try again.\n\n"+error);
+                                      })
+                                }}
+                            >
+                                Delete
+                            </button>
                                     </div>
                                 )
                             })
@@ -282,20 +302,6 @@ function Faqs() {
                         <input type='search' placeholder='Search FAQs' title='Search FAQs' ref={searchField} onChange={onSearch}/>
                     </div>
                     <button
-                        className={`btn btn-secondary btn-sm ${filterNoGroup ? 'selected' : ''}`}
-                        onClick={event => {
-                            filterByGroup('No Group');
-                            setFilterB2R(false);
-                            setFilterOTL(false);
-                            setFilterP2P(false);
-                            setFilterDAI101(false);
-                            setFilterCA(false);
-                            setFilterNoGroup(toggle(filterNoGroup));
-                        }}
-                    >
-                        No Group
-                    </button>
-                    <button
                         className={`btn btn-secondary btn-sm ${filterCA ? 'selected' : ''}`}
                         onClick={event => {
                             filterByGroup('CA');
@@ -304,7 +310,7 @@ function Faqs() {
                             setFilterP2P(false);
                             setFilterDAI101(false);
                             setFilterCA(toggle(filterCA));
-                            setFilterNoGroup(false);
+                            setFilterOBIEE(false);
                         }}
                     >
                         CA
@@ -318,7 +324,7 @@ function Faqs() {
                             setFilterP2P(false);
                             setFilterDAI101(false);
                             setFilterCA(false);
-                            setFilterNoGroup(false);
+                            setFilterOBIEE(false);
                         }}
                     >
                         B2R
@@ -326,16 +332,16 @@ function Faqs() {
                     <button
                         className={`btn btn-secondary btn-sm ${filterDAI101 ? 'selected' : ''}`}
                         onClick={event => {
-                            filterByGroup('DAI 101');
+                            filterByGroup('DAI-101');
                             setFilterB2R(false);
                             setFilterOTL(false);
                             setFilterP2P(false);
                             setFilterDAI101(toggle(filterDAI101));
                             setFilterCA(false);
-                            setFilterNoGroup(false);
+                            setFilterOBIEE(false);
                         }}
                     >
-                        DAI 101
+                        DAI-101
                     </button>
                     <button
                         className={`btn btn-secondary btn-sm ${filterOTL ? 'selected' : ''}`}
@@ -346,7 +352,7 @@ function Faqs() {
                             setFilterP2P(false);
                             setFilterDAI101(false);
                             setFilterCA(false);
-                            setFilterNoGroup(false);
+                            setFilterOBIEE(false);
                         }}
                     >
                         OTL
@@ -360,10 +366,24 @@ function Faqs() {
                             setFilterP2P(toggle(filterP2P));
                             setFilterDAI101(false);
                             setFilterCA(false);
-                            setFilterNoGroup(false);
+                            setFilterOBIEE(false);
                         }}
                     >
                         P2P
+                    </button>
+                    <button
+                        className={`btn btn-secondary btn-sm ${filterOBIEE ? 'selected' : ''}`}
+                        onClick={event => {
+                            filterByGroup('OBIEE');
+                            setFilterB2R(false);
+                            setFilterOTL(false);
+                            setFilterOBIEE(toggle(filterOBIEE));
+                            setFilterDAI101(false);
+                            setFilterCA(false);
+                            setFilterP2P(false);
+                        }}
+                    >
+                        OBIEE
                     </button>
                     <button
                         className='btn btn-primary btn-sm mr-5'
@@ -373,7 +393,7 @@ function Faqs() {
                             setFilterP2P(false);
                             setFilterDAI101(false);
                             setFilterCA(false);
-                            setFilterNoGroup(false)
+                            setFilterOBIEE(false);
                             setFaqs(cache);
                         }}
                     >
@@ -411,7 +431,7 @@ function Faqs() {
                         Download
                     </button>
                 </div>
-                <FaqsTable faqs={faqs} searchQuery={searchQuery} />
+                <FaqsTable faqs={faqs} AppUser={AppUser} searchQuery={searchQuery} />
             </div>
         </div>
     );

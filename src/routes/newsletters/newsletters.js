@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, where, updateDoc, doc } from 'firebase/firestore'
+import { deleteDoc, getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, where, updateDoc, doc } from 'firebase/firestore'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { useAuth } from "../../components/provideAuth";
 import NewslettersTable from './newsletters-table';
@@ -163,7 +163,6 @@ function Newsletters() {
                     </div>
                 }
                 {
-                    AppUser?.roles?.includes('Publisher') &&
                     <div className='cp-form-inner mb-5 mt-4'>
                         <div>
                             <h3 className='mb-4'>Upload Newsletter (PDF)</h3>
@@ -202,11 +201,11 @@ function Newsletters() {
                             </div>
                             <div className='input-group mb-3'>
                                 <span className='input-group-text'>Year</span>
-                                <input type='number' className='form-control' defaultValue={new Date().getFullYear()} aria-label='year' ref={year} />
+                                <input type='number' className='form-control' value={new Date().getFullYear()} aria-label='year' ref={year} />
                             </div>
                             <div className='input-group mb-4'>
                                 <span className='input-group-text'>Issue</span>
-                                <input type='number' className='form-control' defaultValue='1' aria-label='issue' ref={issue} />
+                                <input type='number' className='form-control' value='1' aria-label='issue' ref={issue} />
                             </div>
                             <div className='input-group mb-2'>
                                 <label className='input-group-text' htmlFor='group'>Published Status</label>
@@ -223,16 +222,6 @@ function Newsletters() {
                                     </select>
                                 }
                             </div>
-                            {
-                                AppUser?.roles ?
-                                <div className='w-100 d-flex justify-content-end align-items-center mb-3'>
-                                    <span>
-                                        <strong>Roles: </strong>
-                                    </span>
-                                    <span className='ps-2'>{AppUser?.roles.sort().join(', ')}</span>
-                                </div> :
-                                ''
-                            }
                             <button
                                 type='button'
                                 className='btn btn-success w-100 round-10'
@@ -377,7 +366,8 @@ function Newsletters() {
                                     title,
                                     issue,
                                     month,
-                                    year
+                                    year, 
+                                    notes
                                 } = entry.data();
 
                                 return (
@@ -402,12 +392,17 @@ function Newsletters() {
                                             <label>Year</label>
                                             <div>{year}</div>
                                         </div>
+                                         <div className='mb-3'>
+                                        <label>Approver Notes</label>
+                                        <textarea className="form-control" rows="6" ref={notes}></textarea>
+                                        </div>
                                         <button
-                                            className={`btn btn-success btn-sm w-100 round-10`}
+                                            className={`btn btn-success btn-sm w-75 round-10`}
                                             onClick={event => {
                                                 updateDoc(
                                                     doc(getFirestore(), 'newsletters', id),
                                                     {
+                                                        notes: notes.current.value,
                                                         status: 'Approved',
                                                         approvedBy: AppUser.name,
                                                         approvedOn: serverTimestamp(),
@@ -417,6 +412,24 @@ function Newsletters() {
                                         >
                                             Approve
                                         </button>
+                                        <button
+                                type='button'
+                                style={{marginLeft:5}}
+                                className='btn btn-danger w-20 btn-sm round-10'
+                                ref={uploadButton}
+                                onClick={async (event) => {
+                                    const docRef = doc(getFirestore(), 'newsletters', id);
+                                    deleteDoc(docRef)
+                                    .then(docRef => {
+                                        alert("The newsletter has been successfully deleted.");
+                                    })
+                                      .catch(error => {
+                                          alert("An error has occured with deleting the newsletter, Please try again.\n\n"+error);
+                                      })
+                                }}
+                            >
+                                Delete
+                            </button>
                                     </div>
                                 )
                             })
@@ -570,7 +583,7 @@ function Newsletters() {
                         Download
                     </button>
                 </div>
-                <NewslettersTable newsletters={newsletters} searchQuery={searchQuery} />
+                <NewslettersTable AppUser={AppUser} newsletters={newsletters} searchQuery={searchQuery} />
             </div>
         </div>
     );

@@ -20,7 +20,6 @@ function Admin() {
     const [formLoading, setFormLoading] = useState(true);
     const name = useRef();
     const roles = useRef();
-    let r = Math.random().toString(36).slice(4);
     const auths = getAuth();
 
     useEffect(() => {
@@ -128,7 +127,6 @@ function Admin() {
                             ref={uploadButton}
                             onClick={async (event) => {                                
                                 // Create Firestore document, holds file metadata
-                                const db = getFirestore();
                                 const data = {
                                     name: name.current.value,
                                     email: email.current.value,
@@ -136,16 +134,16 @@ function Admin() {
                                     publishedBy: AppUser?.name,
                                     publishedOn: serverTimestamp(), 
                                     status: status.current.value,
-                                    password: r
+                                    password: Math.random().toString(36).slice(4)
                                 };
 
                                 if (status.current.value === 'Approved') {
                                     data.approvedBy = AppUser.name;
                                     data.approvedOn = serverTimestamp();
                                     data.status = 'Approved';
-                                const docRef = await addDoc(collection(db, 'appUsers'), data);
+                                const docRef = await addDoc(collection(getFirestore(), 'appUsers'), data);
                                 console.log('Document written with ID: ', docRef.id);
-                                createUserWithEmailAndPassword(auths, email.current.value, r); 
+                                createUserWithEmailAndPassword(auths, email.current.value, Math.random().toString(36).slice(4)); 
                                 sendPasswordResetEmail(auths, email.current.value);    
                             }
 
@@ -200,8 +198,6 @@ function Admin() {
                                         <button
                                             className={`btn btn-success btn-sm w-75 round-10`}
                                             onClick={event => {
-                                                createUserWithEmailAndPassword(auths, email.current.value, r); 
-                                                sendPasswordResetEmail(auths, email.current.value); 
                                                 updateDoc(
                                                     doc(getFirestore(), 'appUsers', id),
                                                     {
@@ -211,6 +207,8 @@ function Admin() {
                                                         approvedOn: serverTimestamp(),
                                                     }
                                                 );
+                                                createUserWithEmailAndPassword(auths, email, Math.random().toString(36).slice(4)); 
+                                                sendPasswordResetEmail(auths, email); 
                                             }}
                                         >
                                             Approve

@@ -24,6 +24,7 @@ function USMCEvents() {
     const auth = useAuth();
     const [formLoading, setFormLoading] = useState(true);
     const status = useRef();
+    const note = useRef();
 
     useEffect(() => {
         if (auth.user.email) {
@@ -244,7 +245,7 @@ function USMCEvents() {
                                         </div>
                                         <div className='mb-3'>
                                         <label>Approver Notes</label>
-                                        <textarea className="form-control" rows="6" ref={notes}></textarea>
+                                        <textarea className="form-control" rows="6" ref={note}></textarea>
                                         </div>
                                         <button
                                             className={`btn btn-success btn-sm w-75 round-10`}
@@ -252,7 +253,7 @@ function USMCEvents() {
                                                 updateDoc(
                                                     doc(getFirestore(), 'calendarEvents', id),
                                                     {
-                                                        notes: notes.current.value,
+                                                        notes: note.current.value,
                                                         status: 'Approved',
                                                         approvedBy: AppUser.name,
                                                         approvedOn: serverTimestamp()

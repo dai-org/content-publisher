@@ -46,6 +46,7 @@ function Newsletters() {
     const [formLoading, setFormLoading] = useState(true);
     const [AppUser, setAppUser] = useState([]);
     const auth = useAuth();
+    const note = useRef();
 
     useEffect(() => {
         if (auth.user.email) {
@@ -394,7 +395,7 @@ function Newsletters() {
                                         </div>
                                          <div className='mb-3'>
                                         <label>Approver Notes</label>
-                                        <textarea className="form-control" rows="6" ref={notes}></textarea>
+                                        <textarea className="form-control" rows="6" ref={note}></textarea>
                                         </div>
                                         <button
                                             className={`btn btn-success btn-sm w-75 round-10`}
@@ -402,7 +403,7 @@ function Newsletters() {
                                                 updateDoc(
                                                     doc(getFirestore(), 'newsletters', id),
                                                     {
-                                                        notes: notes.current.value,
+                                                        notes: note.current.value,
                                                         status: 'Approved',
                                                         approvedBy: AppUser.name,
                                                         approvedOn: serverTimestamp(),

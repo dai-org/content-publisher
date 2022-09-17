@@ -9,6 +9,7 @@ import { sendPasswordResetEmail, createUserWithEmailAndPassword, getAuth } from 
 
 function Admin() {
     const email = useRef();
+    const note = useRef();
     const searchField = useRef();
     const uploadButton = useRef();
     const [cache, setCache] = useState([]);
@@ -193,7 +194,7 @@ function Admin() {
                                         </div>
                                         <div className='mb-3'>
                                         <label>Approver Notes</label>
-                                        <textarea className="form-control" rows="6" ref={notes}></textarea>
+                                        <textarea className="form-control" rows="6" ref={note}></textarea>
                                         </div>
                                         <button
                                             className={`btn btn-success btn-sm w-75 round-10`}
@@ -201,7 +202,7 @@ function Admin() {
                                                 updateDoc(
                                                     doc(getFirestore(), 'appUsers', id),
                                                     {
-                                                        notes: notes.current.value,
+                                                        notes: note.current.value,
                                                         status: 'Approved',
                                                         approvedBy: AppUser.name,
                                                         approvedOn: serverTimestamp(),

@@ -368,7 +368,6 @@ function Newsletters() {
                                     issue,
                                     month,
                                     year, 
-                                    notes
                                 } = entry.data();
 
                                 return (

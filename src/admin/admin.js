@@ -175,7 +175,6 @@ function Admin() {
                                     name,
                                     email,
                                     roles,
-                                    notes
                                 } = entry.data();
 
                                 return (

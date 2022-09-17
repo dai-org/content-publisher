@@ -235,7 +235,6 @@ function Faqs() {
                                     question,
                                     answer,
                                     group, 
-                                    notes
                                 } = entry.data();
 
                                 return (

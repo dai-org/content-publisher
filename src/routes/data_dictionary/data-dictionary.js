@@ -178,7 +178,6 @@ function DataDictionary() {
                                 const {
                                     term,
                                     description,
-                                    notes
                                 } = entry.data();
 
                                 return (

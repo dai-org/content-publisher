@@ -197,7 +197,6 @@ function News() {
                                     author,
                                     postType, 
                                     maradminid, 
-                                    notes
                                 } = entry.data();
 
                                 return (

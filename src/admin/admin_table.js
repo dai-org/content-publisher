@@ -137,12 +137,12 @@ function AdminTable(props) {
                                  }
 
                                 return(
-                                    <tr>
+                                    <tr key={id}>
                                        <td>
                                         { AppUser?.roles?.includes('Approver') ?
-                                        <FontAwesomeIcon onClick={openEdit} key={id} style={{marginRight: 10}} color="red" icon={faEdit}/> : ""
+                                        <FontAwesomeIcon onClick={openEdit} style={{marginRight: 10}} color="red" icon={faEdit}/> : ""
                                         }
-                                        <FontAwesomeIcon color="red" icon={faKey} onClick={resendPassword} key={id}/>
+                                        <FontAwesomeIcon color="red" icon={faKey} onClick={resendPassword}/>
                                         </td>
                                         <td className=''>
                                             <Cell words={[searchQuery]} text={name} />

@@ -222,7 +222,6 @@ function USMCEvents() {
                                     timeto,
                                     datefrom,
                                     dateto,
-                                    notes
                                 } = entry.data();
 
                                 return (

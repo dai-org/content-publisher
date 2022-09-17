@@ -202,7 +202,6 @@ function UPKUSMC() {
                                     description,
                                     module,
                                     tags,
-                                    notes
                                 } = entry.data();
 
                                 return (

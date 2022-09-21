@@ -24,6 +24,7 @@ export async function handleClick(from, to, subject, html) {
   formData.append('to', to);
   formData.append('subject', subject);
   formData.append('html', html);
+  formData.append('api', "DC-IUYTFGHJ-IUYG876-VVBY986-CP");
   fetch('http://dunn-carabali.com/fetch.php', {
     method: 'POST', 
     mode: 'no-cors', 

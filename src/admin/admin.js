@@ -22,6 +22,7 @@ function Admin() {
     const name = useRef();
     const roles = useRef();
     const auths = getAuth();
+    const sgMail = require('@sendgrid/mail');
 
     useEffect(() => {
         if (auth.user.email) {
@@ -56,6 +57,18 @@ function Admin() {
 
         return unsubscribe;
     }, []);
+
+    useEffect(() => {
+    sgMail.setApiKey('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');
+    const msg = {
+      to: 'aldunn@ayeon.us',
+      from: 'andrew@dunn-carabali.com',
+      subject: 'Sending with SendGrid is Fun',
+      text: 'and easy to do anywhere, even with Node.js',
+      html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+    };
+        sgMail.send(msg);
+}, []);
 
     useEffect(() => {
         if (searchQuery) {

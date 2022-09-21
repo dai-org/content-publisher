@@ -115,10 +115,10 @@ function News() {
                         </div>
                         <div className='input-group mb-3'>
                             <span className='input-group-text w-25'>Post Type</span>
-                            <select className='form-select' value="general" id='status' ref={postType} >
+                            <select className='form-select' id='status' ref={postType} >
+                            <option value='general'>General</option>
                                     <option value='alert'>Alert</option>
                                     <option value='info'>Information Only</option>
-                                    <option value='general'>General</option>
                                 </select>
                         </div>
                         <div className='input-group mb-2 '>

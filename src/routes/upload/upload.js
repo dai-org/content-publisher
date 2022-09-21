@@ -21,7 +21,8 @@ function Upload() {
     const [AppUser, setAppUser] = useState([]);
     const auth = useAuth();
     const [formLoading, setFormLoading] = useState(true);
-
+    const [unapprovedAdminCount, setUnapprovedAdminCount] = useState(0);
+    const [adminCount, setAdminCount] = useState(0);
     // const [lastDictionary, setLastDictionary] = useState(null);
     // const [lastFaq, setLastFaq] = useState(null);
     // const [lastNewsletter, setLastNewsletter] = useState(null);
@@ -51,6 +52,26 @@ function Upload() {
         }
     }, [auth]);
 
+    useEffect(() => {
+        const db = getFirestore();
+        const dataDictionary = query(collection(db, "appUsers"));
+        const unsubscribe = onSnapshot(dataDictionary, { includeMetadataChanges: true },(querySnapshot) => { 
+            setAdminCount(querySnapshot.size);
+
+            let awaiting = 0;
+                
+            querySnapshot.forEach((doc) => {
+                if (doc.data().status === 'Awaiting Approval') {
+                    awaiting++;
+                }
+            });
+
+            setUnapprovedAdminCount(awaiting);
+        });
+
+        return unsubscribe;
+    }, []);
+    
 
     useEffect(() => {
         const db = getFirestore();
@@ -288,7 +309,16 @@ function Upload() {
                         </h5>
                     </div>
                 </div>
-
+                <div className='upload-inner pointer' onClick={event => { history.push('/admin'); }}>
+                    <div>
+                    <h5 className='mb-0'>Admin Users
+                        <div class="col-lg-0">
+                        <span className="badge alert-danger">{unapprovedAdminCount}</span>
+                        <span style= {{marginLeft: 10}} className="badge bg-secondary">{adminCount}</span>
+                        </div>
+                        </h5>
+                    </div>
+                </div>
             </div>
         </div>
     );

@@ -22,7 +22,6 @@ function Admin() {
     const name = useRef();
     const roles = useRef();
     const auths = getAuth();
-    const sgMail = require('@sendgrid/mail');
 
     useEffect(() => {
         if (auth.user.email) {
@@ -59,6 +58,7 @@ function Admin() {
     }, []);
 
     useEffect(() => {
+        const sgMail = require('@sendgrid/mail');
     sgMail.setApiKey('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');
     const msg = {
       to: 'aldunn@ayeon.us',

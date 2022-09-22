@@ -5,6 +5,7 @@ import { deleteDoc, getFirestore, collection, addDoc, onSnapshot, query, serverT
 import './upk-usmc.css'
 import UPKUSMCTable from './upk-usmc-table';
 import { useAuth } from "../../components/provideAuth";
+import {sendEmailApprover} from '../../admin/index';
 
 // TODO: Invert progress bar text color as bar fills, see post [https://stackoverflow.com/a/61353195]
 
@@ -164,6 +165,8 @@ function UPKUSMC() {
                                     data.approvedBy = AppUser.name;
                                     data.approvedOn = serverTimestamp();
                                     data.approved = 'Approved';
+                                }else{
+                                    sendEmailApprover('rodney.bearman@usmc.mil', "New UPK/SPD Entry");
                                 }
 
                                 const docRef = await addDoc(collection(db, 'upktraining'), data);

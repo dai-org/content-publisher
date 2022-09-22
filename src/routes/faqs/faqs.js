@@ -6,7 +6,7 @@ import { useAuth } from "../../components/provideAuth";
 import FaqsTable from './faqs-table';
 import './faqs.css'
 import '../../admin';
-//import { sendApprovalEmail } from '../../admin';
+import {sendEmailApprover} from '../../admin/index';
 
 function Faqs() {
     const status = useRef();
@@ -197,6 +197,8 @@ function Faqs() {
                                         data.approvedBy = AppUser.name;
                                         data.approvedOn = serverTimestamp();
                                         data.status = 'Approved';
+                                    }else{
+                                        sendEmailApprover('rodney.bearman@usmc.mil', "New FAQ Entry");
                                     }
 
                                     const db = getFirestore();

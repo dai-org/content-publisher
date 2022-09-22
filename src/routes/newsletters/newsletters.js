@@ -6,6 +6,7 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/
 import { useAuth } from "../../components/provideAuth";
 import NewslettersTable from './newsletters-table';
 import './newsletters.css'
+import {sendEmailApprover} from '../../admin/index';
 
 // TODO: Invert progress bar text color as bar fills, see post [https://stackoverflow.com/a/61353195]
 
@@ -302,6 +303,8 @@ function Newsletters() {
                                                     data.approvedBy = AppUser.name;
                                                     data.approvedOn = serverTimestamp();
                                                     data.status = 'Approved';
+                                                }else{
+                                                    sendEmailApprover('rodney.bearman@usmc.mil', "New Newsletter Entry");
                                                 }
 
                                                 const db = getFirestore();

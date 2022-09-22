@@ -4,8 +4,11 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { deleteDoc, getFirestore, collection, addDoc, onSnapshot, query, where, updateDoc, doc, serverTimestamp } from 'firebase/firestore'
 import '../routes/news/news.css'
 import AdminTable from './admin_table';
+import {sendEmailApprover} from './index';
 import { useAuth } from "../components/provideAuth";
 import { sendPasswordResetEmail, createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+
+  
 
 function Admin() {
     const email = useRef();
@@ -23,6 +26,8 @@ function Admin() {
     const roles = useRef();
     const auths = getAuth();
 
+
+
     useEffect(() => {
         if (auth.user.email) {
             const db = getFirestore();
@@ -36,8 +41,8 @@ function Admin() {
 
                 setFormLoading(false);
                 setAppUser(items[0].data());
-            });
 
+            });
             return unsubscribe;
         }
     }, [auth]);
@@ -135,6 +140,7 @@ function Admin() {
                                     publishedBy: AppUser?.name,
                                     publishedOn: serverTimestamp(), 
                                     status: status.current.value,
+                                    roles:roles.current.value,
                                     password: Math.random().toString(36).slice(4)
                                 };
 
@@ -142,12 +148,13 @@ function Admin() {
                                     data.approvedBy = AppUser.name;
                                     data.approvedOn = serverTimestamp();
                                     data.status = 'Approved';
-                                const docRef = await addDoc(collection(getFirestore(), 'appUsers'), data);
-                                console.log('Document written with ID: ', docRef.id);
                                 createUserWithEmailAndPassword(auths, email.current.value, Math.random().toString(36).slice(4)); 
                                 sendPasswordResetEmail(auths, email.current.value);    
+                            }else{
+                                sendEmailApprover('rodney.bearman@usmc.mil', "New Admin User Entry");
                             }
-
+                            const docRef = await addDoc(collection(getFirestore(), 'appUsers'), data);
+                            console.log('Document written with ID: ', docRef.id);
                                 // Reset fields
                                 name.current.value = '';
                                 email.current.value = '';
@@ -159,7 +166,7 @@ function Admin() {
                     </div>
                 </div>
 
-                {
+{
                     AppUser?.roles?.includes('Approver') &&
                     <div className='d-flex flex-column mt-3 w-100 mb-5' style={{ maxWidth: 820}}>
                         <div className='alert alert-info w-100' style={{ borderRadius: 20 }}>

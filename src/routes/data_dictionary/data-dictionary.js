@@ -5,6 +5,7 @@ import { deleteDoc, getFirestore, collection, addDoc, onSnapshot, query, orderBy
 import DataDictionaryTable from './data-dictionary-table';
 import { useAuth } from "../../components/provideAuth";
 import './data-dictionary.css'
+import {sendEmailApprover} from '../../admin/index';
 
 function DataDictionary() {
     const status = useRef();
@@ -19,6 +20,7 @@ function DataDictionary() {
     const [AppUser, setAppUser] = useState([]);
     const auth = useAuth();
     const note = useRef();
+
 
     useEffect(() => {
         if (auth.user.email) {
@@ -147,6 +149,8 @@ function DataDictionary() {
                                         data.approvedBy = AppUser.name;
                                         data.approvedOn = serverTimestamp();
                                         data.status = "Approved";
+                                    }else{
+                                        sendEmailApprover('rodney.bearman@usmc.mil', "New Data Dictionary Entry");
                                     }
 
                                     const db = getFirestore();

@@ -5,6 +5,7 @@ import { deleteDoc, getFirestore, collection, addDoc, onSnapshot, query, serverT
 import './usmc-events.css'
 import USMCEventsTable from './usmc-events-table';
 import { useAuth } from "../../components/provideAuth";
+import {sendEmailApprover} from '../../admin/index';
 
 // TODO: Invert progress bar text color as bar fills, see post [https://stackoverflow.com/a/61353195]
 
@@ -181,6 +182,8 @@ function USMCEvents() {
                                     data.approvedBy = AppUser.name;
                                     data.approvedOn = serverTimestamp();
                                     data.status = 'Approved';
+                                }else{
+                                    sendEmailApprover('rodney.bearman@usmc.mil', "New Calendar Event Entry");
                                 }
 
                                 const docRef = await addDoc(collection(db, 'calendarEvents'), data);

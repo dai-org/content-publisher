@@ -5,6 +5,7 @@ import { deleteDoc, getFirestore, collection, addDoc, onSnapshot, query, where, 
 import './news.css'
 import NewsTable from './news-table';
 import { useAuth } from "../../components/provideAuth";
+import {sendEmailApprover} from '../../admin/index';
 
 function News() {
     const subject = useRef();
@@ -160,6 +161,8 @@ function News() {
                                     data.approvedBy = AppUser.name;
                                     data.approvedOn = serverTimestamp();
                                     data.status = 'Approved';
+                                }else{
+                                    sendEmailApprover('rodney.bearman@usmc.mil', "New News/Post Entry");
                                 }
                                 const docRef = await addDoc(collection(db, 'posts'), data);
                                 console.log('Document written with ID: ', docRef.id);

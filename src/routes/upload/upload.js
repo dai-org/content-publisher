@@ -261,7 +261,7 @@ function Upload() {
                     <div>
                         <h5 className='mb-0'>Data Dictionary
                         <div class="col-lg-0">
-                        <span className="badge alert-danger">{dataDictionaryAwaiting}</span>
+                        <span className="badge bg-danger">{dataDictionaryAwaiting}</span>
                         <span style= {{marginLeft: 10}} className="badge bg-secondary">{dataDictionaryCount}</span>
                         </div>
                         </h5>
@@ -271,7 +271,7 @@ function Upload() {
                     <div>
                         <h5 className='mb-0'>FAQs 
                         <div class="col-lg-0">
-                        <span className="badge alert-danger">{unapprovedFAQCount}</span>
+                        <span className="badge bg-danger">{unapprovedFAQCount}</span>
                         <span style= {{marginLeft: 10}} className="badge bg-secondary">{faqCount}</span>
                         </div>
                         </h5>
@@ -281,7 +281,7 @@ function Upload() {
                     <div>
                         <h5 className='mb-0'>Newsletters 
                         <div class="col-lg-0">
-                        <span className="badge alert-danger">{unapprovedNewsletterCount}</span>
+                        <span className="badge bg-danger">{unapprovedNewsletterCount}</span>
                         <span style= {{marginLeft: 10}} className="badge bg-secondary">{newsletterCount}</span>
                         </div>
                         </h5>
@@ -291,7 +291,7 @@ function Upload() {
                     <div>
                         <h5 className='mb-0'>News/Posts
                         <div class="col-lg-0">
-                        <span className="badge alert-danger">{unapprovedpostsCount}</span>
+                        <span className="badge bg-danger">{unapprovedpostsCount}</span>
                         <span style= {{marginLeft: 10}} className="badge bg-secondary">{postsCount}</span>
                         </div>
                         </h5>
@@ -301,7 +301,7 @@ function Upload() {
                     <div>
                         <h5 className='mb-0'>Event Calendar
                         <div class="col-lg-0">
-                        <span className="badge alert-danger">{unapprovedEventsCount}</span>
+                        <span className="badge bg-danger">{unapprovedEventsCount}</span>
                         <span style= {{marginLeft: 10}} className="badge bg-secondary">{eventsCount}</span>
                         </div>
                         </h5>
@@ -311,7 +311,7 @@ function Upload() {
                     <div>
                     <h5 className='mb-0'>UPKs and SDPs
                         <div class="col-lg-0">
-                        <span className="badge alert-danger">{unapprovedUPKCount}</span>
+                        <span className="badge bg-danger">{unapprovedUPKCount}</span>
                         <span style= {{marginLeft: 10}} className="badge bg-secondary">{upkCount}</span>
                         </div>
                         </h5>
@@ -321,7 +321,7 @@ function Upload() {
                     <div>
                     <h5 className='mb-0'>Admin Users
                         <div class="col-lg-0">
-                        <span className="badge alert-danger">{unapprovedAdminCount}</span>
+                        <span className="badge bg-danger">{unapprovedAdminCount}</span>
                         <span style= {{marginLeft: 10}} className="badge bg-secondary">{adminCount}</span>
                         </div>
                         </h5>

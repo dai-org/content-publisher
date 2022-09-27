@@ -12,7 +12,7 @@ function NavBar() {
     return (
         <Navbar collapseOnSelect expand="lg" style={{ boxShadow: 'none' }} bg="light" variant="light" sticky="top">
             <Container>
-                <Navbar.Brand href="/">Content Publisher </Navbar.Brand><small>(v 1.5.1a)</small>
+                <Navbar.Brand href="/">Content Publisher </Navbar.Brand><small>(v 1.6)</small>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">

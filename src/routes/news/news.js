@@ -6,7 +6,8 @@ import './news.css'
 import NewsTable from './news-table';
 import { useAuth } from "../../components/provideAuth";
 import {sendEmailApprover} from '../../admin/index';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function News() {
     const subject = useRef();
     const postType = useRef();
@@ -257,15 +258,32 @@ function News() {
                                     const docRef = doc(getFirestore(), 'posts', id);
                                     deleteDoc(docRef)
                                     .then(docRef => {
-                                        alert("The News/Post has been successfully deleted.");
-                                    })
+                                        toast.success('The entry has been successfully deleted.', {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: true,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: false,
+                                            progress: 0,
+                                            });
+                                                                            })
                                       .catch(error => {
-                                          alert("An error has occured with deleting the News/Post, Please try again.\n\n"+error);
-                                      })
+                                        toast.error('An error has occured, Please try again.\n\n'+error, {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: true,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: false,
+                                            progress: 0,
+                                            });
+                                                                              })
                                 }}
                             >
                                 Delete
                             </button>
+                            <ToastContainer />
                                     </div>
                                 )
                             })

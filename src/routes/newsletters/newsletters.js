@@ -7,7 +7,8 @@ import { useAuth } from "../../components/provideAuth";
 import NewslettersTable from './newsletters-table';
 import './newsletters.css'
 import {sendEmailApprover} from '../../admin/index';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // TODO: Invert progress bar text color as bar fills, see post [https://stackoverflow.com/a/61353195]
 
 const months = [
@@ -424,15 +425,31 @@ function Newsletters() {
                                     const docRef = doc(getFirestore(), 'newsletters', id);
                                     deleteDoc(docRef)
                                     .then(docRef => {
-                                        alert("The newsletter has been successfully deleted.");
-                                    })
+                                        toast.success('The entry has been successfully deleted.', {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: true,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: false,
+                                            progress: 0,
+                                            });                                    })
                                       .catch(error => {
-                                          alert("An error has occured with deleting the newsletter, Please try again.\n\n"+error);
-                                      })
+                                        toast.error('An error has occured, Please try again.\n\n'+error, {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: true,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: false,
+                                            progress: 0,
+                                            });
+                                                                              })
                                 }}
                             >
                                 Delete
                             </button>
+                            <ToastContainer />
                                     </div>
                                 )
                             })

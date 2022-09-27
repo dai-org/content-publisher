@@ -6,7 +6,8 @@ import DataDictionaryTable from './data-dictionary-table';
 import { useAuth } from "../../components/provideAuth";
 import './data-dictionary.css'
 import {sendEmailApprover} from '../../admin/index';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function DataDictionary() {
     const status = useRef();
     const term = useRef();
@@ -224,15 +225,32 @@ function DataDictionary() {
                                     const docRef = doc(getFirestore(), 'dataDictionary', id);
                                     deleteDoc(docRef)
                                     .then(docRef => {
-                                        alert("Data Dictionary term has been successfully deleted.");
+                                        toast.success('The entry has been successfully deleted.', {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: true,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: false,
+                                            progress: 0,
+                                            });                                        
+                                        
                                     })
                                       .catch(error => {
-                                          alert("An error has occured with deleting the Data Dictionary, Please try again.\n\n"+error);
-                                      })
+                                        toast.error('An error has occured, Please try again.\n\n'+error, {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: true,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: false,
+                                            progress: 0,
+                                            });                                      })
                                 }}
                             >
                                 Delete
                             </button>
+                            <ToastContainer />
                                     </div>
                                 )
                             })

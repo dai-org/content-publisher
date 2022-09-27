@@ -7,7 +7,8 @@ import FaqsTable from './faqs-table';
 import './faqs.css'
 import '../../admin';
 import {sendEmailApprover} from '../../admin/index';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Faqs() {
     const status = useRef();
     const group = useRef();
@@ -203,13 +204,6 @@ function Faqs() {
 
                                     const db = getFirestore();
                                     await addDoc(collection(db, 'faq'), data);
-/*
-                                    sendApprovalEmail('aldunn@aeyon.us', 
-                                    'aldunn@aeyon.us', 
-                                        'A DAI App FAQ was Posted', 
-                                        'Recently a DAI App user posted a new FAQ that requires your approval. Document written with ID: '+ docRef.id+'.<BR><BR><a href="https://content-publisher.netlify.app/faqs">Login To Content Publisher</a>');
-                                    // Reset fields
-                                    */
                                     status.current.value = 'Awaiting Approval'
                                     group.current.value = 'CA'
                                     question.current.value = '';
@@ -282,15 +276,32 @@ function Faqs() {
                                     const docRef = doc(getFirestore(), 'faq', id);
                                     deleteDoc(docRef)
                                     .then(docRef => {
-                                        alert("The FAQ has been successfully deleted.");
-                                    })
+                                        toast.success('The entry has been successfully deleted.', {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: true,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: false,
+                                            progress: 0,
+                                            });
+                                                                            })
                                       .catch(error => {
-                                          alert("An error has occured with deleting the FAQ, Please try again.\n\n"+error);
-                                      })
+                                        toast.error('An error has occured, Please try again.\n\n'+error, {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: true,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: false,
+                                            progress: 0,
+                                            });
+                                                                              })
                                 }}
                             >
                                 Delete
                             </button>
+                            <ToastContainer />
                                     </div>
                                 )
                             })

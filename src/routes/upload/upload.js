@@ -3,7 +3,8 @@ import { doc, updateDoc, getFirestore, collection, onSnapshot, query, where, ser
 import { useHistory } from "react-router-dom";
 import './upload.css'
 import { useAuth } from "../../components/provideAuth";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Upload() {
     const [dataDictionaryCount, setDataDictionaryCount] = useState(0);
     const [dataDictionaryAwaiting, setDataDictionaryAwaiting] = useState(0);
@@ -234,8 +235,15 @@ function Upload() {
                                 style= {{marginLeft: 20}}
                                 className='btn btn-success w-0 round-10'
                                 onClick={async (event) => {
-                                    
-                                    alert("DAI System Status has been saved.");
+                                    toast.success('The DAI System Status has been saved.', {
+                                        position: "top-center",
+                                        autoClose: 5000,
+                                        hideProgressBar: true,
+                                        closeOnClick: true,
+                                        pauseOnHover: true,
+                                        draggable: false,
+                                        progress: 0,
+                                        });
 
                                         updateDoc(
                                             doc(getFirestore(), 'systemStatus', "V98yReepMp7MKYQwRPLJ"),
@@ -248,7 +256,7 @@ function Upload() {
                                     }}
                                 >Save Status</button>
                             </div>
-
+                            <ToastContainer />
                 <div className='upload-inner pointer' onClick={event => { history.push('/data-dictionary'); }}>
                     <div>
                         <h5 className='mb-0'>Data Dictionary

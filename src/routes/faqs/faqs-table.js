@@ -4,7 +4,8 @@ import Cell from '../../components/cell';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import { getFirestore, updateDoc, doc, deleteDoc } from 'firebase/firestore'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function FaqsTable(props) {
     const { faqs, searchQuery, AppUser } = props;
@@ -66,11 +67,27 @@ function FaqsTable(props) {
                                     };
                                       updateDoc(docRef, data)
                                       .then(docRef => {
-                                        alert("The FAQ term has been successfully updated.");
-                                    })
+                                        toast.success('The entry has been successfully updated.', {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: true,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: false,
+                                            progress: 0,
+                                            }); 
+                                                                            })
                                       .catch(error => {
-                                          alert("An error has occured with updating the FAQ, Please try again.\n\n"+error);
-                                      })
+                                        toast.error('An error has occured, Please try again.\n\n'+error, {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: true,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: false,
+                                            progress: 0,
+                                            });
+                                                                              })
                                 }}
                             >
                                 Update
@@ -85,15 +102,32 @@ function FaqsTable(props) {
                                     const docRef = doc(db, 'faq', idData);
                                     deleteDoc(docRef)
                                     .then(docRef => {
-                                        alert("The FAQ term has been successfully deleted.\n\nThis page will now refresh once you click OK.");
-                                    })
+                                        toast.success('The entry has been successfully deleted.', {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: true,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: false,
+                                            progress: 0,
+                                            });
+                                                                            })
                                       .catch(error => {
-                                          alert("An error has occured with deleting the FAQ, Please try again.\n\n"+error);
-                                      })
+                                        toast.error('An error has occured, Please try again.\n\n'+error, {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: true,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: false,
+                                            progress: 0,
+                                            });
+                                                                              })
                                 }}
                             >
                                 Delete
                             </button>
+                            <ToastContainer />
                         </div>
                     </div>
                     :

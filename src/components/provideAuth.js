@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext, createContext } from "react";
 import { initializeApp } from "firebase/app";
 import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, signOut, signInWithEmailAndPassword } from "firebase/auth";
 import { enableIndexedDbPersistence, initializeFirestore, CACHE_SIZE_UNLIMITED} from "firebase/firestore"; 
+import { toast } from 'react-toastify';
 
 // Add your Firebase credentials
 const app = initializeApp({
@@ -30,7 +31,6 @@ enableIndexedDbPersistence(firestoreDb)
       // ...
   }
 });
-
 const auth = getAuth();
 setPersistence(auth, browserLocalPersistence);
 
@@ -66,14 +66,22 @@ function useProvideAuth() {
         // await setPersistence(auth, browserLocalPersistence)
         const response = await signInWithEmailAndPassword(auth, email, password)
         .catch((err) => {
-            alert(err);
             setUser("");
+            toast.error('An error has occured with deleting this user, Please try again.\n\n'+err, {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: false,
+                progress: 0,
+                });
         }
         );
         try {
         setUser(response.user);
         }catch (err) {
-
+            
         }
         return user;
 

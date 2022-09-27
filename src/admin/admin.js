@@ -7,7 +7,8 @@ import AdminTable from './admin_table';
 import {sendEmailApprover} from './index';
 import { useAuth } from "../components/provideAuth";
 import { sendPasswordResetEmail, createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
   
 
 function Admin() {
@@ -229,15 +230,32 @@ function Admin() {
                                     const docRef = doc(getFirestore(), 'appUsers', id);
                                     deleteDoc(docRef)
                                     .then(docRef => {
-                                        alert("The user has been successfully deleted.");
+                                        toast.success('The user has been successfully deleted.', {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: true,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: false,
+                                            progress: 0,
+                                            });
                                     })
                                       .catch(error => {
-                                          alert("An error has occured with deleting the user, Please try again.\n\n"+error);
+                                        toast.error('An error has occured, Please try again.\n\n'+error, {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: true,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: false,
+                                            progress: 0,
+                                            });
                                       })
                                 }}
                             >
                                 Delete
                             </button>
+                            <ToastContainer />
                                     </div>
                                 )
                             })
@@ -255,6 +273,7 @@ function Admin() {
                 <AdminTable posts={posts} AppUser={AppUser} searchQuery={searchQuery} />
             </div>
         </div>
+        
     );
 }
 

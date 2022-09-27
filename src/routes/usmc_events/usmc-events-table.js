@@ -4,7 +4,8 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import Modali, { useModali } from 'modali';
 import { getFirestore, updateDoc, doc, deleteDoc } from 'firebase/firestore'
 import Cell from '../../components/cell';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function USMCEventsTable(props) {
     const { posts, searchQuery, AppUser } = props;
     const uploadButton = useRef();
@@ -75,11 +76,26 @@ function USMCEventsTable(props) {
                                     };
                                       updateDoc(docRef, data)
                                       .then(docRef => {
-                                        alert("The Event has been successfully updated.");
-                                    })
+                                        toast.success('The entry has been successfully updated.', {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: true,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: false,
+                                            progress: 0,
+                                            });                                     })
                                       .catch(error => {
-                                          alert("An error has occured with updating this event, Please try again.\n\n"+error);
-                                      })
+                                        toast.error('An error has occured, Please try again.\n\n'+error, {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: true,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: false,
+                                            progress: 0,
+                                            });
+                                                                              })
                                 }}
                             >
                                 Update
@@ -94,15 +110,32 @@ function USMCEventsTable(props) {
                                     const docRef = doc(db, 'calendarEvents', idData);
                                     deleteDoc(docRef)
                                     .then(docRef => {
-                                        alert("The Event has been successfully deleted.");
-                                    })
+                                        toast.success('The entry has been successfully deleted.', {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: true,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: false,
+                                            progress: 0,
+                                            });
+                                                                            })
                                       .catch(error => {
-                                          alert("An error has occured with deleting this event, Please try again.\n\n"+error);
-                                      })
+                                        toast.error('An error has occured, Please try again.\n\n'+error, {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: true,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: false,
+                                            progress: 0,
+                                            });
+                                                                              })
                                 }}
                             >
                                 Delete
                             </button>
+                            <ToastContainer />
                     </div></div>
                     :
                     

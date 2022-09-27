@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useHistory, Redirect } from "react-router-dom";
 import { useAuth } from "../components/provideAuth";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -21,7 +23,7 @@ function Login() {
             }}
         /> :
         <div className='auth-wrapper'>
-            <h4 className='mb-4'>DAI App | Content Publisher</h4>
+            <h4 className='mb-4'>DAI Content Publisher</h4>
             <div className='auth-inner'>
                 <div>
                     <h3>Sign In</h3>
@@ -45,6 +47,7 @@ function Login() {
                     >
                         Sign in
                     </button>
+                    <ToastContainer />
                 </div>
             </div>
         </div>

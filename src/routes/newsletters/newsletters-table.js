@@ -4,7 +4,8 @@ import { faFilePdf, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getFirestore, doc, deleteDoc } from 'firebase/firestore'
 import React from 'react';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // TODO: Invert progress bar text color as bar fills, see post [https://stackoverflow.com/a/61353195]
 
 const months = [
@@ -70,14 +71,37 @@ function NewslettersTable(props) {
                                               }).catch((error) => {
                                                 // Uh-oh, an error occurred!
                                               });
-                                            alert("The Newsletter has been successfully deleted.");
-                                        })
+                                              toast.success('The entry has been successfully deleted.', {
+                                                position: "top-center",
+                                                autoClose: 5000,
+                                                hideProgressBar: true,
+                                                closeOnClick: true,
+                                                pauseOnHover: true,
+                                                draggable: false,
+                                                progress: 0,
+                                                });                                        })
                                           .catch(error => {
-                                              alert("An error has occured with deleting the Newsletter, Please try again.\n\n"+error);
-                                          })
+                                            toast.error('An error has occured, Please try again.\n\n'+error, {
+                                                position: "top-center",
+                                                autoClose: 5000,
+                                                hideProgressBar: true,
+                                                closeOnClick: true,
+                                                pauseOnHover: true,
+                                                draggable: false,
+                                                progress: 0,
+                                                });
+                                                                                      })
                                  }
                                 }else{
-                                    alert("This account does not have permisions to delete newsletters.");
+                                    toast.error('This account does not have permisions to delete this newsletter.', {
+                                        position: "top-center",
+                                        autoClose: 5000,
+                                        hideProgressBar: true,
+                                        closeOnClick: true,
+                                        pauseOnHover: true,
+                                        draggable: false,
+                                        progress: 0,
+                                        });
                                 }
                                  }
 
@@ -125,8 +149,10 @@ function NewslettersTable(props) {
                                 )
                             })
                         }
+                        <ToastContainer />
                     </tbody>
                 </table>
+                
             }
         </div>
     );

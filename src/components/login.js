@@ -22,7 +22,7 @@ function Login() {
                 state: { from: '/' }
             }}
         /> :
-        <div className='auth-wrapper'>
+        <div className='auth-wrapper'><img alt='' src='logo512.png' style={{width:125, marginRight: 10}} />
             <h4 className='mb-4'>DAI Content Publisher</h4>
             <div className='auth-inner'>
                 <div>

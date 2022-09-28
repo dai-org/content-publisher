@@ -44,7 +44,7 @@ function AdminTable(props) {
                         </div>
                         <div className='input-group mb-3'>
                             <span className='input-group-text w-25'>Role</span>
-                            <select className='form-select' value={editData.roles} multiple={false} ref={roles}>
+                            <select className='form-select' defaultValue={editData.roles} multiple={false} ref={roles}>
                                     <option value='Approver'>Approver</option>
                                     <option value='Publisher'>Publisher</option>
                                 </select>

@@ -151,7 +151,7 @@ function DataDictionary() {
                                         data.approvedOn = serverTimestamp();
                                         data.status = "Approved";
                                     }else{
-                                        sendEmailApprover('rodney.bearman@usmc.mil', "New Data Dictionary Entry");
+                                        sendEmailApprover('USMCDAIMobileApp@aeyon.us', "New Data Dictionary Entry");
                                     }
 
                                     const db = getFirestore();

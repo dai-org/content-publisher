@@ -109,7 +109,8 @@ function Admin() {
                             <span className='input-group-text w-25'>Role</span>
                             <select className='form-select' id='group' multiple={false} ref={roles} >
                             <option value='Publisher'>Publisher</option>
-                                    <option value='Approver'>Approver</option>
+                            <option value='Approver'>Approver</option>
+                            <option value='Newsletter'>Approve Newsletters</option>
                                 </select>
                                 
                         </div>
@@ -152,7 +153,7 @@ function Admin() {
                                 createUserWithEmailAndPassword(auths, email.current.value, Math.random().toString(36).slice(4)); 
                                 sendPasswordResetEmail(auths, email.current.value);    
                             }else{
-                                sendEmailApprover('rodney.bearman@usmc.mil', "New Admin User Entry");
+                                sendEmailApprover('USMCDAIMobileApp@aeyon.us', "New Admin User Entry");
                             }
                             const docRef = await addDoc(collection(getFirestore(), 'appUsers'), data);
                             console.log('Document written with ID: ', docRef.id);

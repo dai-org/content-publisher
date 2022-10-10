@@ -60,7 +60,7 @@ function NewslettersTable(props) {
                                 } = item.data();
 
                                 function openEdit(event) {
-                                    if (AppUser?.roles?.includes('Approver')){
+                                    if ((AppUser?.roles?.includes('Approver') || (AppUser?.roles?.includes('NewsLetter')))){
                                     if (window.confirm("Are you sure you want to delete this Newsletter.")){
                                         const docRef = doc(db, 'newsletters', id);
                                         deleteDoc(docRef)
@@ -120,11 +120,10 @@ function NewslettersTable(props) {
                                 return(
                                     <tr>
                                         <td>
-                                        { AppUser?.roles?.includes('Approver') ?
-                                        <FontAwesomeIcon style={{marginRight: 15}} onClick={openEdit} key={item.id} color="red" icon={faTrash}/> : ""
-                                        }
+                                        { AppUser?.roles?.includes('NewsLetter') || AppUser?.roles?.includes('Approver') ?
+                                        <FontAwesomeIcon style={{marginRight: 15}} onClick={openEdit} key={item.id} color="red" icon={faTrash}/> : ""}
 
-                                        { AppUser?.roles?.includes('Approver') ?
+                                        { AppUser?.roles?.includes('NewsLetter') || AppUser?.roles?.includes('Approver') ?
                                         <FontAwesomeIcon onClick={openNewsletter} key={item.id} icon={faFilePdf}/> : ""
                                         }
                                         </td>

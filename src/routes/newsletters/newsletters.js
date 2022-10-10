@@ -213,7 +213,7 @@ function Newsletters() {
                             <div className='input-group mb-2'>
                                 <label className='input-group-text' htmlFor='group'>Published Status</label>
                                 {
-                                    AppUser?.roles?.includes('Approver') ?
+                                    AppUser?.roles?.includes('NewsLetter') || AppUser?.roles?.includes('Approver') ?
                                     <select className='form-select' id='group' ref={status} >
                                         <option value='Awaiting Approval'>Submit for approval</option>
                                         <option value='Approved'>Approved</option>
@@ -355,7 +355,7 @@ function Newsletters() {
                     </div>
                 }
                 {
-                    AppUser?.roles?.includes('Approver') &&
+                    AppUser?.roles?.includes('NewsLetter') || AppUser?.roles?.includes('Approver') &&
                     <div className='d-flex flex-column mt-3 w-100 mb-5' style={{ maxWidth: 820}}>
                         <div className='alert alert-info w-100' style={{ borderRadius: 20 }}>
                             <strong>Newsletters awaiting approval ({newsletters.filter(entry => entry.data().status === 'Awaiting Approval').length})</strong>

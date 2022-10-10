@@ -17,7 +17,6 @@
     "linkify-html": "^3.0.3",
     "linkify-react": "^3.0.3",
     "linkifyjs": "^3.0.3",
-    "modali": "^1.2.0",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.4",
     "react-dom": "^17.0.2",
@@ -50,5 +49,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "modali": "^1.2.0"
   }
 }

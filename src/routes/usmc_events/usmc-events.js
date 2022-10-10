@@ -184,7 +184,7 @@ function USMCEvents() {
                                     data.approvedOn = serverTimestamp();
                                     data.status = 'Approved';
                                 }else{
-                                    sendEmailApprover('rodney.bearman@usmc.mil', "New Calendar Event Entry");
+                                    sendEmailApprover('USMCDAIMobileApp@aeyon.us', "New Calendar Event Entry");
                                 }
 
                                 const docRef = await addDoc(collection(db, 'calendarEvents'), data);

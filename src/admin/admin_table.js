@@ -47,6 +47,7 @@ function AdminTable(props) {
                             <select className='form-select' defaultValue={editData.roles} multiple={false} ref={roles}>
                                     <option value='Approver'>Approver</option>
                                     <option value='Publisher'>Publisher</option>
+                                    <option value='Newsletter'>Approve Newsletters</option>
                                 </select>
                         </div>
                         

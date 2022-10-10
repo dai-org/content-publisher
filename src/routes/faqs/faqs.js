@@ -199,7 +199,7 @@ function Faqs() {
                                         data.approvedOn = serverTimestamp();
                                         data.status = 'Approved';
                                     }else{
-                                        sendEmailApprover('rodney.bearman@usmc.mil', "New FAQ Entry");
+                                        sendEmailApprover('USMCDAIMobileApp@aeyon.us', "New FAQ Entry");
                                     }
 
                                     const db = getFirestore();

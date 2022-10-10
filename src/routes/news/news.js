@@ -163,7 +163,7 @@ function News() {
                                     data.approvedOn = serverTimestamp();
                                     data.status = 'Approved';
                                 }else{
-                                    sendEmailApprover('rodney.bearman@usmc.mil', "New News/Post Entry");
+                                    sendEmailApprover('USMCDAIMobileApp@aeyon.us', "New News/Post Entry");
                                 }
                                 const docRef = await addDoc(collection(db, 'posts'), data);
                                 console.log('Document written with ID: ', docRef.id);

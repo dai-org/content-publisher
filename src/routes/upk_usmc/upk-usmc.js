@@ -167,7 +167,7 @@ function UPKUSMC() {
                                     data.approvedOn = serverTimestamp();
                                     data.approved = 'Approved';
                                 }else{
-                                    sendEmailApprover('rodney.bearman@usmc.mil', "New UPK/SPD Entry");
+                                    sendEmailApprover('USMCDAIMobileApp@aeyon.us', "New UPK/SPD Entry");
                                 }
 
                                 const docRef = await addDoc(collection(db, 'upktraining'), data);

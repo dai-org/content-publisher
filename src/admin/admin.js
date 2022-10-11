@@ -108,16 +108,17 @@ function Admin() {
                         <div className='input-group mb-3'>
                             <span className='input-group-text w-25'>Role</span>
                             <select className='form-select' id='group' multiple={false} ref={roles} >
-                            <option value='Publisher'>Publisher</option>
-                            <option value='Approver'>Approver</option>
-                            <option value='Newsletter'>Approve Newsletters</option>
+                            <option value='Publisher'>Content Publisher</option>
+                            <option value='Approver'>Content Approver</option>
+                            <option value='Newsletter Publisher'>Newsletters</option>
+                            <option value='SysAdmin'>System Admin</option>
                                 </select>
                                 
                         </div>
                         <div className='input-group mb-2 '>
                                 <label className='input-group-text w-25' htmlFor='group'>Published Status</label>
                                 {
-                                    AppUser?.roles?.includes('Approver') ?
+                                    AppUser?.roles?.includes('SysAdmin') ?
                                     <select className='form-select' id='group' ref={status} >
                                         <option value='Awaiting Approval'>Submit for approval</option>
                                         <option value='Approved'>Approved</option>
@@ -169,7 +170,7 @@ function Admin() {
                 </div>
 
 {
-                    AppUser?.roles?.includes('Approver') &&
+                    AppUser?.roles?.includes('SysAdmin') &&
                     <div className='d-flex flex-column mt-3 w-100 mb-5' style={{ maxWidth: 820}}>
                         <div className='alert alert-info w-100' style={{ borderRadius: 20 }}>
                             <strong>Admin Users awaiting approval ({posts.filter(entry => entry.data().status === 'Awaiting Approval').length})</strong>

@@ -10,7 +10,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 function News() {
     const subject = useRef();
-    const postType = useRef();
     const maradminid = useRef();
     const body = useRef();
     const video = useRef();
@@ -115,14 +114,7 @@ function News() {
                             <span className='input-group-text w-25'>MarAdmin ID</span>
                             <textarea placeholder="245/34 (Leave Blank, if not MarAdmin)" className="form-control" rows="1" ref={maradminid}></textarea>
                         </div>
-                        <div className='input-group mb-3'>
-                            <span className='input-group-text w-25'>Post Type</span>
-                            <select className='form-select' id='status' ref={postType} >
-                            <option value='general'>General</option>
-                                    <option value='alert'>Alert</option>
-                                    <option value='info'>Information Only</option>
-                                </select>
-                        </div>
+
                         <div className='input-group mb-2 '>
                                 <label className='input-group-text w-25' htmlFor='group'>Published Status</label>
                                 {
@@ -154,7 +146,7 @@ function News() {
                                     publishedBy: AppUser?.name,
                                     publishedOn: serverTimestamp(), 
                                     status: status.current.value,
-                                    type: postType.current.value
+                                    type: "Info"
 
                                 };
 
@@ -169,7 +161,6 @@ function News() {
                                 console.log('Document written with ID: ', docRef.id);
 
                                 // Reset fields
-                                postType.current.value = '';
                                 subject.current.value = '';
                                 body.current.value = '';
                                 video.current.value = '';
@@ -199,7 +190,6 @@ function News() {
                                     body,
                                     video,
                                     author,
-                                    postType, 
                                     maradminid, 
                                 } = entry.data();
 
@@ -224,10 +214,6 @@ function News() {
                                         <div className='mb-3'>
                                             <label>Author</label>
                                             <div>{author}</div>
-                                        </div>
-                                        <div className='mb-3'>
-                                            <label>Post Type</label>
-                                            <div>{postType}</div>
                                         </div>
                                         <div className='mb-3'>
                                         <label>Approver Notes</label>

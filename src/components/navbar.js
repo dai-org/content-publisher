@@ -20,7 +20,7 @@ function NavBar() {
                         <Nav.Link href="/faqs">FAQs</Nav.Link>
                         <Nav.Link href="/newsletters">Newsletters</Nav.Link>
                         <Nav.Link href="/posts">News/Posts</Nav.Link>
-                        <Nav.Link href="/upk-usmc">UPK & SDPs</Nav.Link>
+                        <Nav.Link href="/upk-usmc">UPK & SPDs</Nav.Link>
                         <Nav.Link href="/usmc-events">Events Calendar</Nav.Link>
                         <Nav.Link href="/admin">Admin Users</Nav.Link>
                     </Nav>

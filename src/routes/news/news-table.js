@@ -20,7 +20,6 @@ function NewsTable(props) {
         title: "Edit News/Post Entry"
       });
       const subject = useRef();
-      const postType = useRef();
       const maradminid = useRef();
       const body = useRef();
       const video = useRef();
@@ -50,14 +49,6 @@ function NewsTable(props) {
                             <span className='input-group-text px-md-15 w-25'>MarAdmin ID</span>
                             <textarea placeholder="245/34 (Leave Blank, if not MarAdmin)" defaultValue={editData.maradminid} className="form-control" rows="1" ref={maradminid}></textarea>
                         </div>
-                        <div className='input-group mb-3'>
-                            <span className='input-group-text w-25'>Post Type</span>
-                            <select className='form-select' defaultValue={editData.postType} id='status' ref={postType} >
-                                    <option value='alert'>Alert</option>
-                                    <option value='info'>Information Only</option>
-                                    <option value='general'>General</option>
-                                </select>
-                        </div>
                             <button
                                 type='button'
                                 className='btn btn-success w-75 round-10'
@@ -69,7 +60,7 @@ function NewsTable(props) {
                                         body: body.current.value,
                                         video: video.current.value,
                                         maradminid: maradminid.current.value,
-                                        postType: postType.current.value
+                                        postType: "Info"
 
                                     };
                                       updateDoc(docRef, data)
@@ -147,8 +138,7 @@ function NewsTable(props) {
                     <thead>
                         <tr>
                         <th width='5%'></th>
-                            <th width='5%'>Type</th>
-                            <th width='20%'>Subject</th>
+                            <th width='25%'>Subject</th>
                             <th width='40%'>Body / Video URL / MarAdmin ID</th>
                             <th width='15%'>Published</th>
                             <th width='15%'>Approved</th>
@@ -167,7 +157,6 @@ function NewsTable(props) {
                                     approvedOn,
                                     publishedBy,
                                     approvedBy,
-                                    type
                                 } = item.data();
 
 
@@ -185,9 +174,6 @@ function NewsTable(props) {
                                         { AppUser?.roles?.includes('Approver') ?
                                         <FontAwesomeIcon color="red" icon={faEdit}/> : ""
                                         }
-                                        </td>
-                                        <td className=''>
-                                            <Cell words={[searchQuery]} text={type} />
                                         </td>
                                         <td className=''>
                                             <Cell words={[searchQuery]} text={subject} />

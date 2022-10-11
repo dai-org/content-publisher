@@ -204,18 +204,17 @@ function Newsletters() {
                             </div>
                             <div className='input-group mb-3'>
                                 <span className='input-group-text'>Year</span>
-                                <input type='number' className='form-control' value={new Date().getFullYear()} aria-label='year' ref={year} />
+                                <input type='number' className='form-control' placeholder={new Date().getFullYear()} aria-label='year' ref={year} />
                             </div>
                             <div className='input-group mb-4'>
                                 <span className='input-group-text'>Issue</span>
-                                <input type='number' className='form-control' value='1' aria-label='issue' ref={issue} />
+                                <input type='number' className='form-control' placeholder='1' aria-label='issue' ref={issue} />
                             </div>
                             <div className='input-group mb-2'>
                                 <label className='input-group-text' htmlFor='group'>Published Status</label>
                                 {
-                                    AppUser?.roles?.includes('NewsLetter') || AppUser?.roles?.includes('Approver') ?
+                                    AppUser?.roles?.includes('NewsletterPublisher') ?
                                     <select className='form-select' id='group' ref={status} >
-                                        <option value='Awaiting Approval'>Submit for approval</option>
                                         <option value='Approved'>Approved</option>
                                         {/* <option value='Archived'>Archived</option> */}
                                     </select> :
@@ -355,7 +354,7 @@ function Newsletters() {
                     </div>
                 }
                 {
-                    AppUser?.roles?.includes('NewsLetter') || AppUser?.roles?.includes('Approver') &&
+                    AppUser?.roles?.includes('NewsletterPublisher') &&
                     <div className='d-flex flex-column mt-3 w-100 mb-5' style={{ maxWidth: 820}}>
                         <div className='alert alert-info w-100' style={{ borderRadius: 20 }}>
                             <strong>Newsletters awaiting approval ({newsletters.filter(entry => entry.data().status === 'Awaiting Approval').length})</strong>

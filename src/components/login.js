@@ -53,9 +53,10 @@ function Login() {
                         <div className='input-group mb-3'>
                             <span className='input-group-text w-25'>Role</span>
                             <select className='form-select' multiple={false} >
-                                    <option value='Approver'>Approver</option>
-                                    <option value='Publisher'>Publisher</option>
-                                    <option value='Newsletter'>Approve Newsletters</option>
+                            <option value='Publisher'>Content Publisher</option>
+                            <option value='Approver'>Content Approver</option>
+                            <option value='NewsletterPublisher'>Newsletters</option>
+                            <option value='SysAdmin'>System Admin</option>
                                 </select>
                         </div>
                         

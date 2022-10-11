@@ -311,7 +311,7 @@ function Upload() {
                 </div>
                 <div className='upload-inner pointer' onClick={event => { history.push('/upk-usmc'); }}>
                     <div>
-                    <h5 className='mb-0'>UPKs and SDPs
+                    <h5 className='mb-0'>UPKs and SPDs
                         <div class="col-lg-0">
                         <span className="badge bg-danger">{unapprovedUPKCount}</span>
                         <span style= {{marginLeft: 10}} className="badge bg-secondary">{upkCount}</span>

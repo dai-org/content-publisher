@@ -31,7 +31,7 @@ function AdminTable(props) {
                 posts.length !== 0 &&
                 <table className='w-100'>
                     <Modali.Modal {...exampleModal}>
-                   { AppUser?.roles?.includes('Approver') ?
+                   { AppUser?.roles?.includes('SysAdmin') ?
                     <div className='cp-form-inner mb-5 mt-5 col-12 px-md-5 justify-content-center'>
                         <div>
                         <div className='input-group mb-3'>
@@ -45,9 +45,10 @@ function AdminTable(props) {
                         <div className='input-group mb-3'>
                             <span className='input-group-text w-25'>Role</span>
                             <select className='form-select' defaultValue={editData.roles} multiple={false} ref={roles}>
-                                    <option value='Approver'>Approver</option>
-                                    <option value='Publisher'>Publisher</option>
-                                    <option value='Newsletter'>Approve Newsletters</option>
+                            <option value='Publisher'>Content Publisher</option>
+                            <option value='Approver'>Content Approver</option>
+                            <option value='Newsletter Publisher'>Newsletters</option>
+                            <option value='SysAdmin'>System Admin</option>
                                 </select>
                         </div>
                         
@@ -156,7 +157,7 @@ function AdminTable(props) {
 
 
                                 function openEdit() {
-                                   if (AppUser?.roles?.includes('Approver')){
+                                   if (AppUser?.roles?.includes('SysAdmin')){
                                     setIDData(id)
                                     setEditData(item.data())
                                     toggleExampleModal() 
@@ -164,7 +165,7 @@ function AdminTable(props) {
                                 }
 
                                 function resendPassword() {
-                                    if (AppUser?.roles?.includes('Approver')){
+                                    if (AppUser?.roles?.includes('SysAdmin')){
                                         if (window.confirm("Are you sure you want to resend new password email to "+email)){
                                             sendPasswordResetEmail(auths, email);
                                             }
@@ -174,7 +175,7 @@ function AdminTable(props) {
                                 return(
                                     <tr key={id}>
                                        <td>
-                                        { AppUser?.roles?.includes('Approver') ?
+                                        { AppUser?.roles?.includes('SysAdmin') ?
                                         <FontAwesomeIcon onClick={openEdit} style={{marginRight: 10}} color="red" icon={faEdit}/> : ""
                                         }
                                         <FontAwesomeIcon color="red" icon={faKey} onClick={resendPassword}/>

@@ -106,7 +106,7 @@ function UPKUSMC() {
 {
                 <div className='cp-form-inner mb-5 mt-4'>
                     <div>
-                        <h3 className='mb-4'>New UPK & SDP</h3>
+                        <h3 className='mb-4'>New UPK & SPD</h3>
                         <div className='input-group mb-3'>
                             <span className='input-group-text'>Module UID</span>
                             <input className="form-control" placeholder="1c4dbeb0-1ae1-44be-99ea-6cd47cd8da89" ref={docID}></input>
@@ -211,7 +211,7 @@ function UPKUSMC() {
                                 return (
                                     <div key={id} className='mb-4 alert alert-danger' style={{ borderRadius: 20, padding: 20 }}>
                                         <div className='mb-3'>
-                                            <label>Doc ID</label>
+                                            <label>Module UID</label>
                                             <div>{docID}</div>
                                         </div>
                                         <div className='mb-3'>

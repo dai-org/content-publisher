@@ -139,7 +139,7 @@ function UPKUSMCTable(props) {
                     <thead>
                         <tr>
                             <th width='5%'></th>
-                            <th width='10%'>Module Name</th>
+                            <th width='10%'>Module UID</th>
                             <th width='35%'>Description</th>
                             <th width='10%'>Module ID</th>
                             <th width='15%'>Tags</th>

@@ -55,7 +55,7 @@ function Login() {
                             <select className='form-select' multiple={false} >
                             <option value='Publisher'>Content Publisher</option>
                             <option value='Approver'>Content Approver</option>
-                            <option value='NewsletterPublisher'>Newsletters</option>
+                            <option value='NewsletterPublisher'>Newsletter Publisher</option>
                             <option value='SysAdmin'>System Admin</option>
                                 </select>
                         </div>

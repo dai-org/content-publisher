@@ -178,7 +178,9 @@ function AdminTable(props) {
                                         { AppUser?.roles?.includes('SysAdmin') ?
                                         <FontAwesomeIcon onClick={openEdit} style={{marginRight: 10}} color="red" icon={faEdit}/> : ""
                                         }
-                                        <FontAwesomeIcon color="red" icon={faKey} onClick={resendPassword}/>
+                                        { AppUser?.roles?.includes('SysAdmin') ?
+                                        <FontAwesomeIcon color="red" icon={faKey} onClick={resendPassword}/> : ""
+                                    }
                                         </td>
                                         <td className=''>
                                             <Cell words={[searchQuery]} text={name} />

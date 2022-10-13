@@ -226,6 +226,8 @@ function Upload() {
                         </div>
                     </div>
                 }
+               {
+               AppUser?.roles?.includes('SysAdmin') ||  AppUser?.roles?.includes('Approver') ?
             <div className='input-group upload-inner'>
                                 <label className='input-group-text' htmlFor='status'>Status</label>
                                 <select onChange={handleChange} className='form-select' id='status' value={systemStatus}>
@@ -257,8 +259,10 @@ function Upload() {
                                         );
                                     }}
                                 >Save Status</button>
-                            </div>
+                            </div>: "" }
                             <ToastContainer />
+                            
+
                 <div className='upload-inner pointer' onClick={event => { history.push('/data-dictionary'); }}>
                     <div>
                         <h5 className='mb-0'>Data Dictionary

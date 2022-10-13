@@ -103,7 +103,7 @@ function UPKUSMC() {
                         </div>
                     </div>
                 }
-{
+                 { AppUser?.roles?.includes('Publisher') ?
                 <div className='cp-form-inner mb-5 mt-4'>
                     <div>
                         <h3 className='mb-4'>New UPK & SPD</h3>
@@ -187,7 +187,7 @@ function UPKUSMC() {
                         </button>
                     </div>
                 </div> 
-            }
+            : "" }
 
 {
                     AppUser?.roles?.includes('Approver') &&

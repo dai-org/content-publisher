@@ -116,7 +116,7 @@ function USMCEvents() {
                         </div>
                     </div>
                 }
-{
+                 { AppUser?.roles?.includes('Publisher') ?
                 <div className='cp-form-inner mb-5 mt-4'>
                     <div>
                         <h3 className='mb-4'>New DAI Calendar Event</h3>
@@ -205,7 +205,7 @@ function USMCEvents() {
                         </button>
                     </div>
                 </div> 
-            }
+            : "" }
 
 {
                     AppUser?.roles?.includes('Approver') &&

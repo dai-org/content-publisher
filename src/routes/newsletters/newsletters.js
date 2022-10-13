@@ -165,7 +165,7 @@ function Newsletters() {
                         </div>
                     </div>
                 }
-                {
+                 { AppUser?.roles?.includes('Publisher') ?
                     <div className='cp-form-inner mb-5 mt-4'>
                         <div>
                             <h3 className='mb-4'>Upload Newsletter (PDF)</h3>
@@ -352,7 +352,7 @@ function Newsletters() {
                             }
                         </div>
                     </div>
-                }
+                 : ""}
                 {
                     AppUser?.roles?.includes('NewsletterPublisher') &&
                     <div className='d-flex flex-column mt-3 w-100 mb-5' style={{ maxWidth: 820}}>

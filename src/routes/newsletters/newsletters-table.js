@@ -120,10 +120,11 @@ function NewslettersTable(props) {
                                 return(
                                     <tr>
                                         <td>
-                                        { AppUser?.roles?.includes('NewsletterPublisher') ?
-                                        <FontAwesomeIcon style={{marginRight: 15}} onClick={openEdit} key={item.id} color="red" icon={faTrash}/> : ""}
+                                        { AppUser?.roles?.includes('NewsletterPublisher') &&
+                                        <FontAwesomeIcon style={{marginRight: 15}} onClick={openEdit} key={item.id} color="red" icon={faTrash}/> 
+                                        }
 
-                                        <FontAwesomeIcon onClick={openNewsletter} key={item.id} icon={faFilePdf}/> : ""
+                                        <FontAwesomeIcon onClick={openNewsletter} key={item.id} icon={faFilePdf}/>
                                         </td>
                                         <td>
                                             <Cell words={[searchQuery]} text={title} />

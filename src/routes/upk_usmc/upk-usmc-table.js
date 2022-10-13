@@ -6,6 +6,9 @@ import Modali, { useModali } from 'modali';
 import { getFirestore, updateDoc, doc, deleteDoc } from 'firebase/firestore'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { faFilePdf } from '@fortawesome/free-solid-svg-icons';
+
+
 function UPKUSMCTable(props) {
     const { posts, searchQuery, AppUser } = props;
     const uploadButton = useRef();
@@ -170,12 +173,18 @@ function UPKUSMCTable(props) {
                                  }
                                  }
 
+                                 function openNewsletter() {
+                                        window.open("https://produpk.dai.csd.disa.mil/USMC_Contents/data/printit/"+docID+"_SPD.docx");
+                                }
+
                                 return(
-                                    <tr onClick={openEdit} key={id}>
+                                    <tr>
                                                                      <td>
                                         { AppUser?.roles?.includes('Approver') ?
-                                        <FontAwesomeIcon color="red" icon={faEdit}/> : ""
+                                        <FontAwesomeIcon onClick={openEdit}   key={id} style={{marginRight: 15}} color="red" icon={faEdit}/> : ""
                                         }
+
+                                        <FontAwesomeIcon onClick={openNewsletter} key={id} icon={faFilePdf}/>
                                         </td>
                                         <td className='word-break'>
                                             <Cell words={[searchQuery]} text={module} />

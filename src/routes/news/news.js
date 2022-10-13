@@ -95,6 +95,8 @@ function News() {
                         </div>
                     </div>
                 }
+                                 { AppUser?.roles?.includes('Publisher') ?
+
                 <div className='cp-form-inner mb-5 mt-4'>
                     <div>
                         <h3 className='mb-4'>New Post</h3>
@@ -172,7 +174,7 @@ function News() {
                         </button>
                     </div>
                 </div>
-
+: "" }
                 {
                     AppUser?.roles?.includes('Approver') &&
                     <div className='d-flex flex-column mt-3 w-100 mb-5' style={{ maxWidth: 820}}>

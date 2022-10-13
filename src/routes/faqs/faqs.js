@@ -140,7 +140,7 @@ function Faqs() {
                         </div>
                     </div>
                 }
-                {
+                 { AppUser?.roles?.includes('Publisher') ?
 
                     <div className='cp-form-inner mb-5 mt-4'>
                         <div>
@@ -166,18 +166,10 @@ function Faqs() {
                             </div>
                             <div className='input-group mb-2'>
                                 <label className='input-group-text' htmlFor='group'>Published Status</label>
-                                {
-                                    AppUser?.roles?.includes('Approver') ?
-                                    <select className='form-select' id='group' ref={status} >
-                                        <option value='Awaiting Approval'>Submit for approval</option>
-                                        <option value='Approved'>Approved</option>
-                                        {/* <option value='Archived'>Archived</option> */}
-                                    </select> :
                                     <select className='form-select' id='group' ref={status} >
                                         <option value='Awaiting Approval'>Submit for approval</option>
                                         {/* <option value='Archived'>Archived</option> */}
                                     </select>
-                                }
                             </div>
                             <button
                                 type='button'
@@ -208,13 +200,14 @@ function Faqs() {
                                     group.current.value = 'CA'
                                     question.current.value = '';
                                     answer.current.value = '';
-                                }}
+                                }
+                                }
                             >
                                 Create
                             </button>
                         </div>
                     </div>
-                }
+                : "" }
                 {
                     AppUser?.roles?.includes('Approver') &&
                     <div className='d-flex flex-column mt-3 w-100 mb-5' style={{ maxWidth: 820}}>

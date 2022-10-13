@@ -94,6 +94,9 @@ function Admin() {
                         </div>
                     </div>
                 }
+                                 { 
+                                 AppUser?.roles?.includes('SysAdmin') ?
+
                 <div className='cp-form-inner mb-5 mt-4'>
                     <div>
                         <h3 className='mb-4'>New Admin Users </h3>
@@ -168,6 +171,7 @@ function Admin() {
                         </button>
                     </div>
                 </div>
+                : " " }
 
 {
                     AppUser?.roles?.includes('SysAdmin') &&

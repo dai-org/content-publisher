@@ -325,7 +325,7 @@ function Upload() {
                 </div>
                 <div className='upload-inner pointer' onClick={event => { history.push('/admin'); }}>
                     <div>
-                    <h5 className='mb-0'>Admin Users
+                    <h5 className='mb-0'>Users
                         <div class="col-lg-0">
                         <span className="badge bg-danger">{unapprovedAdminCount}</span>
                         <span style= {{marginLeft: 10}} className="badge bg-secondary">{adminCount}</span>

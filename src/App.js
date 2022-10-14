@@ -16,6 +16,7 @@ import USMCEvents from './routes/usmc_events/usmc-events';
 import USMCUPK from './routes/upk_usmc/upk-usmc';
 import News from './routes/news/news';
 import Admin from './admin/admin';
+import Distro from './admin/Distro';
 
 
 function App() {
@@ -62,6 +63,10 @@ function App() {
                             <PrivateRoute path="/admin">
                                 <Navbar />
                                 <Admin />
+                            </PrivateRoute>
+                            <PrivateRoute path="/distro">
+                                <Navbar />
+                                <Distro />
                             </PrivateRoute>
                         </Route>
                     </Switch>

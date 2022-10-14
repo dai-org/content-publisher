@@ -8,7 +8,6 @@ import './navbar.css'
 
 function NavBar() {
     const auth = useAuth();
-
     return (
         <Navbar collapseOnSelect expand="lg" style={{ boxShadow: 'none' }} bg="light" variant="light" sticky="top">
             <Container>
@@ -22,7 +21,8 @@ function NavBar() {
                         <Nav.Link href="/posts">News/Posts</Nav.Link>
                         <Nav.Link href="/upk-usmc">UPK & SPDs</Nav.Link>
                         <Nav.Link href="/usmc-events">Events Calendar</Nav.Link>
-                        <Nav.Link href="/admin">Admin Users</Nav.Link>
+                        <Nav.Link href="/admin">Users</Nav.Link>
+                        <Nav.Link href="/distro">Email List</Nav.Link>
                     </Nav>
                     <button
                         type='button'

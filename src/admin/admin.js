@@ -189,6 +189,7 @@ function Admin() {
                                     name,
                                     email,
                                     roles,
+                                    notes
                                 } = entry.data();
 
                                 return (
@@ -207,10 +208,10 @@ function Admin() {
                                         </div>
                                         <div className='mb-3'>
                                         <label>Approver Notes</label>
-                                        <textarea className="form-control" rows="6" ref={note}></textarea>
+                                        <textarea className="form-control" rows="6" value={notes} ref={note}></textarea>
                                         </div>
                                         <button
-                                            className={`btn btn-success btn-sm w-75 round-10`}
+                                            className={`btn btn-success btn-sm w-33 round-10`}
                                             onClick={event => {
                                                 updateDoc(
                                                     doc(getFirestore(), 'appUsers', id),
@@ -230,7 +231,7 @@ function Admin() {
                                         <button
                                 type='button'
                                 style={{marginLeft:5}}
-                                className='btn btn-danger w-20 btn-sm round-10'
+                                className='btn btn-danger w-33 btn-sm round-10'
                                 ref={uploadButton}
                                 onClick={async (event) => {
                                     const docRef = doc(getFirestore(), 'appUsers', id);
@@ -261,6 +262,23 @@ function Admin() {
                             >
                                 Delete
                             </button>
+                            <button
+                                            className={`btn btn-warning btn-sm w-33 round-10`}
+                                            onClick={event => {
+                                                updateDoc(
+                                                    doc(getFirestore(), 'appUsers', id),
+                                                    {
+                                                        notes: note.current.value,
+                                                        status: 'Not Approved',
+                                                        approvedBy: AppUser.name,
+                                                        approvedOn: serverTimestamp()
+
+                                                    }
+                                                );
+                                            }}
+                                        >
+                                            Dispprove
+                                        </button>
                             <ToastContainer />
                                     </div>
                                 )

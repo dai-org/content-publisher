@@ -49,7 +49,22 @@ function Newsletters() {
     const [AppUser, setAppUser] = useState([]);
     const auth = useAuth();
     const note = useRef();
+    const [adminEmail, setadminEmail] = useState('');
 
+    useEffect(() => {
+        if (auth.user.email) {
+            const db = getFirestore();
+            const q = query(collection(db, "appDistro"), where('roles', '==', 'NewsLetterPublisher'));
+            const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                const items = [];
+                querySnapshot.forEach((doc) => {
+                    items.push(doc);
+                });
+                setadminEmail(items[0].email);
+            });
+            return unsubscribe;
+        }
+    },[]);
     useEffect(() => {
         if (auth.user.email) {
             const db = getFirestore();
@@ -304,7 +319,7 @@ function Newsletters() {
                                                     data.approvedOn = serverTimestamp();
                                                     data.status = 'Approved';
                                                 }else{
-                                                    sendEmailApprover('rodney.bearman@usmc.mil', "New Newsletter Entry");
+                                                    sendEmailApprover(adminEmail, "New Newsletter Entry");
                                                 }
 
                                                 const db = getFirestore();

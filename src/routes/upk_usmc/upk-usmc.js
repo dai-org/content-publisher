@@ -27,7 +27,22 @@ function UPKUSMC() {
     const status = useRef();
     const [postsCount, setPostsCount] = useState(0);
     const note = useRef();
+    const [adminEmail, setadminEmail] = useState('');
 
+    useEffect(() => {
+        if (auth.user.email) {
+            const db = getFirestore();
+            const q = query(collection(db, "appDistro"), where('roles', '==', 'Approver'));
+            const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                const items = [];
+                querySnapshot.forEach((doc) => {
+                    items.push(doc);
+                });
+                setadminEmail(items[0].email);
+            });
+            return unsubscribe;
+        }
+    },[]);
     useEffect(() => {
         if (auth.user.email) {
             const db = getFirestore();
@@ -167,7 +182,7 @@ function UPKUSMC() {
                                     data.approvedOn = serverTimestamp();
                                     data.approved = 'Approved';
                                 }else{
-                                    sendEmailApprover('USMCDAIMobileApp@aeyon.us', "New UPK/SPD Entry");
+                                    sendEmailApprover(adminEmail, "New UPK/SPD Entry");
                                 }
 
                                 const docRef = await addDoc(collection(db, 'upktraining'), data);
@@ -206,6 +221,7 @@ function UPKUSMC() {
                                     description,
                                     module,
                                     tags,
+                                    notes
                                 } = entry.data();
 
                                 return (
@@ -228,10 +244,10 @@ function UPKUSMC() {
                                         </div>
                                         <div className='mb-3'>
                                         <label>Approver Notes</label>
-                                        <textarea className="form-control" rows="6" ref={note}></textarea>
+                                        <textarea className="form-control" rows="6" value={notes} ref={note}></textarea>
                                         </div>
                                         <button
-                                            className={`btn btn-success btn-sm w-75 round-10`}
+                                            className={`btn btn-success btn-sm w-33 round-10`}
                                             onClick={event => {
                                                 updateDoc(
                                                     doc(getFirestore(), 'upktraining', id),
@@ -249,7 +265,7 @@ function UPKUSMC() {
                                         <button
                                 type='button'
                                 style={{marginLeft:5}}
-                                className='btn btn-danger btn-sm w-20 round-10'
+                                className='btn btn-danger btn-sm w-33 round-10'
                                 ref={uploadButton}
                                 onClick={async (event) => {
                                     const docRef = doc(getFirestore(), 'upktraining', id);
@@ -279,6 +295,23 @@ function UPKUSMC() {
                             >
                                 Delete
                             </button>
+                            <button
+                                            className={`btn btn-warning btn-sm w-33 round-10`}
+                                            onClick={event => {
+                                                updateDoc(
+                                                    doc(getFirestore(), 'upktraining', id),
+                                                    {
+                                                        notes: note.current.value,
+                                                        status: 'Not Approved',
+                                                        approvedBy: AppUser.name,
+                                                        approvedOn: serverTimestamp()
+
+                                                    }
+                                                );
+                                            }}
+                                        >
+                                            Dispprove
+                                        </button>
                             <ToastContainer />
                                     </div>
                                 )

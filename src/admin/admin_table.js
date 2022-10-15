@@ -140,9 +140,10 @@ function AdminTable(props) {
                     <thead>
                         <tr>
                         <th width='10%'></th>
-                            <th width='30%'>Name</th>
-                            <th width='30%'>Email</th>
-                            <th width='30%'>Roles</th>
+                            <th width='20%'>Name</th>
+                            <th width='25%'>Email</th>
+                            <th width='20%'>Roles</th>
+                            <th width='20%'>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -152,7 +153,8 @@ function AdminTable(props) {
                                 const {
                                     email,
                                     name,
-                                    roles
+                                    roles,
+                                    status
                                 } = item.data();
 
 
@@ -190,6 +192,9 @@ function AdminTable(props) {
                                         </td>
                                         <td className=''>
                                             <Cell words={[searchQuery]} text={roles} />
+                                        </td>
+                                        <td className=''>
+                                            <Cell words={[searchQuery]} text={status} />
                                         </td>
                                     </tr>
                                 )

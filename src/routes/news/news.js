@@ -23,7 +23,22 @@ function News() {
     const auth = useAuth();
     const [formLoading, setFormLoading] = useState(true);
     const note = useRef();
+    const [adminEmail, setadminEmail] = useState('');
 
+    useEffect(() => {
+        if (auth.user.email) {
+            const db = getFirestore();
+            const q = query(collection(db, "appDistro"), where('roles', '==', 'Approver'));
+            const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                const items = [];
+                querySnapshot.forEach((doc) => {
+                    items.push(doc);
+                });
+                setadminEmail(items[0].email);
+            });
+            return unsubscribe;
+        }
+    },[]);
     useEffect(() => {
         if (auth.user.email) {
             const db = getFirestore();
@@ -157,7 +172,7 @@ function News() {
                                     data.approvedOn = serverTimestamp();
                                     data.status = 'Approved';
                                 }else{
-                                    sendEmailApprover('USMCDAIMobileApp@aeyon.us', "New News/Post Entry");
+                                    sendEmailApprover(adminEmail, "New News/Post Entry");
                                 }
                                 const docRef = await addDoc(collection(db, 'posts'), data);
                                 console.log('Document written with ID: ', docRef.id);
@@ -193,6 +208,7 @@ function News() {
                                     video,
                                     author,
                                     maradminid, 
+                                    notes
                                 } = entry.data();
 
                                 return (
@@ -219,10 +235,10 @@ function News() {
                                         </div>
                                         <div className='mb-3'>
                                         <label>Approver Notes</label>
-                                        <textarea className="form-control" rows="6" ref={note}></textarea>
+                                        <textarea className="form-control" rows="6" value={notes} ref={note}></textarea>
                                         </div>
                                         <button
-                                            className={`btn btn-success btn-sm w-75 round-10`}
+                                            className={`btn btn-success btn-sm w-33 round-10`}
                                             onClick={event => {
                                                 updateDoc(
                                                     doc(getFirestore(), 'posts', id),
@@ -240,7 +256,7 @@ function News() {
                                         <button
                                 type='button'
                                 style={{marginLeft:5}}
-                                className='btn btn-danger w-20 btn-sm round-10'
+                                className='btn btn-danger w-33 btn-sm round-10'
                                 ref={uploadButton}
                                 onClick={async (event) => {
                                     const docRef = doc(getFirestore(), 'posts', id);
@@ -271,6 +287,23 @@ function News() {
                             >
                                 Delete
                             </button>
+                            <button
+                                            className={`btn btn-warning btn-sm w-33 round-10`}
+                                            onClick={event => {
+                                                updateDoc(
+                                                    doc(getFirestore(), 'posts', id),
+                                                    {
+                                                        notes: note.current.value,
+                                                        status: 'Not Approved',
+                                                        approvedBy: AppUser.name,
+                                                        approvedOn: serverTimestamp()
+
+                                                    }
+                                                );
+                                            }}
+                                        >
+                                            Dispprove
+                                        </button>
                             <ToastContainer />
                                     </div>
                                 )

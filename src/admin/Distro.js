@@ -11,9 +11,6 @@ function Distro() {
     const [AppUser, setAppUser] = useState([]);
     const auth = useAuth();
 
-
-
-
     useEffect(() => {
         if (auth.user.email) {
             const db = getFirestore();

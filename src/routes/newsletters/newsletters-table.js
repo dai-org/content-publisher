@@ -119,7 +119,7 @@ function NewslettersTable(props) {
                                 }
 
                                 return(
-                                    <tr key={id} bgcolor={status === "Disapproved" ? "#FF0000" : ""}>
+                                    <tr key={id} bgcolor={status !== "Approved" ? "#ffffe0" : ""}>
                                         <td>
                                         { AppUser?.roles?.includes('NewsletterPublisher') &&
                                         <FontAwesomeIcon style={{marginRight: 15}} onClick={openEdit} key={item.id} color="red" icon={faTrash}/> 

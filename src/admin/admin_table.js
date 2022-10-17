@@ -182,7 +182,7 @@ function AdminTable(props) {
                                  }
 
                                 return(
-                                    <tr key={id} bgcolor={status === "Disapproved" ? "#FF0000" : ""}>
+                                    <tr key={id} bgcolor={status !== "Approved" ? "#ffffe0" : ""}>
                                        <td>
                                         { AppUser?.roles?.includes('SysAdmin') ?
                                         <FontAwesomeIcon onClick={openEdit} style={{marginRight: 10}} color="red" icon={faEdit}/> : ""

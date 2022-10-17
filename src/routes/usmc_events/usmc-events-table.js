@@ -192,7 +192,7 @@ function USMCEventsTable(props) {
 
 
                                 return(
-                                    <tr key={id} bgcolor={status === "Disapproved" ? "#FF0000" : ""}>
+                                    <tr key={id} bgcolor={status !== "Approved" ? "#ffffe0" : ""}>
                                         <td>
                                         { AppUser?.roles?.includes('Approver') ?
                                         <FontAwesomeIcon onClick={openEdit} color="red" style={{marginRight: 10}} icon={faEdit}/> : ""

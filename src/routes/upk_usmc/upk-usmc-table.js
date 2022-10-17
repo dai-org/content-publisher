@@ -169,7 +169,7 @@ function UPKUSMCTable(props) {
                                     publishedOn,
                                     approvedBy,
                                     approvedOn,
-                                    status
+                                    approved
                                 } = item.data();
 
                                 function openEdit() {
@@ -185,7 +185,7 @@ function UPKUSMCTable(props) {
                                 }
 
                                 return(
-                                    <tr key={id} bgcolor={status === "Disapproved" ? "#FF0000" : ""}>
+                                    <tr key={id} bgcolor={approved !== "Approved" ? "#ffffe0" : ""}>
                                                                      <td>
                                         { AppUser?.roles?.includes('Approver') ?
                                         <FontAwesomeIcon onClick={openEdit} key={id} style={{marginRight: 15}} color="red" icon={faEdit}/> : ""

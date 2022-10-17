@@ -65,7 +65,9 @@ function NewsTable(props) {
                                         body: body.current.value,
                                         video: video.current.value,
                                         maradminid: maradminid.current.value,
-                                        postType: "Info"
+                                        postType: "Info",
+                                        notes: notes.current.value
+
 
                                     };
                                       updateDoc(docRef, data)

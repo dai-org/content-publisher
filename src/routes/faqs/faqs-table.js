@@ -67,7 +67,9 @@ function FaqsTable(props) {
                                     const data = {
                                         group: group.current.value,
                                         question: question.current.value,
-                                        answer: answer.current.value
+                                        answer: answer.current.value,
+                                        notes: notes.current.value
+
                                     };
                                       updateDoc(docRef, data)
                                       .then(docRef => {

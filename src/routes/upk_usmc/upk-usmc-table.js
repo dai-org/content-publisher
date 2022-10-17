@@ -69,7 +69,9 @@ function UPKUSMCTable(props) {
                                         docID: docID.current.value,
                                         description: description.current.value,
                                         module: module.current.value,
-                                        tags: tags.current.value
+                                        tags: tags.current.value,
+                                        notes: notes.current.value
+
                                     };
                                       updateDoc(docRef, data)
                                       .then(docRef => {

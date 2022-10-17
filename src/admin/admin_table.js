@@ -66,7 +66,9 @@ function AdminTable(props) {
                                     const data = {
                                         email: email.current.value,
                                         name: name.current.value,
-                                        roles: roles.current.value
+                                        roles: roles.current.value,
+                                        notes: notes.current.value
+
                                     };
                                       updateDoc(docRef, data)
                                       .then(docRef => {

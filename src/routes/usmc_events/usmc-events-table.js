@@ -77,7 +77,9 @@ function USMCEventsTable(props) {
                                         datefrom: datefrom.current.value,
                                         timefrom: timefrom.current.value,
                                         dateto: dateto.current.value,
-                                        timeto: timeto.current.value
+                                        timeto: timeto.current.value,
+                                        notes: notes.current.value
+
                                     };
                                       updateDoc(docRef, data)
                                       .then(docRef => {

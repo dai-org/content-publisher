@@ -54,7 +54,9 @@ function DataDictionaryTable(props) {
                                     const docRef = doc(db, 'dataDictionary', idData);
                                     const data = {
                                         term: term.current.value,
-                                        description: description.current.value
+                                        description: description.current.value,
+                                        notes: notes.current.value
+
                                       };
                                       updateDoc(docRef, data)
                                       .then(docRef => {

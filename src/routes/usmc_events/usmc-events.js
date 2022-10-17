@@ -284,7 +284,7 @@ function USMCEvents() {
                                         </button>
                                         <button
                                 type='button'
-                                style={{marginLeft:5}}
+                                style={{marginLeft:5, marginRight:5}}
                                 className='btn btn-danger btn-sm w-33 round-10'
                                 ref={uploadButton}
                                 onClick={async (event) => {

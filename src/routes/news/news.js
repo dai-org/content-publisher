@@ -255,7 +255,7 @@ function News() {
                                         </button>
                                         <button
                                 type='button'
-                                style={{marginLeft:5}}
+                                style={{marginLeft:5, marginRight:5}}
                                 className='btn btn-danger w-33 btn-sm round-10'
                                 ref={uploadButton}
                                 onClick={async (event) => {

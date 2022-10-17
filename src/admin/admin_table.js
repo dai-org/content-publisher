@@ -24,6 +24,7 @@ function AdminTable(props) {
       const email = useRef();
       const roles = useRef();
       const auths = getAuth();
+      const notes = useRef();
 
     return (
         <div className='table-container'>
@@ -42,6 +43,10 @@ function AdminTable(props) {
                             <span className='input-group-text w-25'>Email Address</span>
                             <textarea className="form-control" rows="1" defaultValue={editData.email} ref={email}></textarea>
                         </div>
+                        <div className='input-group mb-3'>
+                                    <span className='input-group-text'>Notes</span>
+                                    <textarea className="form-control" rows="6" defaultValue={editData.notes} ref={notes}></textarea>
+                                </div>
                         <div className='input-group mb-3'>
                             <span className='input-group-text w-25'>Role</span>
                             <select className='form-select' defaultValue={editData.roles} multiple={false} ref={roles}>
@@ -175,14 +180,14 @@ function AdminTable(props) {
                                  }
 
                                 return(
-                                    <tr key={id}>
+                                    <tr key={id} bgcolor={status === "Disapproved" ? "#FF0000" : ""}>
                                        <td>
                                         { AppUser?.roles?.includes('SysAdmin') ?
                                         <FontAwesomeIcon onClick={openEdit} style={{marginRight: 10}} color="red" icon={faEdit}/> : ""
                                         }
                                         { AppUser?.roles?.includes('SysAdmin') ?
-                                        <FontAwesomeIcon color="red" icon={faKey} onClick={resendPassword}/> : ""
-                                    }
+                                        <FontAwesomeIcon color="red" style={{marginRight: 10}}  icon={faKey} onClick={resendPassword}/> : ""
+                                        }
                                         </td>
                                         <td className=''>
                                             <Cell words={[searchQuery]} text={name} />

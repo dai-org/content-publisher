@@ -24,6 +24,7 @@ function USMCEventsTable(props) {
       const timeto = useRef();
       const datefrom = useRef();
       const dateto = useRef();
+      const notes = useRef();
 
     return (
         <div className='table-container'>
@@ -60,6 +61,10 @@ function USMCEventsTable(props) {
                             <span className='input-group-text px-md-15 w-25'>Time To</span>
                             <input type="time" value={editData.timeto} className="form-control" ref={timeto}></input>
                         </div>
+                        <div className='input-group mb-3'>
+                                    <span className='input-group-text'>Notes</span>
+                                    <textarea className="form-control" rows="6" defaultValue={editData.notes} ref={notes}></textarea>
+                                </div>
                             <button
                                 type='button'
                                 className='btn btn-success w-75 round-10'
@@ -171,7 +176,8 @@ function USMCEventsTable(props) {
                                     publishedBy,
                                     approvedBy,
                                     publishedOn,
-                                    approvedOn
+                                    approvedOn,
+                                    status
                                 } = item.data();
 
                                 function openEdit() {
@@ -184,10 +190,10 @@ function USMCEventsTable(props) {
 
 
                                 return(
-                                    <tr onClick={openEdit} key={id}>
-                                                                     <td>
+                                    <tr key={id} bgcolor={status === "Disapproved" ? "#FF0000" : ""}>
+                                        <td>
                                         { AppUser?.roles?.includes('Approver') ?
-                                        <FontAwesomeIcon color="red" icon={faEdit}/> : ""
+                                        <FontAwesomeIcon onClick={openEdit} color="red" style={{marginRight: 10}} icon={faEdit}/> : ""
                                         }
                                         </td>
                                         <td className='word-break'>

@@ -56,6 +56,7 @@ function NewslettersTable(props) {
                                     publishedBy,
                                     publishedOn,
                                     approvedBy,
+                                    status,
                                     approvedOn
                                 } = item.data();
 
@@ -118,7 +119,7 @@ function NewslettersTable(props) {
                                 }
 
                                 return(
-                                    <tr>
+                                    <tr key={id} bgcolor={status === "Disapproved" ? "#FF0000" : ""}>
                                         <td>
                                         { AppUser?.roles?.includes('NewsletterPublisher') &&
                                         <FontAwesomeIcon style={{marginRight: 15}} onClick={openEdit} key={item.id} color="red" icon={faTrash}/> 

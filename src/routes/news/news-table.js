@@ -23,6 +23,7 @@ function NewsTable(props) {
       const maradminid = useRef();
       const body = useRef();
       const video = useRef();
+      const notes = useRef();
 
     return (
         <div className='table-container'>
@@ -49,6 +50,10 @@ function NewsTable(props) {
                             <span className='input-group-text px-md-15 w-25'>MarAdmin ID</span>
                             <textarea placeholder="245/34 (Leave Blank, if not MarAdmin)" defaultValue={editData.maradminid} className="form-control" rows="1" ref={maradminid}></textarea>
                         </div>
+                        <div className='input-group mb-3'>
+                                    <span className='input-group-text'>Notes</span>
+                                    <textarea className="form-control" rows="6" defaultValue={editData.notes} ref={notes}></textarea>
+                                </div>
                             <button
                                 type='button'
                                 className='btn btn-success w-75 round-10'
@@ -157,6 +162,7 @@ function NewsTable(props) {
                                     approvedOn,
                                     publishedBy,
                                     approvedBy,
+                                    status
                                 } = item.data();
 
 
@@ -169,10 +175,10 @@ function NewsTable(props) {
                                 }
 
                                 return(
-                                    <tr onClick={openEdit} key={id}>
+                                    <tr key={id} bgcolor={status === "Disapproved" ? "#FF0000" : ""}>
                                        <td>
                                         { AppUser?.roles?.includes('Approver') ?
-                                        <FontAwesomeIcon color="red" icon={faEdit}/> : ""
+                                        <FontAwesomeIcon onClick={openEdit} color="red" style={{marginRight: 10}} icon={faEdit}/> : ""
                                         }
                                         </td>
                                         <td className=''>

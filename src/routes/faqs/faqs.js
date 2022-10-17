@@ -44,7 +44,7 @@ function Faqs() {
             });
             return unsubscribe;
         }
-    },[]);
+    },[auth]);
     useEffect(() => {
         if (auth.user.email) {
             const db = getFirestore();
@@ -70,7 +70,7 @@ function Faqs() {
         console.log('triggered');
 
         const db = getFirestore();
-        const q = query(collection(db, "faq"), orderBy('question', 'asc'));
+        const q = query(collection(db, "faq"), orderBy('status', 'desc'),  orderBy('question', 'asc'));
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const items = [];
             querySnapshot.forEach((doc) => {

@@ -1,10 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useHistory, Redirect } from "react-router-dom";
 import { useAuth } from "../components/provideAuth";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Modali, { useModali } from 'modali';
-import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore'
+import { query, where, onSnapshot, getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import {sendEmailApprover} from '../admin/index';
 
 function Login() {
@@ -30,7 +30,6 @@ function Login() {
     const [adminEmail, setadminEmail] = useState('');
 
     useEffect(() => {
-        if (auth.user.email) {
             const db = getFirestore();
             const q = query(collection(db, "appDistro"), where('roles', '==', 'SysAdmin'));
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -41,8 +40,7 @@ function Login() {
                 setadminEmail(items[0].email);
             });
             return unsubscribe;
-        }
-    },[]);
+    },[auth]);
 
 
     return (

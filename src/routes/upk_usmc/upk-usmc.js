@@ -42,7 +42,7 @@ function UPKUSMC() {
             });
             return unsubscribe;
         }
-    },[]);
+    },[auth]);
     useEffect(() => {
         if (auth.user.email) {
             const db = getFirestore();
@@ -67,7 +67,7 @@ function UPKUSMC() {
 
     useEffect(() => {
         const db = getFirestore();
-        const q = query(collection(db, 'upktraining'), orderBy('module'));
+        const q = query(collection(db, 'upktraining'), orderBy('approved', 'desc'), orderBy('module'));
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const items = [];
             setPostsCount(querySnapshot.size + 1);

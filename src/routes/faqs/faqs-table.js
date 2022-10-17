@@ -22,6 +22,7 @@ function FaqsTable(props) {
       const group = useRef();
       const question = useRef();
       const answer = useRef();
+      const notes = useRef();
 
     return (
         <div className='table-container'>
@@ -52,7 +53,10 @@ function FaqsTable(props) {
                                 <span className='input-group-text'>Answer</span>
                                 <textarea className="form-control" rows="6" defaultValue={editData.answer} ref={answer}></textarea>
                             </div>
-
+                            <div className='input-group mb-3'>
+                                    <span className='input-group-text'>Notes</span>
+                                    <textarea className="form-control" rows="6" defaultValue={editData.notes} ref={notes}></textarea>
+                                </div>
                             
                             <button
                                 type='button'
@@ -160,7 +164,8 @@ function FaqsTable(props) {
                                     publishedBy,
                                     publishedOn,
                                     approvedBy,
-                                    approvedOn
+                                    approvedOn,
+                                    status
                                 } = item.data();
 
                                 function openEdit() {
@@ -172,10 +177,10 @@ function FaqsTable(props) {
                                  }
                                  
                                 return(
-                                    <tr onClick={openEdit} key={id}>
+                                    <tr key={id} bgcolor={status === "Disapproved" ? "#FF0000" : ""}>
                                         <td>
                                         { AppUser?.roles?.includes('Approver') ?
-                                        <FontAwesomeIcon color="red" icon={faEdit}/> : ""
+                                        <FontAwesomeIcon onClick={openEdit} color="red" style={{marginRight: 10}} icon={faEdit}/> : ""
                                         }
                                         </td>
                                         <td>

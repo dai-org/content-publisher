@@ -25,6 +25,7 @@ function UPKUSMCTable(props) {
       const description = useRef();
       const docID = useRef();
       const tags = useRef();
+      const notes = useRef();
 
 
     return (
@@ -54,7 +55,10 @@ function UPKUSMCTable(props) {
                             <span className='input-group-text px-md-15 w-25'>TAGs</span>
                             <textarea placeholder="" className="form-control" defaultValue={editData.tags} rows="1" ref={tags}></textarea>
                         </div>
-
+                        <div className='input-group mb-3'>
+                                    <span className='input-group-text'>Notes</span>
+                                    <textarea className="form-control" rows="6" defaultValue={editData.notes} ref={notes}></textarea>
+                                </div>
                             <button
                                 type='button'
                                 className='btn btn-success w-75 round-10'
@@ -142,9 +146,9 @@ function UPKUSMCTable(props) {
                     <thead>
                         <tr>
                             <th width='5%'></th>
+                            <th width='15%'>Module Name</th>
+                            <th width='25%'>Description</th>
                             <th width='10%'>Module UID</th>
-                            <th width='35%'>Description</th>
-                            <th width='10%'>Module ID</th>
                             <th width='15%'>Tags</th>
                             <th width='5%'>Published</th>
                             <th width='5%'>Approved</th>
@@ -162,7 +166,8 @@ function UPKUSMCTable(props) {
                                     publishedBy,
                                     publishedOn,
                                     approvedBy,
-                                    approvedOn
+                                    approvedOn,
+                                    status
                                 } = item.data();
 
                                 function openEdit() {
@@ -178,12 +183,12 @@ function UPKUSMCTable(props) {
                                 }
 
                                 return(
-                                    <tr>
+                                    <tr key={id} bgcolor={status === "Disapproved" ? "#FF0000" : ""}>
                                                                      <td>
                                         { AppUser?.roles?.includes('Approver') ?
-                                        <FontAwesomeIcon onClick={openEdit}   key={id} style={{marginRight: 15}} color="red" icon={faEdit}/> : ""
+                                        <FontAwesomeIcon onClick={openEdit} key={id} style={{marginRight: 15}} color="red" icon={faEdit}/> : ""
                                         }
-
+        
                                         <FontAwesomeIcon onClick={openNewsletter} key={id} icon={faFilePdf}/>
                                         </td>
                                         <td className='word-break'>

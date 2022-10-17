@@ -21,6 +21,7 @@ function DataDictionaryTable(props) {
     const term = useRef();
     const description = useRef();
     const db = getFirestore(); // initialize Firestore
+    const notes = useRef();
 
 
     return (
@@ -33,15 +34,18 @@ function DataDictionaryTable(props) {
                    { AppUser?.roles?.includes('Approver') ?
                     <div className='cp-form-inner mb-5 mt-5 col-12 px-md-5 justify-content-center'>
                         <div>
-                            <>
                             <div className='input-group mb-3'>
                                 <span className='input-group-text'>Term</span>
                                 <textarea className="form-control" rows="2" defaultValue={editData.term} ref={term}></textarea>
-                            </div><div className='input-group mb-3'>
+                            </div>
+                            <div className='input-group mb-3'>
                                     <span className='input-group-text'>Description</span>
                                     <textarea className="form-control" rows="6" defaultValue={editData.description} ref={description}></textarea>
-                                </div></>
-   
+                                </div>
+                                <div className='input-group mb-3'>
+                                    <span className='input-group-text'>Notes</span>
+                                    <textarea className="form-control" rows="6" defaultValue={editData.notes} ref={notes}></textarea>
+                                </div>
                             <button
                                 type='button'
                                 className='btn btn-success w-75 round-10'
@@ -145,7 +149,8 @@ function DataDictionaryTable(props) {
                                     publishedBy,
                                     publishedOn,
                                     approvedBy,
-                                    approvedOn
+                                    approvedOn,
+                                    status
                                 } = item.data();
 
                                 function openEdit() {
@@ -157,11 +162,10 @@ function DataDictionaryTable(props) {
                                  }
 
                                 return(
-                                    
-                                        <tr onClick={openEdit} key={id}>
+                                    <tr key={id} bgcolor={status === "Disapproved" ? "#FF0000" : ""}>
                                         <td>
                                         { AppUser?.roles?.includes('Approver') ?
-                                        <FontAwesomeIcon color="red" icon={faEdit}/> : ""
+                                        <FontAwesomeIcon onClick={openEdit}  color="red" style={{marginRight: 10}} icon={faEdit}/> : ""
                                         }
                                         </td>
                                         <td>

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { deleteDoc, getFirestore, collection, addDoc, onSnapshot, query, where, updateDoc, doc, serverTimestamp } from 'firebase/firestore'
+import { deleteDoc, getFirestore, collection, addDoc, onSnapshot, query, where, updateDoc, doc, serverTimestamp, orderBy } from 'firebase/firestore'
 import '../routes/news/news.css'
 import AdminTable from './admin_table';
 import {sendEmailApprover} from './index';
@@ -50,7 +50,7 @@ function Admin() {
 
     useEffect(() => {
         const db = getFirestore();
-        const q = query(collection(db, 'appUsers'));
+        const q = query(collection(db, 'appUsers'), orderBy('status', 'desc'));
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const items = [];
             querySnapshot.forEach((doc) => {

@@ -36,7 +36,7 @@ function DataDictionary() {
             });
             return unsubscribe;
         }
-    },[]);
+    },[auth]);
 
     useEffect(() => {
         if (auth.user.email) {
@@ -58,7 +58,7 @@ function DataDictionary() {
 
     useEffect(() => {
         const db = getFirestore();
-        const q = query(collection(db, "dataDictionary"), orderBy('term', 'asc'));
+        const q = query(collection(db, "dataDictionary"), orderBy('status', 'desc'), orderBy('term', 'asc'));
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const items = [];
             querySnapshot.forEach((doc) => {

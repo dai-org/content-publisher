@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { deleteDoc, getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, where, updateDoc, doc } from 'firebase/firestore'
+import { deleteDoc, getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, where, updateDoc, doc, orderBy } from 'firebase/firestore'
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { useAuth } from "../../components/provideAuth";
 import NewslettersTable from './newsletters-table';
@@ -64,7 +64,7 @@ function Newsletters() {
             });
             return unsubscribe;
         }
-    },[]);
+    },[auth]);
     useEffect(() => {
         if (auth.user.email) {
             const db = getFirestore();
@@ -89,7 +89,7 @@ function Newsletters() {
     useEffect(() => {
         const db = getFirestore();
         // const q = query(collection(db, "newsletters"), where("state", "==", "CA"));
-        const q = query(collection(db, "newsletters"));
+        const q = query(collection(db, "newsletters"), orderBy('status', 'desc') );
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             let items = [];
 

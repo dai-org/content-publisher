@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { deleteDoc, getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, where, doc, updateDoc } from 'firebase/firestore'
+import { deleteDoc, getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, where, doc, updateDoc, orderBy } from 'firebase/firestore'
 import './usmc-events.css'
 import USMCEventsTable from './usmc-events-table';
 import { useAuth } from "../../components/provideAuth";
@@ -42,7 +42,7 @@ function USMCEvents() {
             });
             return unsubscribe;
         }
-    },[]);
+    },[auth]);
     useEffect(() => {
         if (auth.user.email) {
             const db = getFirestore();
@@ -67,7 +67,7 @@ function USMCEvents() {
 
     useEffect(() => {
         const db = getFirestore();
-        const q = query(collection(db, 'calendarEvents'));
+        const q = query(collection(db, 'calendarEvents'), orderBy('status', 'desc'));
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const items = [];
             querySnapshot.forEach((doc) => {

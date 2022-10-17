@@ -64,7 +64,7 @@ function Upload() {
             let awaiting = 0;
                 
             querySnapshot.forEach((doc) => {
-                if (doc.data().status === 'Awaiting Approval') {
+                if (doc.data().status !== 'Approved') {
                     awaiting++;
                 }
             });
@@ -85,7 +85,7 @@ function Upload() {
             let awaiting = 0;
                 
             querySnapshot.forEach((doc) => {
-                if (doc.data().status === 'Awaiting Approval') {
+                if (doc.data().status !== 'Approved') {
                     awaiting++;
                 }
             });
@@ -105,7 +105,7 @@ function Upload() {
             let awaiting = 0;
                 
             querySnapshot.forEach((doc) => {
-                if (doc.data().status === 'Awaiting Approval') {
+                if (doc.data().status !== 'Approved') {
                     awaiting++;
                 }
             });
@@ -138,7 +138,7 @@ function Upload() {
             let awaiting = 0;
                 
             querySnapshot.forEach((doc) => {
-                if (doc.data().status === 'Awaiting Approval') {
+                if (doc.data().status !== 'Approved') {
                     awaiting++;
                 }
             });
@@ -158,7 +158,7 @@ function Upload() {
             let awaiting = 0;
                 
             querySnapshot.forEach((doc) => {
-                if (doc.data().status === 'Awaiting Approval') {
+                if (doc.data().status !== 'Approved') {
                     awaiting++;
                 }
             });
@@ -178,7 +178,7 @@ function Upload() {
             let awaiting = 0;
                 
             querySnapshot.forEach((doc) => {
-                if (doc.data().status === 'Awaiting Approval') {
+                if (doc.data().status !== 'Approved') {
                     awaiting++;
                 }
             });
@@ -199,7 +199,7 @@ function Upload() {
             let awaiting = 0;
                 
             querySnapshot.forEach((doc) => {
-                if (doc.data().approved === 'Awaiting Approval') {
+                if (doc.data().approved !== 'Approved') {
                     awaiting++;
                 }
             });

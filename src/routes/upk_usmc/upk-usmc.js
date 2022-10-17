@@ -297,20 +297,18 @@ function UPKUSMC() {
                             </button>
                             <button
                                             className={`btn btn-warning btn-sm w-33 round-10`}
-                                            onClick={event => {
-                                                updateDoc(
-                                                    doc(getFirestore(), 'upktraining', id),
-                                                    {
+                                            onClick={async (event) => {
+                                                await updateDoc(doc(getFirestore(), 'upktraining', id),{
                                                         notes: note.current.value,
                                                         status: 'Not Approved',
-                                                        approvedBy: AppUser.name,
-                                                        approvedOn: serverTimestamp()
+                                                        approvedBy: "",
+                                                        approvedOn: ""
 
                                                     }
                                                 );
                                             }}
                                         >
-                                            Dispprove
+                                            Disapprove
                                         </button>
                             <ToastContainer />
                                     </div>

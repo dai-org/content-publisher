@@ -209,9 +209,8 @@ function DataDictionary() {
                                         </div>
                                         <button
                                             className={`btn btn-success btn-sm w-33 round-10`}
-                                            onClick={event => {
-                                                updateDoc(
-                                                    doc(getFirestore(), 'dataDictionary', id),
+                                            onClick={async (event) => {
+                                                await updateDoc(doc(db, 'dataDictionary', id),
                                                     {
                                                         notes: note.current.value,
                                                         status: 'Approved',
@@ -266,14 +265,14 @@ function DataDictionary() {
                                                     {
                                                         notes: note.current.value,
                                                         status: 'Not Approved',
-                                                        approvedBy: AppUser.name,
-                                                        approvedOn: serverTimestamp()
+                                                        approvedBy: "",
+                                                        approvedOn: ""
 
                                                     }
                                                 );
                                             }}
                                         >
-                                            Dispprove
+                                            Disapprove
                                         </button>
                             <ToastContainer />
                                     </div>

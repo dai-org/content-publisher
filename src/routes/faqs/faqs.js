@@ -312,20 +312,20 @@ function Faqs() {
                             </button>
                             <button
                                             className={`btn btn-warning btn-sm w-33 round-10`}
-                                            onClick={event => {
+                                            onClick={async (event) => {
                                                 updateDoc(
-                                                    doc(getFirestore(), 'faq', id),
+                                                    doc(db, 'faq', id),
                                                     {
                                                         notes: note.current.value,
                                                         status: 'Not Approved',
-                                                        approvedBy: AppUser.name,
-                                                        approvedOn: serverTimestamp()
+                                                        approvedBy: "",
+                                                        approvedOn: ""
 
                                                     }
                                                 );
                                             }}
                                         >
-                                            Dispprove
+                                            Disapprove
                                         </button>
                             <ToastContainer />
                                     </div>

@@ -25,6 +25,7 @@ function AdminTable(props) {
       const roles = useRef();
       const auths = getAuth();
       const notes = useRef();
+      const note = useRef();
 
     return (
         <div className='table-container'>
@@ -56,12 +57,15 @@ function AdminTable(props) {
                             <option value='SysAdmin'>System Admin</option>
                                 </select>
                         </div>
-                        
+                        <div className='mb-3'>
+                                        <label>Approver Notes</label>
+                                        <textarea className="form-control" rows="6" value={editData.notes} ref={note}></textarea>
+                                        </div>
                             <button
                                 type='button'
                                 className='btn btn-success w-75 round-10'
                                 ref={uploadButton}
-                                onClick={event => {
+                                onClick={async (event) => {
                                     const docRef = doc(db, 'appUsers', idData);
                                     const data = {
                                         email: email.current.value,
@@ -133,6 +137,21 @@ function AdminTable(props) {
                             >
                                 Delete
                             </button>
+                            <button
+                                            className={`btn btn-warning btn-sm w-33 round-10`}
+                                            onClick={async (event) => {
+                                                await updateDoc(doc(getFirestore(), 'appUsers', id),{
+                                                        notes: note.current.value,
+                                                        status: 'Not Approved',
+                                                        approvedBy: "",
+                                                        approvedOn: ""
+
+                                                    }
+                                                );
+                                            }}
+                                        >
+                                            Disapprove
+                                        </button>
                             <ToastContainer />
                         </div>
                     </div>

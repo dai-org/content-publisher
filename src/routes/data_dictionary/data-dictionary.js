@@ -267,7 +267,9 @@ function DataDictionary() {
                                                         notes: note.current.value,
                                                         status: 'Not Approved',
                                                         disapprovedBy: AppUser.name,
-                                                        disapprovedOn: serverTimestamp()
+                                                        disapprovedOn: serverTimestamp(),
+                                                        approvedBy: "",
+                                                        approvedOn: "",
                                                     }
                                                 );
                                             }}

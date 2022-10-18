@@ -129,7 +129,11 @@ function DataDictionaryTable(props) {
                                             draggable: false,
                                             progress: 0,
                                             });
-                                                                              })
+                                                                              
+                                        })
+                                        setTimeout(function(){
+                                            window.location.reload(false);
+                                         }, 2000);
                                 }}
                             >
                                 Delete

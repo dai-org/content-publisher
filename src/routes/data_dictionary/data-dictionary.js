@@ -265,7 +265,7 @@ function DataDictionary() {
                                                await updateDoc(doc(getFirestore(), 'dataDictionary', id), {
                                                         notes: note.current.value,
                                                         status: 'Not Approved',
-                                                        approvedBy: "",
+                                                        approvedBy: AppUser.name,
                                                         approvedOn: serverTimestamp()
                                                     }
                                                 );

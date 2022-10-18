@@ -3,7 +3,7 @@ import Cell from '../../components/cell';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import Modali, { useModali } from 'modali';
-import { getFirestore, updateDoc, doc, deleteDoc } from 'firebase/firestore'
+import { getFirestore, updateDoc, doc, deleteDoc, serverTimestamp } from 'firebase/firestore'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

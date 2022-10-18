@@ -24,6 +24,7 @@ function NewsTable(props) {
       const body = useRef();
       const video = useRef();
       const notes = useRef();
+      const status = useRef();
 
     return (
         <div className='table-container'>
@@ -54,6 +55,14 @@ function NewsTable(props) {
                                     <span className='input-group-text'>Notes</span>
                                     <textarea className="form-control" rows="6" defaultValue={editData.notes} ref={notes}></textarea>
                                 </div>
+                                { editData.notes !== "Approved" &&
+                                <div className='input-group mb-2'>
+                                <label className='input-group-text' htmlFor='group'>Published Status</label>
+                                        <select className='form-select' id='group' ref={status} >
+                                        <option value='Awaiting Approval'>Submit for approval</option>
+                                        </select> 
+                            </div>
+                                    }
                             <button
                                 type='button'
                                 className='btn btn-success w-75 round-10'
@@ -66,7 +75,8 @@ function NewsTable(props) {
                                         video: video.current.value,
                                         maradminid: maradminid.current.value,
                                         postType: "Info",
-                                        notes: notes.current.value
+                                        notes: notes.current.value,
+                                        status: (editData.notes !== "Approved") ? status.current.value : "Approved"
 
 
                                     };

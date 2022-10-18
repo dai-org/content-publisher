@@ -26,6 +26,7 @@ function UPKUSMCTable(props) {
       const docID = useRef();
       const tags = useRef();
       const notes = useRef();
+      const approved = useRef();
 
 
     return (
@@ -59,6 +60,14 @@ function UPKUSMCTable(props) {
                                     <span className='input-group-text'>Notes</span>
                                     <textarea className="form-control" rows="6" defaultValue={editData.notes} ref={notes}></textarea>
                                 </div>
+                                { editData.notes !== "Approved" &&
+                                <div className='input-group mb-2'>
+                                <label className='input-group-text' htmlFor='group'>Published Status</label>
+                                        <select className='form-select' id='group' ref={approved} >
+                                        <option value='Awaiting Approval'>Submit for approval</option>
+                                        </select> 
+                            </div>
+                                    }
                             <button
                                 type='button'
                                 className='btn btn-success w-75 round-10'
@@ -70,7 +79,8 @@ function UPKUSMCTable(props) {
                                         description: description.current.value,
                                         module: module.current.value,
                                         tags: tags.current.value,
-                                        notes: notes.current.value
+                                        notes: notes.current.value,
+                                        approved: (editData.notes !== "Approved") ? approved.current.value : "Approved"
 
                                     };
                                       updateDoc(docRef, data)

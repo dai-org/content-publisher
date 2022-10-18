@@ -466,6 +466,21 @@ function Newsletters() {
                             >
                                 Delete
                             </button>
+                            <button
+                                            className={`btn btn-warning btn-sm w-33 round-10`}
+                                            onClick={async (event) => {
+                                               await updateDoc(doc(getFirestore(), 'newsletters', id),{
+                                                        notes: note.current.value,
+                                                        status: 'Not Approved',
+                                                        approvedBy: "",
+                                                        approvedOn: ""
+
+                                                    }
+                                                );
+                                            }}
+                                        >
+                                            Disapprove
+                                        </button>
                             <ToastContainer />
                                     </div>
                                 )

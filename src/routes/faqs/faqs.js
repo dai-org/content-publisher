@@ -316,9 +316,7 @@ function Faqs() {
                             <button
                                             className={`btn btn-warning btn-sm w-33 round-10`}
                                             onClick={async (event) => {
-                                                updateDoc(
-                                                    doc(getFirestore(), 'faq', id),
-                                                    {
+                                               await updateDoc( doc(getFirestore(), 'faq', id), {
                                                         notes: note.current.value,
                                                         status: 'Not Approved',
                                                         approvedBy: "",

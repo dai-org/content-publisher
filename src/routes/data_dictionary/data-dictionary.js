@@ -218,44 +218,44 @@ function DataDictionary() {
                                             style={{marginLeft:5, marginRight:5}}
                                             type='button'
                                             onClick={async (event) => {
-                                                await updateDoc(doc(getFirestore(), 'dataDictionary', id),
-                                                    {
-                                                        notes: note.current.value,
-                                                        status: 'Approved',
-                                                        approvedBy: AppUser.name,
-                                                        approvedOn: serverTimestamp(),
-                                                        disapprovedBy: "",
-                                                        disapprovedOn: ""
-                                                    }
-                                                    .then(docRef => {
-                                                        toast.success('The entry has been successfully approved.', {
-                                                            position: "top-center",
-                                                            autoClose: 5000,
-                                                            hideProgressBar: true,
-                                                            closeOnClick: true,
-                                                            pauseOnHover: true,
-                                                            draggable: false,
-                                                            progress: 0,
-                                                            });                                        
-                                                        
-                                                    })
-                                                      .catch(error => {
-                                                        toast.error('An error has occured, Please try again.\n\n'+error, {
-                                                            position: "top-center",
-                                                            autoClose: 5000,
-                                                            hideProgressBar: true,
-                                                            closeOnClick: true,
-                                                            pauseOnHover: true,
-                                                            draggable: false,
-                                                            progress: 0,
-                                                            });                                     
-                                                         })
-                                                );
-                                                setTimeout(function(){
-                                                    window.location.reload(false);
-                                                 }, 3000);
 
-                                            }}
+                                                    const docRef = doc(getFirestore(), 'dataDictionary', id);
+                                    const data = {
+                                        notes: note.current.value,
+                                        status: 'Approved',
+                                        approvedBy: AppUser.name,
+                                        approvedOn: serverTimestamp(),
+                                        disapprovedBy: "",
+                                        disapprovedOn: ""                                                   
+                                      };
+                                     await updateDoc(docRef, data)
+                                     .then(docRef => {
+                                        toast.success('The entry has been successfully approved.', {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: true,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: false,
+                                            progress: 0,
+                                            }); 
+                                            
+                                    })
+                                      .catch(error => {
+                                        toast.error('An error has occured, Please try again.\n\n'+error, {
+                                            position: "top-center",
+                                            autoClose: 5000,
+                                            hideProgressBar: true,
+                                            closeOnClick: true,
+                                            pauseOnHover: true,
+                                            draggable: false,
+                                            progress: 0,
+                                            });
+                                      })
+                                      setTimeout(function(){
+                                        window.location.reload(false);
+                                     }, 2000);
+                                }}
                                         >
                                             Approve
                                         </button>

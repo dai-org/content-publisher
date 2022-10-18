@@ -285,9 +285,9 @@ function DataDictionary() {
                                                         approvedOn: "",
                                                     }
                                                 );
-                                                setTimeout(function(){
+                                               setTimeout(function(){
                                                     window.location.reload(false);
-                                                 }, 2000);
+                                                 }, 5000);
 
                                             }}
                                         >

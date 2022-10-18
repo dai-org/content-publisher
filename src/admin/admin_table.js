@@ -140,7 +140,7 @@ function AdminTable(props) {
                             <button
                                             className={`btn btn-warning btn-sm w-33 round-10`}
                                             onClick={async (event) => {
-                                                await updateDoc(doc(getFirestore(), 'appUsers', id),{
+                                                await updateDoc(doc(getFirestore(), 'appUsers', idData),{
                                                         notes: note.current.value,
                                                         status: 'Not Approved',
                                                         approvedBy: "",

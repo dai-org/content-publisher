@@ -60,7 +60,7 @@ function DataDictionaryTable(props) {
                                 className='btn btn-success w-75 round-10'
                                 ref={uploadButton}
                                 onClick={event => {
-                                    const docRef = doc(db, 'dataDictionary', idData);
+                                    const docRef = doc(getFirestore(), 'dataDictionary', idData);
                                     const data = {
                                         term: term.current.value,
                                         description: description.current.value,

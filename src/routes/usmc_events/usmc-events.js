@@ -319,7 +319,7 @@ function USMCEvents() {
                             <button
                                             className={`btn btn-warning btn-sm w-33 round-10`}
                                             onClick={async (event) => {
-                                                await updateDoc(doc(db, 'calendarEvents', id),{
+                                                await updateDoc(doc(getFirestore(), 'calendarEvents', id),{
                                                         notes: note.current.value,
                                                         status: 'Not Approved',
                                                         approvedBy: "",

@@ -160,8 +160,7 @@ function DataDictionary() {
                                         sendEmailApprover(adminEmail, "New Data Dictionary Entry");
                                     }
 
-                                    const db = getFirestore();
-                                    const docRef = await addDoc(collection(db, 'dataDictionary'), data);
+                                    const docRef = await addDoc(collection(getFirestore(), 'dataDictionary'), data);
                                     console.log('Document written with ID: ', docRef.id);
                                     // Reset fields
                                     status.current.value = 'Awaiting Approval'
@@ -210,7 +209,7 @@ function DataDictionary() {
                                         <button
                                             className={`btn btn-success btn-sm w-33 round-10`}
                                             onClick={async (event) => {
-                                                await updateDoc(doc(db, 'dataDictionary', id),
+                                                await updateDoc(doc(getFirestore(), 'dataDictionary', id),
                                                     {
                                                         notes: note.current.value,
                                                         status: 'Approved',

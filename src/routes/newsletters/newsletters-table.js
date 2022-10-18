@@ -121,8 +121,9 @@ function NewslettersTable(props) {
                                 return(
                                     <tr key={id} bgcolor={status !== "Approved" ? "#ffffe0" : ""}>
                                         <td>
-                                        { AppUser?.roles?.includes('NewsletterPublisher') &&
-                                        <FontAwesomeIcon style={{marginRight: 15}} onClick={openEdit} key={item.id} color="red" icon={faTrash}/> 
+                                            
+                                        { AppUser?.roles?.includes('NewsletterPublisher') || AppUser?.roles?.includes('Publisher') ? 
+                                        <FontAwesomeIcon style={{marginRight: 15}} onClick={openEdit} key={item.id} color="red" icon={faTrash}/>  : ""
                                         }
 
                                         <FontAwesomeIcon onClick={openNewsletter} key={item.id} icon={faFilePdf}/>

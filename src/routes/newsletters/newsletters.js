@@ -374,6 +374,9 @@ function Newsletters() {
                         <div className='alert alert-info w-100' style={{ borderRadius: 20 }}>
                             <strong>Newsletters awaiting approval ({newsletters.filter(entry => entry.data().status === 'Awaiting Approval').length})</strong>
                         </div> 
+                        <div className='alert alert-info w-100' style={{ borderRadius: 20 }}>
+                            <strong>Disapproved Newsletters  ({newsletters.filter(entry => entry.data().status === 'Not Approved').length})</strong>
+                        </div> 
                         {
                             newsletters
                             .filter(entry => entry.data().status === 'Awaiting Approval')

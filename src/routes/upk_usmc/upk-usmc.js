@@ -210,6 +210,9 @@ function UPKUSMC() {
                         <div className='alert alert-info w-100' style={{ borderRadius: 20 }}>
                             <strong>UPK & SDPs  awaiting approval ({posts.filter(entry => entry.data().approved === 'Awaiting Approval').length})</strong>
                         </div> 
+                        <div className='alert alert-info w-100' style={{ borderRadius: 20 }}>
+                            <strong>Disapproved UPK & SDPs  ({posts.filter(entry => entry.data().status === 'Not Approved').length})</strong>
+                        </div> 
                         {
                             posts
                             .filter(entry => entry.data().approved === 'Awaiting Approval')

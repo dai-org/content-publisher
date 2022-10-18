@@ -179,6 +179,9 @@ function Admin() {
                         <div className='alert alert-info w-100' style={{ borderRadius: 20 }}>
                             <strong>Admin Users awaiting approval ({posts.filter(entry => entry.data().status === 'Awaiting Approval').length})</strong>
                         </div> 
+                        <div className='alert alert-info w-100' style={{ borderRadius: 20 }}>
+                            <strong>Disapproved Users  ({posts.filter(entry => entry.data().status === 'Not Approved').length})</strong>
+                        </div> 
                         {
                             posts
                             .filter(entry => entry.data().status === 'Awaiting Approval')

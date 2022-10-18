@@ -180,6 +180,9 @@ function DataDictionary() {
                         <div className='alert alert-info w-100' style={{ borderRadius: 20 }}>
                             <strong>Data dictionary entries awaiting approval ({entries.filter(entry => entry.data().status === 'Awaiting Approval').length})</strong>
                         </div> 
+                        <div className='alert alert-info w-100' style={{ borderRadius: 20 }}>
+                            <strong>Disapproved Data dictionary entries  ({entries.filter(entry => entry.data().status === 'Not Approved').length})</strong>
+                        </div> 
                         {
                             entries
                             .filter(entry => entry.data().status === 'Awaiting Approval')

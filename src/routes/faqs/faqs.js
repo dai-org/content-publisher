@@ -229,6 +229,9 @@ function Faqs() {
                         <div className='alert alert-info w-100' style={{ borderRadius: 20 }}>
                             <strong>FAQs awaiting approval ({faqs.filter(entry => entry.data().status === 'Awaiting Approval').length})</strong>
                         </div> 
+                        <div className='alert alert-info w-100' style={{ borderRadius: 20 }}>
+                            <strong>Disapproved FAQs  ({faqs.filter(entry => entry.data().status === 'Not Approved').length})</strong>
+                        </div> 
                         {
                             faqs
                             .filter(entry => entry.data().status === 'Awaiting Approval')

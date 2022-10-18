@@ -60,14 +60,14 @@ function UPKUSMCTable(props) {
                                     <span className='input-group-text'>Notes</span>
                                     <textarea className="form-control" rows="6" defaultValue={editData.notes} ref={notes}></textarea>
                                 </div>
-                                { editData.notes !== "Approved" &&
+                                { editData.approved !== "Approved" ?
                                 <div className='input-group mb-2'>
                                 <label className='input-group-text' htmlFor='group'>Published Status</label>
                                         <select className='form-select' id='group' ref={approved} >
                                         <option value='Awaiting Approval'>Submit for approval</option>
                                         </select> 
                             </div>
-                                    }
+                                    : ""}
                             <button
                                 type='button'
                                 className='btn btn-success w-75 round-10'
@@ -157,7 +157,7 @@ function UPKUSMCTable(props) {
 
                     <thead>
                         <tr>
-                            <th width='5%'></th>
+                            <th width='10%'></th>
                             <th width='15%'>Module Name</th>
                             <th width='25%'>Description</th>
                             <th width='10%'>Module UID</th>
@@ -197,7 +197,7 @@ function UPKUSMCTable(props) {
                                 return(
                                     <tr key={id} bgcolor={approved !== "Approved" ? "#ffffe0" : ""}>
                                                                      <td>
-                                        { AppUser?.roles?.includes('Publisher') ?
+                                      { AppUser?.roles?.includes('Publisher') || AppUser?.roles?.includes('Approver') ?
                                         <FontAwesomeIcon onClick={openEdit} key={id} style={{marginRight: 15}} color="red" icon={faEdit}/> : ""
                                         }
         

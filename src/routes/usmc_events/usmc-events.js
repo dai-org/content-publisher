@@ -228,6 +228,9 @@ function USMCEvents() {
                         <div className='alert alert-info w-100' style={{ borderRadius: 20 }}>
                             <strong>Calendar events awaiting approval ({posts.filter(entry => entry.data().status === 'Awaiting Approval').length})</strong>
                         </div> 
+                        <div className='alert alert-info w-100' style={{ borderRadius: 20 }}>
+                            <strong>Disapproved Calendar events  ({posts.filter(entry => entry.data().status === 'Not Approved').length})</strong>
+                        </div> 
                         {
                             posts
                             .filter(entry => entry.data().status === 'Awaiting Approval')

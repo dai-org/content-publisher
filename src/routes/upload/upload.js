@@ -85,7 +85,7 @@ function Upload() {
             let awaiting = 0;
                 
             querySnapshot.forEach((doc) => {
-                if (doc.data().status !== 'Approved') {
+                if ((doc.data().status === 'Awaiting Approval') || (doc.data().status === 'Not Approved')){
                     awaiting++;
                 }
             });
@@ -105,7 +105,7 @@ function Upload() {
             let awaiting = 0;
                 
             querySnapshot.forEach((doc) => {
-                if (doc.data().status !== 'Approved') {
+                if ((doc.data().status === 'Awaiting Approval') || (doc.data().status === 'Not Approved')){
                     awaiting++;
                 }
             });
@@ -138,7 +138,7 @@ function Upload() {
             let awaiting = 0;
                 
             querySnapshot.forEach((doc) => {
-                if (doc.data().status !== 'Approved') {
+                if ((doc.data().status === 'Awaiting Approval') || (doc.data().status === 'Not Approved')){
                     awaiting++;
                 }
             });
@@ -158,7 +158,7 @@ function Upload() {
             let awaiting = 0;
                 
             querySnapshot.forEach((doc) => {
-                if (doc.data().status !== 'Approved') {
+                if ((doc.data().status === 'Awaiting Approval') || (doc.data().status === 'Not Approved')){
                     awaiting++;
                 }
             });
@@ -178,7 +178,7 @@ function Upload() {
             let awaiting = 0;
                 
             querySnapshot.forEach((doc) => {
-                if (doc.data().status !== 'Approved') {
+                if ((doc.data().status === 'Awaiting Approval') || (doc.data().status === 'Not Approved')){
                     awaiting++;
                 }
             });
@@ -199,7 +199,7 @@ function Upload() {
             let awaiting = 0;
                 
             querySnapshot.forEach((doc) => {
-                if (doc.data().approved !== 'Approved') {
+                if ((doc.data().status === 'Awaiting Approval') || (doc.data().status === 'Not Approved')){
                     awaiting++;
                 }
             });

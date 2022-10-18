@@ -65,14 +65,14 @@ function USMCEventsTable(props) {
                                     <span className='input-group-text'>Notes</span>
                                     <textarea className="form-control" rows="6" defaultValue={editData.notes} ref={notes}></textarea>
                                 </div>
-                                { editData.notes !== "Approved" &&
+                                { editData.status !== "Approved" ?
                                 <div className='input-group mb-2'>
                                 <label className='input-group-text' htmlFor='group'>Published Status</label>
                                         <select className='form-select' id='group' ref={status} >
                                         <option value='Awaiting Approval'>Submit for approval</option>
                                         </select> 
                             </div>
-                                    }
+                                    : ""}
                             <button
                                 type='button'
                                 className='btn btn-success w-75 round-10'
@@ -203,7 +203,7 @@ function USMCEventsTable(props) {
                                 return(
                                     <tr key={id} bgcolor={status !== "Approved" ? "#ffffe0" : ""}>
                                         <td>
-                                        { AppUser?.roles?.includes('Publisher') ?
+                                        { AppUser?.roles?.includes('Publisher') || AppUser?.roles?.includes('Approver') ?
                                         <FontAwesomeIcon onClick={openEdit} color="red" style={{marginRight: 10}} icon={faEdit}/> : ""
                                         }
                                         </td>

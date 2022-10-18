@@ -198,7 +198,7 @@ function Upload() {
             let awaiting = 0;
                 
             querySnapshot.forEach((doc) => {
-                if ((doc.data().status === 'Awaiting Approval') || (doc.data().status === 'Not Approved')){
+                if ((doc.data().approved === 'Awaiting Approval') || (doc.data().approved === 'Not Approved')){
                     awaiting++;
                 }
             });

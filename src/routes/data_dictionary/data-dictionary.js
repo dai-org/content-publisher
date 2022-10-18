@@ -14,6 +14,9 @@ function DataDictionary() {
     const description = useRef();
     const searchField = useRef();
     const uploadButton = useRef();
+    const disapproveButton = useRef();
+    const approveButton = useRef();
+
     const [cache, setCache] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [entries, setEntries] = useState([]);
@@ -211,6 +214,9 @@ function DataDictionary() {
                                         </div>
                                         <button
                                             className={`btn btn-success btn-sm w-33 round-10`}
+                                            ref={approveButton}
+                                            style={{marginLeft:5, marginRight:5}}
+                                            type='button'
                                             onClick={async (event) => {
                                                 await updateDoc(doc(getFirestore(), 'dataDictionary', id),
                                                     {
@@ -262,6 +268,9 @@ function DataDictionary() {
                             </button>
                             <button
                                             className={`btn btn-warning btn-sm w-33 round-10`}
+                                            type='button'
+                                            ref={disapproveButton}
+                                            style={{marginLeft:5, marginRight:5}}
                                             onClick={async (event) => {
                                                await updateDoc(doc(getFirestore(), 'dataDictionary', id), {
                                                         notes: note.current.value,

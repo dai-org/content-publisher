@@ -227,10 +227,33 @@ function DataDictionary() {
                                                         disapprovedBy: "",
                                                         disapprovedOn: ""
                                                     }
+                                                    .then(docRef => {
+                                                        toast.success('The entry has been successfully approved.', {
+                                                            position: "top-center",
+                                                            autoClose: 5000,
+                                                            hideProgressBar: true,
+                                                            closeOnClick: true,
+                                                            pauseOnHover: true,
+                                                            draggable: false,
+                                                            progress: 0,
+                                                            });                                        
+                                                        
+                                                    })
+                                                      .catch(error => {
+                                                        toast.error('An error has occured, Please try again.\n\n'+error, {
+                                                            position: "top-center",
+                                                            autoClose: 5000,
+                                                            hideProgressBar: true,
+                                                            closeOnClick: true,
+                                                            pauseOnHover: true,
+                                                            draggable: false,
+                                                            progress: 0,
+                                                            });                                     
+                                                         })
                                                 );
                                                 setTimeout(function(){
                                                     window.location.reload(false);
-                                                 }, 2000);
+                                                 }, 3000);
 
                                             }}
                                         >
@@ -265,7 +288,8 @@ function DataDictionary() {
                                             pauseOnHover: true,
                                             draggable: false,
                                             progress: 0,
-                                            });                                      })
+                                            });                                     
+                                         })
                                 }}
                             >
                                 Delete
@@ -284,10 +308,33 @@ function DataDictionary() {
                                                         approvedBy: "",
                                                         approvedOn: "",
                                                     }
+                                                    .then(docRef => {
+                                                        toast.success('The entry has been successfully disapproved.', {
+                                                            position: "top-center",
+                                                            autoClose: 5000,
+                                                            hideProgressBar: true,
+                                                            closeOnClick: true,
+                                                            pauseOnHover: true,
+                                                            draggable: false,
+                                                            progress: 0,
+                                                            });                                        
+                                                        
+                                                    })
+                                                      .catch(error => {
+                                                        toast.error('An error has occured, Please try again.\n\n'+error, {
+                                                            position: "top-center",
+                                                            autoClose: 5000,
+                                                            hideProgressBar: true,
+                                                            closeOnClick: true,
+                                                            pauseOnHover: true,
+                                                            draggable: false,
+                                                            progress: 0,
+                                                            });                                     
+                                                         })
                                                 );
                                                setTimeout(function(){
                                                     window.location.reload(false);
-                                                 }, 5000);
+                                                 }, 3000);
 
                                             }}
                                         >

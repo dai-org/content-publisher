@@ -45,8 +45,7 @@ function Upload() {
                     items.push(doc);
                 });
 
-                console.log(items[0].data());
-
+               
                 setFormLoading(false);
                 setAppUser(items[0].data());
             });

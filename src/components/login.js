@@ -24,9 +24,7 @@ function Login() {
     // Get auth state and re-render anytime it changes
     const auth = useAuth();
     const history = useHistory();
-    function toggleLoader () {
 
-    }
     const [adminEmail, setadminEmail] = useState('');
 
     useEffect(() => {
@@ -91,7 +89,7 @@ function Login() {
                                         roles:roles.current.value,
                                         password: Math.random().toString(36).slice(4)
                                     };
-                                    toast.success('Your request for an account has been sent and is awaiting approval.', {
+                                    toast.success('Your request for an account has been sent and is awaiting approval and once approved a temporary email will be sent to you.', {
                                         position: "top-center",
                                         autoClose: 5000,
                                         hideProgressBar: true,
@@ -131,7 +129,6 @@ function Login() {
                         type="button"
                         className="btn btn-primary w-100"
                         onClick={async (event) => {
-                            toggleLoader () ;
                             await auth.signin(email, password);
                             history.push('/upload');
                         }}

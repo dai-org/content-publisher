@@ -180,7 +180,7 @@ function FaqsTable(props) {
                                 } = item.data();
 
                                 function openEdit() {
-                                    if (AppUser?.roles?.includes('Approver')){
+                                    if (AppUser?.roles?.includes('Publisher') || AppUser?.roles?.includes('Approver')){
                                      setIDData(id)
                                      setEditData(item.data())
                                      toggleExampleModal() 

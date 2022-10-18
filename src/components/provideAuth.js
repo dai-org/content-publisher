@@ -56,7 +56,10 @@ function useProvideAuth() {
 
     // Wrap any Firebase methods we want to use making sure ...
     // ... to save the user to state.
+
+
     const signin = async (email, password) => {
+
         const auth = getAuth();
         // Existing and future Auth states are now persisted in the current
         // session only. Closing the window would clear any existing state even

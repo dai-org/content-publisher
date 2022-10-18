@@ -87,7 +87,7 @@ function USMCEventsTable(props) {
                                         dateto: dateto.current.value,
                                         timeto: timeto.current.value,
                                         notes: notes.current.value,
-                                        status: (editData.notes !== "Approved") ? status.current.value : "Approved"
+                                        status: (editData.status !== "Approved") ? status.current.value : "Approved"
 
                                     };
                                       updateDoc(docRef, data)

@@ -76,7 +76,7 @@ function NewsTable(props) {
                                         maradminid: maradminid.current.value,
                                         postType: "Info",
                                         notes: notes.current.value,
-                                        status: (editData.notes !== "Approved") ? status.current.value : "Approved"
+                                        status: (editData.status !== "Approved") ? status.current.value : "Approved"
 
 
                                     };

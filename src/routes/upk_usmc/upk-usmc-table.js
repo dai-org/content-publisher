@@ -80,7 +80,7 @@ function UPKUSMCTable(props) {
                                         module: module.current.value,
                                         tags: tags.current.value,
                                         notes: notes.current.value,
-                                        approved: (editData.notes !== "Approved") ? approved.current.value : "Approved"
+                                        approved: (editData.status !== "Approved") ? approved.current.value : "Approved"
 
                                     };
                                       updateDoc(docRef, data)

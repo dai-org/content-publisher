@@ -77,7 +77,7 @@ function FaqsTable(props) {
                                         question: question.current.value,
                                         answer: answer.current.value,
                                         notes: notes.current.value,
-                                        status: (editData.notes !== "Approved") ? status.current.value : "Approved"
+                                        status: (editData.status !== "Approved") ? status.current.value : "Approved"
 
                                     };
                                       updateDoc(docRef, data)

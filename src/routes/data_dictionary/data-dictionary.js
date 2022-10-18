@@ -228,6 +228,8 @@ function DataDictionary() {
                                                         disapprovedOn: ""
                                                     }
                                                 );
+                                                window.location.reload(false);
+
                                             }}
                                         >
                                             Approve
@@ -281,6 +283,8 @@ function DataDictionary() {
                                                         approvedOn: "",
                                                     }
                                                 );
+                                                window.location.reload(false);
+
                                             }}
                                         >
                                             Disapprove

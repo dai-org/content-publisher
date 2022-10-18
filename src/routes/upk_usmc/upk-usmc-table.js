@@ -197,7 +197,7 @@ function UPKUSMCTable(props) {
                                 return(
                                     <tr key={id} bgcolor={approved !== "Approved" ? "#ffffe0" : ""}>
                                                                      <td>
-                                        { AppUser?.roles?.includes('Approver') ?
+                                        { AppUser?.roles?.includes('Publisher') ?
                                         <FontAwesomeIcon onClick={openEdit} key={id} style={{marginRight: 15}} color="red" icon={faEdit}/> : ""
                                         }
         

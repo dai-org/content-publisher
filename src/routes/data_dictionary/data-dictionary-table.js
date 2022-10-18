@@ -66,7 +66,8 @@ function DataDictionaryTable(props) {
                                         term: term.current.value,
                                         description: description.current.value,
                                         notes: notes.current.value,
-                                        status: (editData.status !== "Approved") ? status.current.value : "Approved"
+                                        status: (editData.status !== "Approved") ? status.current.value : "Approved",
+                                        approvedOn: serverTimestamp()
                                                     
                                       };
                                      await updateDoc(docRef, data)

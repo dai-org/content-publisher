@@ -217,8 +217,9 @@ function DataDictionary() {
                                                         notes: note.current.value,
                                                         status: 'Approved',
                                                         approvedBy: AppUser.name,
-                                                        approvedOn: serverTimestamp()
-
+                                                        approvedOn: serverTimestamp(),
+                                                        disapprovedBy: "",
+                                                        disapprovedOn: ""
                                                     }
                                                 );
                                             }}
@@ -265,8 +266,8 @@ function DataDictionary() {
                                                await updateDoc(doc(getFirestore(), 'dataDictionary', id), {
                                                         notes: note.current.value,
                                                         status: 'Not Approved',
-                                                        approvedBy: AppUser.name,
-                                                        approvedOn: serverTimestamp()
+                                                        disapprovedBy: AppUser.name,
+                                                        disapprovedOn: serverTimestamp()
                                                     }
                                                 );
                                             }}

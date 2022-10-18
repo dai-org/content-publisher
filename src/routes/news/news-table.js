@@ -32,7 +32,7 @@ function NewsTable(props) {
                 posts.length !== 0 &&
                 <table className='w-100'>
                     <Modali.Modal {...exampleModal}>
-                   { AppUser?.roles?.includes('Approver') ?
+                    { AppUser?.roles?.includes('Approver') || AppUser?.roles?.includes('Publisher')  ?
                     <div className='cp-form-inner mb-5 mt-5 col-14 px-md-5 justify-content-center'>
                         <div>
                         <div className='input-group mb-3'>

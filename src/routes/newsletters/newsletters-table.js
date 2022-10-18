@@ -60,11 +60,11 @@ function NewslettersTable(props) {
                                     approvedOn
                                 } = item.data();
 
-                                function openEdit(event) {
+                                async function openEdit(event) {
                                     if (AppUser?.roles?.includes('NewsletterPublisher')){
                                     if (window.confirm("Are you sure you want to delete this Newsletter.")){
                                         const docRef = doc(db, 'newsletters', id);
-                                        deleteDoc(docRef)
+                                       await deleteDoc(docRef)
                                         .then(docRef => {
                                             const desertRef = ref(storage, `${edition}_${year}-${month}_${issue}.pdf`)
                                             deleteObject(desertRef).then(() => {

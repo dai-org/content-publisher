@@ -77,7 +77,7 @@ function USMCEventsTable(props) {
                                 type='button'
                                 className='btn btn-success w-75 round-10'
                                 ref={uploadButton}
-                                onClick={event => {
+                                onClick={async event => {
                                     const docRef = doc(db, 'calendarEvents', idData);
                                     const data = {
                                         title: title.current.value,
@@ -90,7 +90,7 @@ function USMCEventsTable(props) {
                                         status: (editData.status !== "Approved") ? status.current.value : "Approved"
 
                                     };
-                                      updateDoc(docRef, data)
+                                     await updateDoc(docRef, data)
                                       .then(docRef => {
                                         toast.success('The entry has been successfully updated.', {
                                             position: "top-center",
@@ -111,7 +111,11 @@ function USMCEventsTable(props) {
                                             draggable: false,
                                             progress: 0,
                                             });
-                                                                              })
+                                                                              
+                                        })
+                                        setTimeout(function(){
+                                            window.location.reload(false);
+                                         }, 2000);
                                 }}
                             >
                                 Update
@@ -124,7 +128,7 @@ function USMCEventsTable(props) {
                                 ref={uploadButton}
                                 onClick={async (event) => {
                                     const docRef = doc(db, 'calendarEvents', idData);
-                                    deleteDoc(docRef)
+                                   await deleteDoc(docRef)
                                     .then(docRef => {
                                         toast.success('The entry has been successfully deleted.', {
                                             position: "top-center",
@@ -147,6 +151,9 @@ function USMCEventsTable(props) {
                                             progress: 0,
                                             });
                                                                               })
+                                                                              setTimeout(function(){
+                                                                                window.location.reload(false);
+                                                                             }, 2000);
                                 }}
                             >
                                 Delete

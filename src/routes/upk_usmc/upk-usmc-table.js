@@ -72,7 +72,7 @@ function UPKUSMCTable(props) {
                                 type='button'
                                 className='btn btn-success w-75 round-10'
                                 ref={uploadButton}
-                                onClick={event => {
+                                onClick={async (event) => {
                                     const docRef = doc(db, 'upktraining', idData);
                                     const data = {
                                         docID: docID.current.value,
@@ -83,7 +83,7 @@ function UPKUSMCTable(props) {
                                         approved: (editData.status !== "Approved") ? approved.current.value : "Approved"
 
                                     };
-                                      updateDoc(docRef, data)
+                                     await updateDoc(docRef, data)
                                       .then(docRef => {
                                         toast.success('The entry has been successfully updated.', {
                                             position: "top-center",
@@ -105,6 +105,9 @@ function UPKUSMCTable(props) {
                                             progress: 0,
                                             });
                                                                               })
+                                                                              setTimeout(function(){
+                                                                                window.location.reload(false);
+                                                                             }, 2000);
                                 }}
                             >
                                 Update
@@ -117,7 +120,7 @@ function UPKUSMCTable(props) {
                                 ref={uploadButton}
                                 onClick={async (event) => {
                                     const docRef = doc(db, 'upktraining', idData);
-                                    deleteDoc(docRef)
+                                   await deleteDoc(docRef)
                                     .then(docRef => {
                                         toast.success('The entry has been successfully deleted.', {
                                             position: "top-center",
@@ -140,6 +143,9 @@ function UPKUSMCTable(props) {
                                             progress: 0,
                                             });
                                                                               })
+                                                                              setTimeout(function(){
+                                                                                window.location.reload(false);
+                                                                             }, 2000);
                                 }}
                             >
                                 Delete

@@ -215,18 +215,44 @@ function Admin() {
                                         </div>
                                         <button
                                             className={`btn btn-success btn-sm w-33 round-10`}
-                                            onClick={event => {
-                                                updateDoc(
-                                                    doc(getFirestore(), 'appUsers', id),
-                                                    {
-                                                        notes: note.current.value,
-                                                        status: 'Approved',
-                                                        approvedBy: AppUser.name,
-                                                        approvedOn: serverTimestamp(),
-                                                    }
-                                                );
-                                                createUserWithEmailAndPassword(auths, email, Math.random().toString(36).slice(4)); 
-                                                sendPasswordResetEmail(auths, email); 
+                                            onClick={async (event) => {
+                                                const docRef = doc(getFirestore(), 'appUsers', id);
+                                                const data = {
+                                                    notes: note.current.value,
+                                                    status: 'Approved',
+                                                    approvedBy: "",
+                                                    approvedOn: ""
+                                                };
+                                                await updateDoc(docRef, data)
+                                                .then(docRef => {
+                                                    toast.success('The entry has been successfully approved.', {
+                                                        position: "top-center",
+                                                        autoClose: 5000,
+                                                        hideProgressBar: true,
+                                                        closeOnClick: true,
+                                                        pauseOnHover: true,
+                                                        draggable: false,
+                                                        progress: 0,
+                                                        }); 
+                                                        
+                                                })
+                                                  .catch(error => {
+                                                    toast.error('An error has occured, Please try again.\n\n'+error, {
+                                                        position: "top-center",
+                                                        autoClose: 5000,
+                                                        hideProgressBar: true,
+                                                        closeOnClick: true,
+                                                        pauseOnHover: true,
+                                                        draggable: false,
+                                                        progress: 0,
+                                                        });
+                                                  })
+                                                  setTimeout(function(){
+                                                    createUserWithEmailAndPassword(auths, email, Math.random().toString(36).slice(4)); 
+                                                    sendPasswordResetEmail(auths, email); 
+                                                    window.location.reload(false);
+                                                 }, 2000);
+
                                             }}
                                         >
                                             Approve
@@ -238,7 +264,7 @@ function Admin() {
                                 ref={uploadButton}
                                 onClick={async (event) => {
                                     const docRef = doc(getFirestore(), 'appUsers', id);
-                                    deleteDoc(docRef)
+                                   await deleteDoc(docRef)
                                     .then(docRef => {
                                         toast.success('The user has been successfully deleted.', {
                                             position: "top-center",
@@ -267,17 +293,41 @@ function Admin() {
                             </button>
                             <button
                                             className={`btn btn-warning btn-sm w-33 round-10`}
-                                            onClick={event => {
-                                                updateDoc(
-                                                    doc(getFirestore(), 'appUsers', id),
-                                                    {
-                                                        notes: note.current.value,
-                                                        status: 'Not Approved',
-                                                        approvedBy: AppUser.name,
-                                                        approvedOn: serverTimestamp()
-
-                                                    }
-                                                );
+                                            onClick={async (event) => {
+                                                const docRef = doc(getFirestore(), 'appUsers', id);
+                                                const data = {
+                                                    notes: note.current.value,
+                                                    status: 'Not Approved',
+                                                    approvedBy: "",
+                                                    approvedOn: ""
+                                                };
+                                                await updateDoc(docRef, data)
+                                                .then(docRef => {
+                                                    toast.success('The entry has been successfully disapproved.', {
+                                                        position: "top-center",
+                                                        autoClose: 5000,
+                                                        hideProgressBar: true,
+                                                        closeOnClick: true,
+                                                        pauseOnHover: true,
+                                                        draggable: false,
+                                                        progress: 0,
+                                                        }); 
+                                                        
+                                                })
+                                                  .catch(error => {
+                                                    toast.error('An error has occured, Please try again.\n\n'+error, {
+                                                        position: "top-center",
+                                                        autoClose: 5000,
+                                                        hideProgressBar: true,
+                                                        closeOnClick: true,
+                                                        pauseOnHover: true,
+                                                        draggable: false,
+                                                        progress: 0,
+                                                        });
+                                                  })
+                                                  setTimeout(function(){
+                                                    window.location.reload(false);
+                                                 }, 2000);
                                             }}
                                         >
                                             Dispprove

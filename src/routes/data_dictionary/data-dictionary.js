@@ -219,14 +219,12 @@ function DataDictionary() {
                                             type='button'
                                             onClick={async (event) => {
 
-                                                    const docRef = doc(getFirestore(), 'dataDictionary', id);
+                                    const docRef = doc(getFirestore(), 'dataDictionary', id);
                                     const data = {
                                         notes: note.current.value,
                                         status: 'Approved',
                                         approvedBy: AppUser.name,
-                                        approvedOn: serverTimestamp(),
-                                        disapprovedBy: "",
-                                        disapprovedOn: ""                                                   
+                                        approvedOn: serverTimestamp(),                                                  
                                       };
                                      await updateDoc(docRef, data)
                                      .then(docRef => {

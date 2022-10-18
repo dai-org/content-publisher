@@ -161,18 +161,10 @@ function USMCEvents() {
                         </div>
                         <div className='input-group mb-3'>
                                 <label className='input-group-text' htmlFor='group'>Published Status</label>
-                                {
-                                    AppUser?.roles?.includes('Approver') ?
-                                    <select className='form-select' id='group' ref={status} >
-                                        <option value='Awaiting Approval'>Submit for approval</option>
-                                        <option value='Approved'>Approved</option>
-                                        {/* <option value='Archived'>Archived</option> */}
-                                    </select> :
                                     <select className='form-select' id='group' ref={status} >
                                         <option value='Awaiting Approval'>Submit for approval</option>
                                         {/* <option value='Archived'>Archived</option> */}
                                     </select>
-                                }
                             </div>
                         <button
                             type='button'
@@ -271,16 +263,41 @@ function USMCEvents() {
                                         </div>
                                         <button
                                             className={`btn btn-success btn-sm w-33 round-10`}
-                                            onClick={event => {
-                                                updateDoc(
-                                                    doc(getFirestore(), 'calendarEvents', id),
-                                                    {
-                                                        notes: note.current.value,
-                                                        status: 'Approved',
-                                                        approvedBy: AppUser.name,
-                                                        approvedOn: serverTimestamp()
-                                                    }
-                                                );
+                                            onClick={async (event) => {
+                                                const docRef = doc(getFirestore(), 'calendarEvents', id);
+                                                const data = {
+                                                    notes: note.current.value,
+                                                    status: 'Approved',
+                                                    approvedBy: AppUser.name,
+                                                    approvedOn: serverTimestamp()                                                 
+                                                  };
+                                                 await updateDoc(docRef, data)
+                                                 .then(docRef => {
+                                                    toast.success('The entry has been successfully approved.', {
+                                                        position: "top-center",
+                                                        autoClose: 5000,
+                                                        hideProgressBar: true,
+                                                        closeOnClick: true,
+                                                        pauseOnHover: true,
+                                                        draggable: false,
+                                                        progress: 0,
+                                                        }); 
+                                                        
+                                                })
+                                                  .catch(error => {
+                                                    toast.error('An error has occured, Please try again.\n\n'+error, {
+                                                        position: "top-center",
+                                                        autoClose: 5000,
+                                                        hideProgressBar: true,
+                                                        closeOnClick: true,
+                                                        pauseOnHover: true,
+                                                        draggable: false,
+                                                        progress: 0,
+                                                        });
+                                                  })
+                                                  setTimeout(function(){
+                                                    window.location.reload(false);
+                                                 }, 2000);
                                             }}
                                         >
                                             Approve
@@ -292,7 +309,7 @@ function USMCEvents() {
                                 ref={uploadButton}
                                 onClick={async (event) => {
                                     const docRef = doc(getFirestore(), 'calendarEvents', id);
-                                    deleteDoc(docRef)
+                                   await deleteDoc(docRef)
                                     .then(docRef => {
                                         toast.success('The entry has been successfully deleted.', {
                                             position: "top-center",
@@ -322,14 +339,40 @@ function USMCEvents() {
                             <button
                                             className={`btn btn-warning btn-sm w-33 round-10`}
                                             onClick={async (event) => {
-                                                await updateDoc(doc(getFirestore(), 'calendarEvents', id),{
-                                                        notes: note.current.value,
-                                                        status: 'Not Approved',
-                                                        approvedBy: "",
-                                                        approvedOn: ""
-
-                                                    }
-                                                );
+                                                const docRef = doc(getFirestore(), 'calendarEvents', id);
+                                                const data = {
+                                                    notes: note.current.value,
+                                                    status: 'Not Approved',
+                                                    approvedBy: "",
+                                                    approvedOn: ""
+                                                };
+                                                await updateDoc(docRef, data)
+                                                .then(docRef => {
+                                                    toast.success('The entry has been successfully disapproved.', {
+                                                        position: "top-center",
+                                                        autoClose: 5000,
+                                                        hideProgressBar: true,
+                                                        closeOnClick: true,
+                                                        pauseOnHover: true,
+                                                        draggable: false,
+                                                        progress: 0,
+                                                        }); 
+                                                        
+                                                })
+                                                  .catch(error => {
+                                                    toast.error('An error has occured, Please try again.\n\n'+error, {
+                                                        position: "top-center",
+                                                        autoClose: 5000,
+                                                        hideProgressBar: true,
+                                                        closeOnClick: true,
+                                                        pauseOnHover: true,
+                                                        draggable: false,
+                                                        progress: 0,
+                                                        });
+                                                  })
+                                                  setTimeout(function(){
+                                                    window.location.reload(false);
+                                                 }, 2000);
                                             }}
                                         >
                                             Disapprove

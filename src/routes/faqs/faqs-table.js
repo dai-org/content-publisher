@@ -70,7 +70,7 @@ function FaqsTable(props) {
                                 type='button'
                                 className='btn btn-success w-75 round-10'
                                 ref={uploadButton}
-                                onClick={event => {
+                                onClick={async (event) => {
                                     const docRef = doc(db, 'faq', idData);
                                     const data = {
                                         group: group.current.value,
@@ -80,7 +80,7 @@ function FaqsTable(props) {
                                         status: (editData.status !== "Approved") ? status.current.value : "Approved"
 
                                     };
-                                      updateDoc(docRef, data)
+                                     await updateDoc(docRef, data)
                                       .then(docRef => {
                                         toast.success('The entry has been successfully updated.', {
                                             position: "top-center",
@@ -102,7 +102,11 @@ function FaqsTable(props) {
                                             draggable: false,
                                             progress: 0,
                                             });
-                                                                              })
+                                                                              
+                                        })
+                                        setTimeout(function(){
+                                            window.location.reload(false);
+                                         }, 2000);
                                 }}
                             >
                                 Update
@@ -115,7 +119,7 @@ function FaqsTable(props) {
                                 ref={uploadButton}
                                 onClick={async (event) => {
                                     const docRef = doc(db, 'faq', idData);
-                                    deleteDoc(docRef)
+                                   await deleteDoc(docRef)
                                     .then(docRef => {
                                         toast.success('The entry has been successfully deleted.', {
                                             position: "top-center",
@@ -138,6 +142,9 @@ function FaqsTable(props) {
                                             progress: 0,
                                             });
                                                                               })
+                                                                              setTimeout(function(){
+                                                                                window.location.reload(false);
+                                                                             }, 2000);
                                 }}
                             >
                                 Delete

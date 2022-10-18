@@ -26,6 +26,7 @@ function AdminTable(props) {
       const auths = getAuth();
       const notes = useRef();
       const note = useRef();
+      const status = useRef();
 
     return (
         <div className='table-container'>
@@ -61,6 +62,14 @@ function AdminTable(props) {
                                         <label>Approver Notes</label>
                                         <textarea className="form-control" rows="6" value={editData.notes} ref={note}></textarea>
                                         </div>
+                                        { editData.status !== "Approved" ?
+                                <div className='input-group mb-2'>
+                                <label className='input-group-text' htmlFor='group'>Published Status</label>
+                                        <select className='form-select' id='group' ref={status} >
+                                        <option value='Awaiting Approval'>Submit for approval</option>
+                                        </select> 
+                            </div>
+                                    : ""}
                             <button
                                 type='button'
                                 className='btn btn-success w-75 round-10'
@@ -71,10 +80,11 @@ function AdminTable(props) {
                                         email: email.current.value,
                                         name: name.current.value,
                                         roles: roles.current.value,
-                                        notes: notes.current.value
+                                        notes: notes.current.value,
+                                        status: (editData.status !== "Approved") ? status.current.value : "Approved"                                                    
 
                                     };
-                                      updateDoc(docRef, data)
+                                     await updateDoc(docRef, data)
                                       .then(docRef => {
                                         toast.success('The user has been successfully updated.', {
                                             position: "top-center",
@@ -97,6 +107,9 @@ function AdminTable(props) {
                                             progress: 0,
                                             });
                                       })
+                                      setTimeout(function(){
+                                        window.location.reload(false);
+                                     }, 2000);
                                 }}
                             >
                                 Update
@@ -140,14 +153,40 @@ function AdminTable(props) {
                             <button
                                             className={`btn btn-warning btn-sm w-33 round-10`}
                                             onClick={async (event) => {
-                                                await updateDoc(doc(getFirestore(), 'appUsers', idData),{
-                                                        notes: note.current.value,
-                                                        status: 'Not Approved',
-                                                        approvedBy: "",
-                                                        approvedOn: ""
-
-                                                    }
-                                                );
+                                                const docRef = doc(getFirestore(), 'appUsers', idData);
+                                                const data = {
+                                                    notes: note.current.value,
+                                                    status: 'Not Approved',
+                                                    approvedBy: "",
+                                                    approvedOn: ""
+                                                };
+                                                await updateDoc(docRef, data)
+                                                .then(docRef => {
+                                                    toast.success('The entry has been successfully disapproved.', {
+                                                        position: "top-center",
+                                                        autoClose: 5000,
+                                                        hideProgressBar: true,
+                                                        closeOnClick: true,
+                                                        pauseOnHover: true,
+                                                        draggable: false,
+                                                        progress: 0,
+                                                        }); 
+                                                        
+                                                })
+                                                  .catch(error => {
+                                                    toast.error('An error has occured, Please try again.\n\n'+error, {
+                                                        position: "top-center",
+                                                        autoClose: 5000,
+                                                        hideProgressBar: true,
+                                                        closeOnClick: true,
+                                                        pauseOnHover: true,
+                                                        draggable: false,
+                                                        progress: 0,
+                                                        });
+                                                  })
+                                                  setTimeout(function(){
+                                                    window.location.reload(false);
+                                                 }, 2000);
                                             }}
                                         >
                                             Disapprove

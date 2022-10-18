@@ -107,7 +107,7 @@ function DataDictionaryTable(props) {
                                 ref={uploadButton}
                                 onClick={async (event) => {
                                     const docRef = doc(db, 'dataDictionary', idData);
-                                    deleteDoc(docRef)
+                                   await deleteDoc(docRef)
                                     .then(docRef => {
                                         toast.success('The entry has been successfully deleted.', {
                                             position: "top-center",

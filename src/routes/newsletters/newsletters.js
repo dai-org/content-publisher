@@ -419,16 +419,41 @@ function Newsletters() {
                                         </div>
                                         <button
                                             className={`btn btn-success btn-sm w-75 round-10`}
-                                            onClick={event => {
-                                                updateDoc(
-                                                    doc(getFirestore(), 'newsletters', id),
-                                                    {
-                                                        notes: note.current.value,
-                                                        status: 'Approved',
-                                                        approvedBy: AppUser.name,
-                                                        approvedOn: serverTimestamp(),
-                                                    }
-                                                );
+                                            onClick={async (event) => {
+                                                const docRef = doc(getFirestore(), 'newsletters', id);
+                                                const data = {
+                                                    notes: note.current.value,
+                                                    status: 'Approved',
+                                                    approvedBy: AppUser.name,
+                                                    approvedOn: serverTimestamp(),
+                                                };
+                                                await updateDoc(docRef, data)
+                                                .then(docRef => {
+                                                    toast.success('The entry has been successfully approved.', {
+                                                        position: "top-center",
+                                                        autoClose: 5000,
+                                                        hideProgressBar: true,
+                                                        closeOnClick: true,
+                                                        pauseOnHover: true,
+                                                        draggable: false,
+                                                        progress: 0,
+                                                        }); 
+                                                        
+                                                })
+                                                  .catch(error => {
+                                                    toast.error('An error has occured, Please try again.\n\n'+error, {
+                                                        position: "top-center",
+                                                        autoClose: 5000,
+                                                        hideProgressBar: true,
+                                                        closeOnClick: true,
+                                                        pauseOnHover: true,
+                                                        draggable: false,
+                                                        progress: 0,
+                                                        });
+                                                  })
+                                                  setTimeout(function(){
+                                                    window.location.reload(false);
+                                                 }, 2000);
                                             }}
                                         >
                                             Approve
@@ -440,7 +465,7 @@ function Newsletters() {
                                 ref={uploadButton}
                                 onClick={async (event) => {
                                     const docRef = doc(getFirestore(), 'newsletters', id);
-                                    deleteDoc(docRef)
+                                   await deleteDoc(docRef)
                                     .then(docRef => {
                                         toast.success('The entry has been successfully deleted.', {
                                             position: "top-center",
@@ -469,14 +494,40 @@ function Newsletters() {
                             <button
                                             className={`btn btn-warning btn-sm w-33 round-10`}
                                             onClick={async (event) => {
-                                               await updateDoc(doc(getFirestore(), 'newsletters', id),{
-                                                        notes: note.current.value,
-                                                        status: 'Not Approved',
-                                                        approvedBy: "",
-                                                        approvedOn: ""
-
-                                                    }
-                                                );
+                                                const docRef = doc(getFirestore(), 'newsletters', id);
+                                                const data = {
+                                                    notes: note.current.value,
+                                                    status: 'Not Approved',
+                                                    approvedBy: "",
+                                                    approvedOn: ""
+                                                };
+                                                await updateDoc(docRef, data)
+                                                .then(docRef => {
+                                                    toast.success('The entry has been successfully disapproved.', {
+                                                        position: "top-center",
+                                                        autoClose: 5000,
+                                                        hideProgressBar: true,
+                                                        closeOnClick: true,
+                                                        pauseOnHover: true,
+                                                        draggable: false,
+                                                        progress: 0,
+                                                        }); 
+                                                        
+                                                })
+                                                  .catch(error => {
+                                                    toast.error('An error has occured, Please try again.\n\n'+error, {
+                                                        position: "top-center",
+                                                        autoClose: 5000,
+                                                        hideProgressBar: true,
+                                                        closeOnClick: true,
+                                                        pauseOnHover: true,
+                                                        draggable: false,
+                                                        progress: 0,
+                                                        });
+                                                  })
+                                                  setTimeout(function(){
+                                                    window.location.reload(false);
+                                                 }, 2000);
                                             }}
                                         >
                                             Disapprove

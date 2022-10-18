@@ -59,7 +59,8 @@ function DataDictionaryTable(props) {
                                 type='button'
                                 className='btn btn-success w-75 round-10'
                                 ref={uploadButton}
-                                onClick={event => {
+                                onClick={async event => {
+
                                     const docRef = doc(getFirestore(), 'dataDictionary', idData);
                                     const data = {
                                         term: term.current.value,
@@ -68,7 +69,7 @@ function DataDictionaryTable(props) {
                                         status: (editData.status !== "Approved") ? status.current.value : "Approved"
                                                     
                                       };
-                                      updateDoc(docRef, data)
+                                     await updateDoc(docRef, data)
                                       .then(docRef => {
                                         toast.success('The entry has been successfully updated.', {
                                             position: "top-center",

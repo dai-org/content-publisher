@@ -228,7 +228,9 @@ function DataDictionary() {
                                                         disapprovedOn: ""
                                                     }
                                                 );
-                                                window.location.reload(false);
+                                                setTimeout(function(){
+                                                    window.location.reload(false);
+                                                 }, 2000);
 
                                             }}
                                         >
@@ -283,7 +285,9 @@ function DataDictionary() {
                                                         approvedOn: "",
                                                     }
                                                 );
-                                                window.location.reload(false);
+                                                setTimeout(function(){
+                                                    window.location.reload(false);
+                                                 }, 2000);
 
                                             }}
                                         >

@@ -94,8 +94,9 @@ function DataDictionaryTable(props) {
                                             progress: 0,
                                             });
                                       })
-                                      window.location.reload(false);
-
+                                      setTimeout(function(){
+                                        window.location.reload(false);
+                                     }, 2000);
                                 }}
                             >
                                 Update

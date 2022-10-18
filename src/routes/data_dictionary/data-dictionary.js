@@ -262,13 +262,6 @@ function DataDictionary() {
                             <button
                                             className={`btn btn-warning btn-sm w-33 round-10`}
                                             onClick={async (event) => {
-                                                const data = {
-                                                    notes: note.current.value,
-                                                    status: 'Not Approved',
-                                                    approvedBy: "",
-                                                    approvedOn: ""
-                                                };
-                                                
                                                await updateDoc(doc(getFirestore(), 'dataDictionary', id), {
                                                         notes: note.current.value,
                                                         status: 'Not Approved',

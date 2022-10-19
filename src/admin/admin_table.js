@@ -18,7 +18,7 @@ function AdminTable(props) {
         animated: true,
         large: true,
         closeButton: true,
-        title: "Edit Admin Users"
+        title: "Edit Users"
       });
       const name = useRef();
       const email = useRef();

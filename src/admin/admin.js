@@ -97,7 +97,7 @@ function Admin() {
 
                 <div className='cp-form-inner mb-5 mt-4'>
                     <div>
-                        <h3 className='mb-4'>New Admin Users </h3>
+                        <h3 className='mb-4'>New Users </h3>
                         <div className='input-group mb-3'>
                             <span className='input-group-text w-25'>Name</span>
                             <textarea className="form-control" rows="1" ref={name}></textarea>

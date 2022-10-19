@@ -26,8 +26,22 @@ function Admin() {
     const name = useRef();
     const roles = useRef();
     const auths = getAuth();
+    const [adminEmail, setadminEmail] = useState('');
 
-
+    useEffect(() => {
+        if (auth.user.email) {
+            const db = getFirestore();
+            const q = query(collection(db, "appDistro"), where('roles', '==', 'SysAdmin'));
+            const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                const items = [];
+                querySnapshot.forEach((doc) => {
+                    items.push(doc);
+                });
+                setadminEmail(items[0].email);
+            });
+            return unsubscribe;
+        }
+    },[auth]);
 
     useEffect(() => {
         if (auth.user.email) {
@@ -147,8 +161,6 @@ function Admin() {
                                     data.status = 'Approved';
                                 createUserWithEmailAndPassword(auths, email.current.value, Math.random().toString(36).slice(4)); 
                                 sendPasswordResetEmail(auths, email.current.value);    
-                            }else{
-                                sendEmailApprover('USMCDAIMobileApp@aeyon.us', "New Admin User Entry");
                             }
                             const docRef = await addDoc(collection(getFirestore(), 'appUsers'), data);
                             console.log('Document written with ID: ', docRef.id);

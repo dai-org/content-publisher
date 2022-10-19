@@ -58,18 +58,7 @@ function AdminTable(props) {
                             <option value='SysAdmin'>System Admin</option>
                                 </select>
                         </div>
-                        <div className='mb-3'>
-                                        <label>Approver Notes</label>
-                                        <textarea className="form-control" rows="6" value={editData.notes} ref={note}></textarea>
-                                        </div>
-                                        { editData.status !== "Approved" ?
-                                <div className='input-group mb-2'>
-                                <label className='input-group-text' htmlFor='group'>Published Status</label>
-                                        <select className='form-select' id='group' ref={status} >
-                                        <option value='Awaiting Approval'>Submit for approval</option>
-                                        </select> 
-                            </div>
-                                    : ""}
+
                             <button
                                 type='button'
                                 className='btn btn-success w-75 round-10'

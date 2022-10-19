@@ -311,7 +311,7 @@ function Faqs() {
                                 ref={uploadButton}
                                 onClick={async (event) => {
                                     const docRef = doc(getFirestore(), 'faq', id);
-                                    deleteDoc(docRef)
+                                   await deleteDoc(docRef)
                                     .then(docRef => {
                                         toast.success('The entry has been successfully deleted.', {
                                             position: "top-center",
@@ -341,7 +341,7 @@ function Faqs() {
                             <button
                                             className={`btn btn-warning btn-sm w-33 round-10`}
                                             onClick={async (event) => {
-                                                const docRef = doc(getFirestore(), 'dataDictionary', id);
+                                                const docRef = doc(getFirestore(), 'faq', id);
                                                 const data = {
                                                     notes: note.current.value,
                                                     status: 'Not Approved',

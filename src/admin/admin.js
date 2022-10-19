@@ -120,18 +120,10 @@ function Admin() {
                         </div>
                         <div className='input-group mb-2 '>
                                 <label className='input-group-text w-25' htmlFor='group'>Published Status</label>
-                                {
-                                    AppUser?.roles?.includes('SysAdmin') ?
+                               
                                     <select className='form-select' id='group' ref={status} >
-                                        <option value='Awaiting Approval'>Submit for approval</option>
                                         <option value='Approved'>Approved</option>
-                                        {/* <option value='Archived'>Archived</option> */}
-                                    </select> :
-                                    <select className='form-select' id='group' ref={status} >
-                                        <option value='Awaiting Approval'>Submit for approval</option>
-                                        {/* <option value='Archived'>Archived</option> */}
-                                    </select>
-                                }
+                                    </select> 
                             </div>
                         <button
                             type='button'

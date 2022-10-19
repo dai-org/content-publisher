@@ -11,7 +11,7 @@ function NavBar() {
     return (
         <Navbar collapseOnSelect expand="lg" style={{ boxShadow: 'none' }} bg="light" variant="light" sticky="top">
             <Container>
-                <Navbar.Brand href="/"> <img alt='' src='logo512.png' style={{width:50, marginRight: 10}} />Content Publisher <small>(v1.7.23)</small></Navbar.Brand>
+                <Navbar.Brand href="/"> <img alt='' src='logo512.png' style={{width:50, marginRight: 10}} />Content Publisher <small>(v1.7.24)</small></Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">

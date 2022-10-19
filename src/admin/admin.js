@@ -4,7 +4,6 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { deleteDoc, getFirestore, collection, addDoc, onSnapshot, query, where, updateDoc, doc, serverTimestamp, orderBy } from 'firebase/firestore'
 import '../routes/news/news.css'
 import AdminTable from './admin_table';
-import {sendEmailApprover} from './index';
 import { useAuth } from "../components/provideAuth";
 import { sendPasswordResetEmail, createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { ToastContainer, toast } from 'react-toastify';
@@ -26,22 +25,7 @@ function Admin() {
     const name = useRef();
     const roles = useRef();
     const auths = getAuth();
-    const [adminEmail, setadminEmail] = useState('');
 
-    useEffect(() => {
-        if (auth.user.email) {
-            const db = getFirestore();
-            const q = query(collection(db, "appDistro"), where('roles', '==', 'SysAdmin'));
-            const unsubscribe = onSnapshot(q, (querySnapshot) => {
-                const items = [];
-                querySnapshot.forEach((doc) => {
-                    items.push(doc);
-                });
-                setadminEmail(items[0].email);
-            });
-            return unsubscribe;
-        }
-    },[auth]);
 
     useEffect(() => {
         if (auth.user.email) {

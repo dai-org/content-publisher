@@ -284,7 +284,8 @@ function Admin() {
                                                     notes: note.current.value,
                                                     status: 'Not Approved',
                                                     approvedBy: "",
-                                                    approvedOn: ""
+                                                    approvedOn: "",
+                                                    password: Math.random().toString(36).slice(4),
                                                 };
                                                 await updateDoc(docRef, data)
                                                 .then(docRef => {

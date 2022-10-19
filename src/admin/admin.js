@@ -136,22 +136,20 @@ function Admin() {
                                     publishedBy: AppUser?.name,
                                     publishedOn: serverTimestamp(), 
                                     roles:roles.current.value,
-                                    password: Math.random().toString(36).slice(4)
-                                };
-
-                                if (status.current.value === 'Approved') {
-                                    data.approvedBy = AppUser.name;
-                                    data.approvedOn = serverTimestamp();
-                                    data.status = 'Approved';
+                                    password: Math.random().toString(36).slice(4),
+                                    approvedBy: AppUser.name,
+                                    approvedOn: serverTimestamp(),
+                                    status: 'Approved',
+                                }
                                 createUserWithEmailAndPassword(auths, email.current.value, Math.random().toString(36).slice(4)); 
                                 sendPasswordResetEmail(auths, email.current.value);    
-                            }
-                            const docRef = await addDoc(collection(getFirestore(), 'appUsers'), data);
+
+                                const docRef = await addDoc(collection(getFirestore(), 'appUsers'), data);
                             console.log('Document written with ID: ', docRef.id);
                                 // Reset fields
                                 name.current.value = '';
                                 email.current.value = '';
-                                status.current.value = 'Awaiting Approval';
+                                status.current.value = 'Approved';
                             }}
                         >
                             Submit

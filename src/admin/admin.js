@@ -137,7 +137,6 @@ function Admin() {
                                     date: serverTimestamp(),
                                     publishedBy: AppUser?.name,
                                     publishedOn: serverTimestamp(), 
-                                    status: status.current.value,
                                     roles:roles.current.value,
                                     password: Math.random().toString(36).slice(4)
                                 };

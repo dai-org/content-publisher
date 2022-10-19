@@ -139,47 +139,7 @@ function AdminTable(props) {
                             >
                                 Delete
                             </button>
-                            <button
-                                            className={`btn btn-warning btn-sm w-33 round-10`}
-                                            onClick={async (event) => {
-                                                const docRef = doc(getFirestore(), 'appUsers', idData);
-                                                const data = {
-                                                    notes: note.current.value,
-                                                    status: 'Not Approved',
-                                                    approvedBy: "",
-                                                    approvedOn: ""
-                                                };
-                                                await updateDoc(docRef, data)
-                                                .then(docRef => {
-                                                    toast.success('The entry has been successfully disapproved.', {
-                                                        position: "top-center",
-                                                        autoClose: 5000,
-                                                        hideProgressBar: true,
-                                                        closeOnClick: true,
-                                                        pauseOnHover: true,
-                                                        draggable: false,
-                                                        progress: 0,
-                                                        }); 
-                                                        
-                                                })
-                                                  .catch(error => {
-                                                    toast.error('An error has occured, Please try again.\n\n'+error, {
-                                                        position: "top-center",
-                                                        autoClose: 5000,
-                                                        hideProgressBar: true,
-                                                        closeOnClick: true,
-                                                        pauseOnHover: true,
-                                                        draggable: false,
-                                                        progress: 0,
-                                                        });
-                                                  })
-                                                  setTimeout(function(){
-                                                    window.location.reload(false);
-                                                 }, 2000);
-                                            }}
-                                        >
-                                            Disapprove
-                                        </button>
+                            
                             <ToastContainer />
                         </div>
                     </div>

@@ -46,7 +46,7 @@ function AdminTable(props) {
                             <textarea className="form-control" rows="1" defaultValue={editData.email} ref={email}></textarea>
                         </div>
                         <div className='input-group mb-3'>
-                                    <span className='input-group-text'>Notes</span>
+                                    <span className='input-group-text w-25'>Notes</span>
                                     <textarea className="form-control" rows="6" defaultValue={editData.notes} ref={notes}></textarea>
                                 </div>
                         <div className='input-group mb-3'>

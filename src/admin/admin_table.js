@@ -25,7 +25,6 @@ function AdminTable(props) {
       const roles = useRef();
       const auths = getAuth();
       const notes = useRef();
-      const note = useRef();
       const status = useRef();
 
     return (

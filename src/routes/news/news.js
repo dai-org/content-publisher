@@ -322,8 +322,8 @@ function News() {
                                                 const data = {
                                                     notes: note.current.value,
                                                     status: 'Not Approved',
-                                                    approvedBy: AppUser.name,
-                                                    approvedOn: serverTimestamp(),                                                 
+                                                    approvedBy: "",
+                                                    approvedOn: ""                                              
                                                   };
                                                   await updateDoc(docRef, data)
 

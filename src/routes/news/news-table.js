@@ -185,7 +185,7 @@ function NewsTable(props) {
 
 
                                 function openEdit() {
-                                   if (AppUser?.roles?.includes('Publisher') || AppUser?.roles?.includes('Approver')){
+                                   if (AppUser?.roles?.includes('Publisher')){
                                     setIDData(id)
                                     setEditData(item.data())
                                     toggleExampleModal() 
@@ -195,7 +195,7 @@ function NewsTable(props) {
                                 return(
                                     <tr key={id} bgcolor={status !== "Approved" ? "#ffffe0" : ""}>
                                        <td>
-                                       { AppUser?.roles?.includes('Publisher') || AppUser?.roles?.includes('Approver') ?
+                                       { AppUser?.roles?.includes('Publisher') ?
                                         <FontAwesomeIcon onClick={openEdit} color="red" style={{marginRight: 10}} icon={faEdit}/> : ""
                                         }
                                         </td>

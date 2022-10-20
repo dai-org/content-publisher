@@ -261,7 +261,7 @@ function Faqs() {
                                         </div>
                                         <div className='mb-3'>
                                         <label>Approver Notes</label>
-                                        <textarea className="form-control" rows="6" value={notes} ref={note}></textarea>
+                                        <textarea className="form-control" rows="6" ref={note}>{notes}</textarea>
                                         </div>
                                         <button
                                             className={`btn btn-success btn-sm w-33 round-10`}

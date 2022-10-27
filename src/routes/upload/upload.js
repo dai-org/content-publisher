@@ -232,6 +232,7 @@ function Upload() {
                                 <select onChange={handleChange} className='form-select' id='status' value={systemStatus}>
                                     <option value='1'>DAI System is Operational</option>
                                     <option value='0'>DAI System is Not Operational</option>
+                                    <option value='3'>Turn Status Off</option>
                                 </select>
                                 <button
                                 type='button'

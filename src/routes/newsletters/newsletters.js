@@ -54,7 +54,7 @@ function Newsletters() {
     useEffect(() => {
         if (auth.user.email) {
             const db = getFirestore();
-            const q = query(collection(db, "appDistro"), where('roles', '==', 'NewsLetterPublisher'));
+            const q = query(collection(db, "appDistro"), where('roles', '==', 'NewsletterPublisher'));
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
                 const items = [];
                 querySnapshot.forEach((doc) => {
@@ -65,6 +65,7 @@ function Newsletters() {
             return unsubscribe;
         }
     },[auth]);
+
     useEffect(() => {
         if (auth.user.email) {
             const db = getFirestore();

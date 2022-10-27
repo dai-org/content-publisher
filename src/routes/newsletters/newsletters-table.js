@@ -164,7 +164,7 @@ function NewslettersTable(props) {
                                 className='btn btn-danger w-20 round-10'
                                 ref={uploadButton}
                                 onClick={async (event) => {
-                                        if (AppUser?.roles?.includes('NewsletterPublisher')){
+                                        if (AppUser?.roles?.includes('Publisher') || AppUser?.roles?.includes('NewsletterPublisher')){
                                         if (window.confirm("Are you sure you want to delete this Newsletter.")){
                                             const docRef = doc(db, 'newsletters', idData);
                                            await deleteDoc(docRef)

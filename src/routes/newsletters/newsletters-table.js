@@ -2,7 +2,7 @@ import { getStorage, ref, getDownloadURL, deleteObject } from 'firebase/storage'
 import Cell from '../../components/cell';
 import { faFilePdf, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { getFirestore, updateDoc, doc, deleteDoc, serverTimestamp} from 'firebase/firestore'
+import { getFirestore, updateDoc, doc, deleteDoc} from 'firebase/firestore'
 import React, { useRef, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -34,10 +34,6 @@ function NewslettersTable(props) {
     const notes = useRef();
     const approved = useRef();
     const title = useRef();
-    const edition = useRef();
-    const month = useRef();
-    const year = useRef();
-    const issue = useRef();
     const status = useRef();
 
 

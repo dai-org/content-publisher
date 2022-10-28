@@ -116,16 +116,13 @@ function NewslettersTable(props) {
                                 onClick={async (event) => {
                                     const docRef = doc(db, 'newsletters', idData);
                                     const data = {
-                                        status: status.current.value,
-                                        publishedBy: AppUser?.name,
-                                        publishedOn: serverTimestamp(),
                                         edition: edition.current.value,
                                         title: title.current.value,
+                                        notes: notes.current.value,
                                         issue: parseInt(issue.current.value),
                                         month: parseInt(month.current.value),
                                         year: parseInt(year.current.value),
-                                        created: serverTimestamp(),
-                                        approved: (editData.status !== "Approved") ? approved.current.value : "Approved"
+                                        status: (editData.status !== "Approved") ? approved.current.value : "Approved"
 
                                     };
                                      await updateDoc(docRef, data)

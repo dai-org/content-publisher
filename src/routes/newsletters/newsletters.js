@@ -220,7 +220,7 @@ function Newsletters() {
                             </div>
                             <div className='input-group mb-3'>
                                 <span className='input-group-text'>Year</span>
-                                <input type='number' className='form-control' placeholder={new Date().getFullYear()} aria-label='year' ref={year} />
+                                <input type='text' className='form-control' defaultValue={new Date().getFullYear()} placeholder={new Date().getFullYear()} aria-label='year' ref={year} />
                             </div>
                             <div className='input-group mb-4'>
                                 <span className='input-group-text'>Issue</span>

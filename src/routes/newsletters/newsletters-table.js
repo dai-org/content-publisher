@@ -62,8 +62,8 @@ function NewslettersTable(props) {
                                     <span className='input-group-text'>Notes</span>
                                     <textarea className="form-control" defaultValue={editData.notes} rows="6"  ref={notes}></textarea>
                                 </div>
-                                <div className='input-group mb-3'>
-                                    <span className='input-group-text'>Info: If the Month, Edition, Year or Issue needs to be corrected, a new newsletter will need to be published and uploaded to replace the incorrect one. </span>
+                                <div className='input-group mb-12'>
+                                    If the Month, Edition, Year or Issue needs to be corrected, a new newsletter will need to be published and uploaded to replace the incorrect one. 
                                 </div>
 
                     <div className='input-group mb-2'>

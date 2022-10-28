@@ -61,43 +61,15 @@ function NewslettersTable(props) {
                         <span className='input-group-text'>Title</span>
                         <input type='text' className='form-control' defaultValue={editData.title} aria-label='Title' ref={title} />
                     </div>
-                    <div className='input-group mb-3'>
-                        <label className='input-group-text' htmlFor='edition'>Edition</label>
-                        <select className='form-select' id='edition' defaultValue={editData.edition} ref={edition} >
-                            <option value='Weekly'>Weekly</option>
-                            <option value='Monthly'>Monthly</option>
-                            <option value='Ad Hoc'>Ad Hoc</option>
-                        </select>
-                    </div>
-                    <div className='input-group mb-3'>
-                        <label className='input-group-text' htmlFor='edition'>Month</label>
-                        <select className='form-select' id='edition' defaultValue={editData.month} ref={month} >
-                            <option value='1'>January</option>
-                            <option value='2'>February</option>
-                            <option value='3'>March</option>
-                            <option value='4'>April</option>
-                            <option value='5'>May</option>
-                            <option value='6'>June</option>
-                            <option value='7'>July</option>
-                            <option value='8'>August</option>
-                            <option value='9'>September</option>
-                            <option value='10'>October</option>
-                            <option value='11'>November</option>
-                            <option value='12'>December</option>
-                        </select>
-                    </div>
-                    <div className='input-group mb-3'>
-                        <span className='input-group-text'>Year</span>
-                        <input type='number' className='form-control' defaultValue={editData.issue} placeholder={new Date().getFullYear()} aria-label='year' ref={year} />
-                    </div>
-                    <div className='input-group mb-4'>
-                        <span className='input-group-text'>Issue</span>
-                        <input type='number' className='form-control' defaultValue={editData.issue} placeholder='1' aria-label='issue' ref={issue} />
-                    </div>
+                    
                     <div className='input-group mb-3'>
                                     <span className='input-group-text'>Notes</span>
                                     <textarea className="form-control" defaultValue={editData.notes} rows="6"  ref={notes}></textarea>
                                 </div>
+                                <div className='input-group mb-3'>
+                                    <span className='input-group-text'>Note: If the Month, Edition, Year or issue need to be changed, a new, newsletter will need to be published and the old one deleted. </span>
+                                </div>
+
                     <div className='input-group mb-2'>
                         { editData.status !== "Approved" ?
                                 <div className='input-group mb-2'>
@@ -116,12 +88,8 @@ function NewslettersTable(props) {
                                 onClick={async (event) => {
                                     const docRef = doc(db, 'newsletters', idData);
                                     const data = {
-                                        edition: edition.current.value,
                                         title: title.current.value,
                                         notes: notes.current.value,
-                                        issue: parseInt(issue.current.value),
-                                        month: parseInt(month.current.value),
-                                        year: parseInt(year.current.value),
                                         status: (editData.status !== "Approved") ? approved.current.value : "Approved"
 
                                     };

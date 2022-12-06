@@ -65,7 +65,7 @@ function Login() {
         <img alt="" src="logo512.png" style={{ width: 125, marginRight: 10 }} />
 
         <Modali.Modal {...exampleModal}>
-          <div className="cp-form-inner mb-5 mt-4">
+        <div className='cp-form-inner mb-5 mt-5 col-12 px-md-5 justify-content-center'>
             <div>
               <div className="input-group mb-3">
                 <span className="input-group-text">Name</span>

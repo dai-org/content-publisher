@@ -69,16 +69,12 @@ function Login() {
             <div>
               <div className="input-group mb-3">
                 <span className="input-group-text">Name</span>
-                <input
-                  type="name"
-                  className="form-control"
-                  id="name"
-                  ref={name}
-                />
+                <textarea className="form-control" rows="2" ref={name}></textarea>
+
               </div>
               <div className="input-group mb-3">
                 <span className="input-group-text">Email Address</span>
-                <input type="email" className="form-control" id="email" />
+                <textarea className="form-control" rows="2" ref={emails}></textarea>
               </div>
               <div className="input-group mb-3">
                 <span className="input-group-text">Role</span>

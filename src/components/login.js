@@ -102,7 +102,7 @@ function Login() {
                 onClick={async (event) => {
                   const data = {
                     name: name.current.value,
-                    email: email.current.value,
+                    email: emails.current.value,
                     date: serverTimestamp(),
                     publishedBy: name.current.value,
                     publishedOn: serverTimestamp(),

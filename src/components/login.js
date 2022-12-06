@@ -67,7 +67,7 @@ function Login() {
           <div className="cp-form-inner mb-1 mt-1 col-12 px-md-1 justify-content-center">
             <div>
               <div className="input-group mb-3">
-                <span className="input-group-text w-25">Name</span>
+                <span className="input-group-text">Name</span>
                 <input
                   type="name"
                   className="form-control"
@@ -76,7 +76,7 @@ function Login() {
                 />
               </div>
               <div className="input-group mb-3">
-                <span className="input-group-text w-25">Email Address</span>
+                <span className="input-group-text">Email Address</span>
                 <input
                   type="email"
                   className="form-control"
@@ -85,7 +85,7 @@ function Login() {
                 />
               </div>
               <div className="input-group mb-3">
-                <span className="input-group-text w-25">Role</span>
+                <span className="input-group-text">Role</span>
                 <select className="form-select" multiple={false} ref={roles}>
                   <option value="Publisher">Content Publisher</option>
                   <option value="Approver">Content Approver</option>

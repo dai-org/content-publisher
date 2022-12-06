@@ -78,12 +78,7 @@ function Login() {
               </div>
               <div className="input-group mb-3">
                 <span className="input-group-text">Email Address</span>
-                <input
-                  type="email"
-                  className="form-control"
-                  id="email"
-                  ref={emails}
-                />
+                <input type="email" className="form-control" id="email" />
               </div>
               <div className="input-group mb-3">
                 <span className="input-group-text">Role</span>

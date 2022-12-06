@@ -64,15 +64,25 @@ function Login() {
         <img alt="" src="logo512.png" style={{ width: 125, marginRight: 10 }} />
 
         <Modali.Modal {...exampleModal}>
-          <div className="cp-form-inner mb-5 mt-5 col-12 px-md-5 justify-content-center">
+          <div className="cp-form-inner mb-1 mt-1 col-12 px-md-1 justify-content-center">
             <div>
               <div className="input-group mb-3">
                 <span className="input-group-text w-25">Name</span>
-                <input type="name" className="form-control" id="name" />
+                <input
+                  type="name"
+                  className="form-control"
+                  id="name"
+                  ref={name}
+                />
               </div>
               <div className="input-group mb-3">
                 <span className="input-group-text w-25">Email Address</span>
-                <input type="email" className="form-control" id="email" />
+                <input
+                  type="email"
+                  className="form-control"
+                  id="email"
+                  ref={email}
+                />
               </div>
               <div className="input-group mb-3">
                 <span className="input-group-text w-25">Role</span>

@@ -17,11 +17,11 @@ import { sendEmailApprover } from "../admin/index";
 
 function Login() {
   const [email, setEmail] = useState("");
-  const [emails, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const name = useRef();
   const roles = useRef();
   const status = useRef();
+  const emails = useRef();
   const [exampleModal, toggleExampleModal] = useModali({
     animated: true,
     large: true,

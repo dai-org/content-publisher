@@ -20,7 +20,6 @@ function Login() {
   const [password, setPassword] = useState("");
   const name = useRef();
   const roles = useRef();
-  const status = useRef();
   const emails = useRef();
   const [exampleModal, toggleExampleModal] = useModali({
     animated: true,
@@ -65,12 +64,12 @@ function Login() {
         <img alt="" src="logo512.png" style={{ width: 125, marginRight: 10 }} />
 
         <Modali.Modal {...exampleModal}>
-          <div className="cp-form-inner mb-5 mt-5 col-12 px-md-5 w-100 justify-content-center">
+          <div className="cp-form-inner mb-5 mt-5 col-12 px-md-5 w-90 justify-content-center">
             <div>
               <div className="input-group mb-3">
                 <span className="input-group-text">Name</span>
                 <input
-                  className="form-control"
+                  className="form-control m-20"
                   name="name"
                   id="name"
                   ref={name}

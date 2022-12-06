@@ -58,15 +58,15 @@ function Login() {
                         <div>
                         <div className='input-group mb-3'>
                             <span className='input-group-text w-25'>Name</span>
-                            <textarea className="form-control" rows="1" ></textarea>
+                            <textarea className="form-control" ref={name} rows="1" ></textarea>
                         </div>
                         <div className='input-group mb-3'>
                             <span className='input-group-text w-25'>Email Address</span>
-                            <textarea className="form-control" rows="1" ></textarea>
+                            <textarea className="form-control" ref={email} rows="1" ></textarea>
                         </div>
                         <div className='input-group mb-3'>
                             <span className='input-group-text w-25'>Role</span>
-                            <select className='form-select' multiple={false} >
+                            <select className='form-select' multiple={false} ref={roles}>
                             <option value='Publisher'>Content Publisher</option>
                             <option value='Approver'>Content Approver</option>
                             <option value='NewsletterPublisher'>Newsletter Publisher</option>

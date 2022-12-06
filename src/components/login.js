@@ -130,7 +130,7 @@ function Login() {
                   );
                   console.log("Document written with ID: ", docRef.id);
                   name.current.value = "";
-                  email.current.value = "";
+                  emails.current.value = "";
                   roles.current.value = "Publisher";
                 }}
               >

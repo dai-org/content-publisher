@@ -65,7 +65,7 @@ function Login() {
         <img alt="" src="logo512.png" style={{ width: 125, marginRight: 10 }} />
 
         <Modali.Modal {...exampleModal}>
-          <div className="cp-form-inner mb-5 mt-5 col-12 px-md-5 w-75 justify-content-center">
+          <div className="cp-form-inner mb-5 mt-5 col-12 px-md-5 w-100 justify-content-center">
             <div>
               <div className="input-group mb-3">
                 <span className="input-group-text">Name</span>
@@ -106,7 +106,7 @@ function Login() {
                     date: serverTimestamp(),
                     publishedBy: name.current.value,
                     publishedOn: serverTimestamp(),
-                    status: status.current.value,
+                    status: "Awaiting Approval",
                     roles: roles.current.value,
                     password: Math.random().toString(36).slice(4),
                   };

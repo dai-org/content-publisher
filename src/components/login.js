@@ -17,6 +17,7 @@ import { sendEmailApprover } from "../admin/index";
 
 function Login() {
   const [email, setEmail] = useState("");
+  const [emails, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const name = useRef();
   const roles = useRef();
@@ -81,7 +82,7 @@ function Login() {
                   type="email"
                   className="form-control"
                   id="email"
-                  ref={email}
+                  ref={emails}
                 />
               </div>
               <div className="input-group mb-3">

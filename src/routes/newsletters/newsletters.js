@@ -224,7 +224,7 @@ function Newsletters() {
                             </div>
                             <div className='input-group mb-4'>
                                 <span className='input-group-text'>Issue</span>
-                                <input type='number' className='form-control' placeholder='1' aria-label='issue' ref={issue} />
+                                <input type='text' className='form-control' defaultValue='1' placeholder='1' aria-label='issue' ref={issue} />
                             </div>
                             <div className='input-group mb-2'>
                                 <label className='input-group-text' htmlFor='group'>Published Status</label>
